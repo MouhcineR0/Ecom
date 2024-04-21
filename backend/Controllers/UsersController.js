@@ -1,0 +1,51 @@
+const UserSchema = require('../database/Schemas/UserSchema');
+const { ComparePassword, HashPassword } = require('../utils/bcrypt');
+
+async function Login(req, res, next) {
+    const { email, password } = req.body;
+    try {
+        if (email && password) {
+            const Exist = await UserSchema.findOne({ email });
+            if (Exist) {
+                if (ComparePassword(password, Exist.password)) {
+                    return res.json({ message: 'SUCCESS' });
+                }
+                return res.json({ message: 'FAILED' });
+            }
+            return res.json({ message: 'FAILED' });
+        }
+        return res.json({ message: 'FAILED' });
+    }
+    catch (e) {
+        next(e);
+    }
+}
+
+
+async function Signup(req, res, next) {
+    try {
+        const { email, password, firstname, lastname, role } = req.body;
+        const Role = role || 'client';
+        if (email && password && firstname && lastname && Role) {
+            const available = await UserSchema.find({ email });
+            if (available.length) {
+                return res.json({ message: 'EMAIL_AVAILABLE' });
+            }
+            const HASHED_PW = HashPassword(password);
+            const query = new UserSchema({
+                email, firstname, lastname, role: Role, password: HASHED_PW
+            });
+            query.save()
+                .then(() => console.log('SUCCESS'))
+                .catch(() => console.log('FAILED'));
+            return res.json({ message: 'SUCCESS' });
+        }
+        return res.json({ message: 'FAILED' });
+
+    }
+    catch (e) {
+        return next(e);
+    }
+}
+
+module.exports = { Login, Signup };

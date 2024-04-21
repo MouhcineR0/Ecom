@@ -1,0 +1,88 @@
+import React, { useState } from 'react';
+import { CiSearch } from 'react-icons/ci';
+import { IoIosMenu } from "react-icons/io";
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { IoMdClose } from "react-icons/io";
+
+
+
+function RHeader() {
+
+    const [Toggle, setToggle] = useState(false);
+
+    const [Search, setSearch] = useState(false);
+
+    const HandleToggle = () => {
+        setToggle(!Toggle);
+    };
+
+    const HandleSearch = () => {
+        setSearch(!Search);
+    };
+
+    return (
+        <>
+            <div className='flex p-3 container mx-auto justify-between mt-4 border-b-2 z-20'>
+                <h1 className='text-black text-3xl font-bold font-inter'>Kha'zix</h1>
+                <div className='flex gap-3'>
+                    <CiSearch size={28} onClick={HandleSearch} className='cursor-pointer' />
+                    <IoIosMenu size={28} onClick={HandleToggle} className='cursor-pointer' />
+                </div>
+                <Menu className={Toggle ? 'left-0' : 'left-[-150%]'}>
+                    <div className='flex flex-col gap-3'>
+                        <h1 className='text-[22px] font-bold font-poppins tracking-wider'>WELCOME GUEST</h1><IoMdClose className='absolute top-4 right-4 x-icon cursor-pointer' onClick={HandleToggle} size={32} />
+                        <Link className='text-[#adaeb0] font-inter underline'>Login / Signup</Link>
+                        <hr className='grey h-[2px]' />
+                    </div>
+                    <div className='flex flex-col gap-3 '>
+                        <h1 className='text-[#adaeb0]'>SHOP IN</h1>
+                        <Link className=''>Men</Link>
+                        <Link className=''>Women</Link>
+                        <Link className=''>Mobile</Link>
+                        <Link className=''>Laptop</Link>
+                    </div>
+                    <div className='flex flex-col gap-3 '>
+                        <h1 className='text-[#adaeb0]'>Services</h1>
+                        <Link className=''>Help & Support</Link>
+                        <Link className=''>Feedback & Suggestions</Link>
+                    </div>
+                </Menu>
+            </div>
+            <form className={`absolute z-0 ${Search ? '' : 'translate-y-[-200px]'}`}>
+                <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                    </div>
+                    <input type="search" id="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" required />
+                    <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                </div>
+            </form>
+        </>
+    );
+}
+
+const Menu = styled.div`
+    transition: .3s;
+    padding : 12px;
+    color : #000000d9;
+    font-weight: 500;
+    position: absolute;
+    font-size: 18px;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    @media (max-width: 768px) {
+        display: flex;
+    }
+`;
+
+export default RHeader;
