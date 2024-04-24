@@ -1,3 +1,4 @@
+git pull -r origin master
 import React from 'react';
 
 function Wishlist() {

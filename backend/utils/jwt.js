@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const ErrorHandler = require('../Controllers/ErrorHandler');
 
-export function CreateToken(id, role) {
+function CreateToken(id, role) {
     try {
         const token = jwt.sign({ id, role }, process.env.JWT_TOKEN);
         return token;
@@ -10,7 +10,7 @@ export function CreateToken(id, role) {
     }
 }
 
-export function VerifyToken(token) {
+function VerifyToken(token) {
     try {
         const decoded = jwt.verify(token, process.env.JWT_TOKEN);
         return decoded;
@@ -18,3 +18,5 @@ export function VerifyToken(token) {
         return false;
     }
 }
+
+module.exports={CreateToken,VerifyToken}

@@ -1,21 +1,18 @@
 const { VerifyToken } = require('../utils/jwt');
 
-export default (req, res, next) => {
-    try {
-        const Token = req.cookies.token;
-        if (Token) {
-            const decoded = VerifyToken(Token);
-            if (decoded) {
-                const role = decoded.role;
-                const id = decoded.id;
-                next();
-            }
-            return res.json({ isAuth: false });
-        }
+module.exports = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.json({ isAuth: false });
-
     }
-    catch (e) {
-        return res.json({ isAuth: false });
+    const token = authHeader.split(' ')[1];
+    try {
+        const verify = VerifyToken(token);
+        req.user = verify.id;
+        req.role = verify.role;
+        next();
+    } catch (err) {
+        res.status(401).json({ msg: "Token is not valid" });
     }
 };
+

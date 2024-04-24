@@ -1,5 +1,6 @@
 const UserSchema = require('../database/Schemas/UserSchema');
 const { ComparePassword, HashPassword } = require('../utils/bcrypt');
+const { CreateToken } = require('../utils/jwt');
 
 async function Login(req, res, next) {
     const { email, password } = req.body;
@@ -8,7 +9,8 @@ async function Login(req, res, next) {
             const Exist = await UserSchema.findOne({ email });
             if (Exist) {
                 if (ComparePassword(password, Exist.password)) {
-                    return res.json({ message: 'SUCCESS' });
+                    const token = CreateToken(Exist.id, Exist.role);
+                    return res.status(200).json({ message: 'SUCCESS', token });
                 }
                 return res.json({ message: 'FAILED' });
             }
