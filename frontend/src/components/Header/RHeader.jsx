@@ -23,7 +23,7 @@ function RHeader() {
 
     return (
         <>
-            <div className='flex p-3 container mx-auto justify-between mt-4 border-b-2 z-20'>
+            <div className='flex p-3 container mx-auto justify-between mt-4 border-b-2 z-21'>
                 <h1 className='text-black text-3xl font-bold font-inter'>Kha'zix</h1>
                 <div className='flex gap-3'>
                     <CiSearch size={28} onClick={HandleSearch} className='cursor-pointer' />
@@ -49,7 +49,7 @@ function RHeader() {
                     </div>
                 </Menu>
             </div>
-            <form className={`absolute z-0 ${Search ? '' : 'translate-y-[-200px]'}`}>
+            <form className={`absolute z-[50] w-full ${Search ? 'translate-x-[0]' : 'translate-x-[-150%]'}`}>
                 <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -57,10 +57,10 @@ function RHeader() {
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                         </svg>
                     </div>
-                    <input type="search" id="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" required />
-                    <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                    <input type="search" id="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 focus:outline-none" placeholder="Search" required />
                 </div>
             </form>
+            {Search && <Darkness onClick={HandleSearch} />}
         </>
     );
 }
@@ -83,6 +83,13 @@ const Menu = styled.div`
     @media (max-width: 768px) {
         display: flex;
     }
+`;
+const Darkness = styled.div`
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000094;
+    position: absolute;
+    z-index: 20;
 `;
 
 export default RHeader;

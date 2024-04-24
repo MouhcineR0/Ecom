@@ -27,7 +27,9 @@ function Header() {
                     })}
                 </nav>
                 <div className='flex gap-4 w-[270px] items-center'>
-                    <Input label='Search Products' icon={<CiSearch />} />
+                    <form action="">
+                        <Input label='Search Products' icon={<CiSearch />} />
+                    </form>
                     <FaRegHeart style={IconStyle} />
                     <FiShoppingCart style={IconStyle} />
                 </div>

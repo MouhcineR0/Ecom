@@ -23,22 +23,22 @@ export default function Slider() {
                     clickable: true,
                 }}
                 modules={[Autoplay, Pagination, Navigation]}
-                className="mySwiper swiper-1 w-[60%] pt-3 md:pt-1 rounded-lg flex justify-center items-center"
+                className="mySwiper swiper-1 mt-4 md:w-[60%] md:pt-1 w-full rounded-lg flex justify-center items-center"
             >
-                <SwiperSlide>
-                    <img src={Cover} className='rounded' alt="" />
+                <SwiperSlide className='w-full'>
+                    <img src={Cover} className='rounded w-full' alt="" />
                 </SwiperSlide>
-                <SwiperSlide>
-                    <img src={Cover} className='rounded' alt="" />
+                <SwiperSlide className='w-full'>
+                    <img src={Cover} className='rounded w-full' alt="" />
                 </SwiperSlide>
-                <SwiperSlide>
-                    <img src={Cover} className='rounded' alt="" />
+                <SwiperSlide className='w-full'>
+                    <img src={Cover} className='rounded w-full' alt="" />
                 </SwiperSlide>
-                <SwiperSlide>
-                    <img src={Cover} className='rounded' alt="" />
+                <SwiperSlide className='w-full'>
+                    <img src={Cover} className='rounded w-full' alt="" />
                 </SwiperSlide>
-                <SwiperSlide>
-                    <img src={Cover} className='rounded' alt="" />
+                <SwiperSlide className='w-full'>
+                    <img src={Cover} className='rounded w-full' alt="" />
                 </SwiperSlide>
             </Swiper>
         </>
