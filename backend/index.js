@@ -34,7 +34,7 @@ app.use(helmet());
 // Routes
 const UserRouter = require('./Routes/UsersRoute');
 
-app.use("/api/", UserRouter);
+app.use("/api", UserRouter);
 
 
 // Error handler Middleware
