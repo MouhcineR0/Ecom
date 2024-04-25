@@ -20,8 +20,14 @@ const ProductSchema = mongoose.Schema({
         required: true
     },
     imagepath: {
-        type: String,
-        required: true
+        public_id: {
+            type: String,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        }
     },
     type: {
         type: String,
@@ -35,8 +41,9 @@ const ProductSchema = mongoose.Schema({
         }
     },
     ratings: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ratings'
+        type: Number,
+        ref: 'Ratings',
+        default: null
     }],
     quantity: {
         type: Number,
