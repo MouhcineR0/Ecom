@@ -42,8 +42,7 @@ const ProductSchema = mongoose.Schema({
     },
     ratings: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ratings',
-        default: null
+        ref: 'Ratings'
     }],
     quantity: {
         type: Number,
