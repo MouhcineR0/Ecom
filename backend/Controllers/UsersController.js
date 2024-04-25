@@ -37,9 +37,11 @@ async function Signup(req, res, next) {
             const query = new UserSchema({
                 email, firstname, lastname, role: Role, password: HASHED_PW
             });
-            query.save()
-                .then(() => console.log('SUCCESS'))
-                .catch(() => console.log('FAILED'));
+                query.save()
+                    .then(() => console.log('SUCCESS'))
+                    .catch(() => console.log('FAILED'));
+                res.status(200).json('ajouté')
+            
             return res.json({ message: 'SUCCESS' });
         }
         return res.json({ message: 'FAILED' });

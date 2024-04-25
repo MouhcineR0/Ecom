@@ -6,9 +6,13 @@ module.exports = (req, res, next) => {
         return res.json({ isAuth: false });
     }
     const token = authHeader.split(' ')[1];
+    if (!token) {
+        return res.status(403).json({ msg: "Authorization denied" });
+    }
+
     try {
         const verify = VerifyToken(token);
-        req.user = verify.id;
+        req.user = verify.user;
         req.role = verify.role;
         next();
     } catch (err) {
