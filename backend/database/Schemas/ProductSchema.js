@@ -37,7 +37,15 @@ const ProductSchema = mongoose.Schema({
     ratings: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Ratings'
-    }]
+    }],
+    quantity: {
+        type: Number,
+        required: true
+    },
+    promo: {
+        type: Number,
+        default: 0
+    }
 });
 
 module.exports = mongoose.model('Products', ProductSchema);
