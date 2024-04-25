@@ -9,7 +9,7 @@ const RatingSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Products'
     },
-    Liked: {
+    liked: {
         type: Boolean,
         default: false
     },

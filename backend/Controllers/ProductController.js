@@ -39,7 +39,7 @@ async function AddProduct(req, res) {
             res.status(401).json('tous les champs sont obligatoire');
         }
     } catch (err) {
-        res.status(500).json("Connection Impossible");
+        res.status(500).json(err);
     }
 }
 module.exports = { AddProduct };

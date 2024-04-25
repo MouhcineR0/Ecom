@@ -41,7 +41,7 @@ const ProductSchema = mongoose.Schema({
         }
     },
     ratings: [{
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Ratings',
         default: null
     }],

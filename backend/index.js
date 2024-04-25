@@ -34,8 +34,10 @@ app.use(helmet());
 // Routes
 const UserRouter = require('./Routes/UsersRoute');
 const ProductRoute = require('./Routes/ProductRoute');
+const RatingRoute = require('./Routes/RatingRoute');
 app.use("/api", UserRouter);
 app.use("/api", ProductRoute);
+app.use("/api", RatingRoute);
 
 
 // Error handler Middleware

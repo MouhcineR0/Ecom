@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
 
     try {
         const verify = VerifyToken(token);
-        req.user = verify.user;
+        req.user = verify.id;
         req.role = verify.role;
         next();
     } catch (err) {
