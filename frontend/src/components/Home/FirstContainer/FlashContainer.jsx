@@ -16,7 +16,7 @@ const FlashContainer = ({ targetDate }) => {
                     </h1>
                 </div>
                 <div className="Arrows flex gap-2">
-                    <ArrowsContainer><FaArrowLeft size={18} /></ArrowsContainer>
+                    <ArrowsContainer><FaArrowLeft size={18} />arrow</ArrowsContainer>
                     <ArrowsContainer><FaArrowRight size={18} /></ArrowsContainer>
                 </div>
             </div>
