@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { IoIosMenu } from "react-icons/io";
 import { Link } from 'react-router-dom';
@@ -13,6 +13,19 @@ function RHeader() {
 
     const [Search, setSearch] = useState(false);
 
+    useEffect(() => {
+        if (Search) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [Search]);
+
+    useEffect(() => {
+        if (Toggle) {
+            setSearch(false);
+        }
+    }, [Toggle]);
     const HandleToggle = () => {
         setToggle(!Toggle);
     };
