@@ -37,7 +37,7 @@ function RHeader() {
     return (
         <>
             <div className='flex p-3 container mx-auto justify-between mt-4 border-b-2 z-21'>
-                <h1 className='text-black text-3xl font-bold font-inter'>Kha'zix</h1>
+                <h1 className='text-black text-3xl font-bold font-inter'>MultiShop</h1>
                 <div className='flex gap-3'>
                     <CiSearch size={28} onClick={HandleSearch} className='cursor-pointer' />
                     <IoIosMenu size={28} onClick={HandleToggle} className='cursor-pointer' />
