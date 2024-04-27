@@ -43,8 +43,12 @@
             display: none;
         }
     }
-}
 
-.swiper-1 .swiper-pagination-bullet {
-    background-color: white;
+    .swiper-1 .swiper-pagination-bullet {
+        background-color: white;
+    }
+
+    .product-icon:hover {
+        transition: 0s;
+    }
 }
