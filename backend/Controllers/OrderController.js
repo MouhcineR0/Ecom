@@ -11,9 +11,8 @@ async function checkQuantity(response, quantity) {
         const discountedPrice = response[i].price - (response[i].price * (response[i].promo / 100));
         total += discountedPrice * quantity[i];
         totalPrice.push(total);
-        console.log(total);
     }
-    console.log(totalPrice);
+
     return totalPrice;
 }
 
@@ -37,24 +36,25 @@ async function registerOrders(req, res) {
         if (total === false) {
             return res.status(400).json({ message: 'Quantité invalide pour un produit.' });
         }
-
+        let ids_Orders = [];
         // Parcourir chaque produit pour l'enregistrer individuellement
         for (let i = 0; i < products.length; i++) {
+            let id = '';
             const newOrder = new OrderSchema({
                 user: req.user,
                 date: new Date(),
                 status: 'Pending',
                 product: products[i],
                 quantity: quantities[i],
-                finalPrice: total[i]  // Utilisez le même prix total pour chaque produit
+                finalPrice: total[i]
             });
 
-            // Enregistrez le nouvel ordre dans la base de données
             await newOrder.save();
+            let newOrderID = newOrder._id.toString();
+            ids_Orders.push(newOrderID);
         }
 
-        // Si tout s'est bien passé, retournez une réponse réussie
-        res.status(200).json('Produits ajoutés avec succès');
+        res.status(200).json(ids_Orders);
     } catch (err) {
         console.error(err);
         res.status(500).json(err.message);
