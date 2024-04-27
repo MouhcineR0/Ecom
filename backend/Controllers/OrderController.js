@@ -20,7 +20,7 @@ async function httpRequest(items, quantity) {
     try {
         const URL = `http://localhost:3320/api/Products`;
         const response = await axios.post(URL, { product: items });
-        return CheckQuantité_claculPrice(response.data, quantity);
+        return CheckQuantité_calculPrice(response.data, quantity);
     } catch (error) {
         console.error(error);
         throw new Error('Erreur lors de la requête HTTP.');
