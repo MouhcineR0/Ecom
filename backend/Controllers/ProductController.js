@@ -59,7 +59,7 @@ async function GetProduct(req, res) {
     try {
         const products = await ProductSchema.findOne({ _id: id });
         if (products) {
-            return res.status(200).json(products);
+            return res.status(200).json({ products });
         } else {
             return res.status(401).json('Erreur lors de la récupération des Produits réssayez');
         }
@@ -67,4 +67,11 @@ async function GetProduct(req, res) {
         res.status(500).json(err);
     }
 }
-module.exports = { AddProduct, GetProducts, GetProduct };
+async function ProductsApi(req, res) {
+    const { product } = req.body;
+
+    ProductSchema.find({ _id: { $in: product } })
+        .then(prdt => res.status(200).json(prdt))
+        .catch(err => res.status(400).json({ err }));
+}
+module.exports = { AddProduct, GetProducts, GetProduct, ProductsApi };
