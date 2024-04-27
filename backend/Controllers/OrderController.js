@@ -1,7 +1,7 @@
 const OrderSchema = require('../database/Schemas/OrderSchema');
 const axios = require('axios');
 
-async function CheckQuantité_claculPrice(response, quantite) {
+async function CheckQuantité_calculPrice(response, quantite) {
     let totalPrice = 0;
     for (let i = 0; i < response.length; i++) {
         let total = 0;
@@ -32,11 +32,8 @@ async function registerOrders(req, res) {
 
     try {
 
-
-
-
         let ids_Orders = [];
-        for (let i = 0; i < items.length; i++) {
+        for (i = 0; i < items.length; i++) {
             const total = await httpRequest(items[i].id.toString(), items[i].quantity);
             if (total === false) {
                 return res.status(400).json({ message: 'Quantité invalide pour un produit.' });
