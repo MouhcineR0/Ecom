@@ -2,10 +2,9 @@ import React from 'react';
 import CountdownTimer from '../../../tools/Countdown';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import styled from 'styled-components';
+import { LeftArrow, RightArrow } from '../../../tools/PaginationArrows';
 
 const FlashContainer = ({ targetDate, swiper, setSwiper }) => {
-
-    const ArrowsStyle = `md:size-[18px] text-[#00000084]`;
 
     const goNext = () => {
         if (swiper !== null) {
@@ -29,20 +28,12 @@ const FlashContainer = ({ targetDate, swiper, setSwiper }) => {
                     </h1>
                 </div>
                 <div className="Arrows hidden gap-2 md:flex">
-                    <ArrowsContainer onClick={goPrev}><FaArrowLeft className={ArrowsStyle} /></ArrowsContainer>
-                    <ArrowsContainer onClick={goNext}><FaArrowRight className={ArrowsStyle} /></ArrowsContainer>
+                    <LeftArrow goPrev={goPrev} />
+                    <RightArrow goNext={goNext} />
                 </div>
             </div>
         </div>
     );
 };
-
-const ArrowsContainer = styled.div`
-    background: #00000012;
-    padding: 7px;
-    border-radius: 50%; 
-    color: #000000;
-    cursor: pointer;
-`;
 
 export default FlashContainer;
