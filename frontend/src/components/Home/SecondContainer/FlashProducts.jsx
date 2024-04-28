@@ -25,6 +25,8 @@ function FlashProducts({ swiper, setSwiper }) {
 
     const SliderStyle = 'flex justify-center items-center';
 
+    const [open, setOpen] = useState(false);
+
     const goNext = () => {
         if (swiper !== null) {
             swiper.slideNext();
@@ -137,11 +139,14 @@ function FlashProducts({ swiper, setSwiper }) {
             >
                 {fakeData.map((ele, ind) => {
                     return (
-                        <SwiperSlide className={SliderStyle}>
-                            <ProductDisplay id={ele.id} img={ele.img} offerPercentage={ele.offerPercentage}
-                                oldPrice={ele.oldPrice} price={ele.price} rating={ele.rating} ratingCount={ele.ratingCount}
-                                title={ele.title} key={ind} Loved={ele.Loved} />
-                        </SwiperSlide>);
+                        <>
+                            <SwiperSlide className={SliderStyle} key={ind}>
+                                <ProductDisplay id={ele.id} img={ele.img} offerPercentage={ele.offerPercentage}
+                                    oldPrice={ele.oldPrice} price={ele.price} rating={ele.rating} ratingCount={ele.ratingCount}
+                                    title={ele.title} key={ind} Loved={ele.Loved} />
+                            </SwiperSlide>
+                        </>
+                    );
                 })}
             </Swiper>
             <RightArrow goNext={goNext} className={'md:hidden'} />

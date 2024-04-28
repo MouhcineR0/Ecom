@@ -20,7 +20,6 @@ const TwoPoints = () => {
 
 const CountdownTimer = ({ targetDate }) => {
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
-        console.log(hours.length);
         if (completed) {
             return 0;
         } else {
