@@ -14,13 +14,28 @@ import testImg from '../../../assets/imgs/product.png';
 import testImg1 from '../../../assets/imgs/product1.png';
 import testImg2 from '../../../assets/imgs/product2.png';
 import testImg3 from '../../../assets/imgs/product3.png';
+import useWidth from '../../../tools/useWidth';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { LeftArrow, RightArrow } from '../../../tools/PaginationArrows';
 
 SwiperCore.use([Navigation]);
 
 
 function FlashProducts({ swiper, setSwiper }) {
 
-    const SliderStyle = 'flex';
+    const SliderStyle = 'flex justify-center items-center';
+
+    const goNext = () => {
+        if (swiper !== null) {
+            swiper.slideNext();
+        }
+    };
+
+    const goPrev = () => {
+        if (swiper !== null) {
+            swiper.slidePrev();
+        }
+    };
 
     const fakeData = [
         {
@@ -92,14 +107,16 @@ function FlashProducts({ swiper, setSwiper }) {
     ];
 
     return (
-        <div className='container mx-auto'>
+        <div className='container mx-auto flex justify-center items-center'>
+            <LeftArrow goPrev={goPrev} className={'md:hidden'} />
             <Swiper
                 onSwiper={(swiper) => setSwiper(swiper)}
                 slidesPerView={1}
                 spaceBetween={10}
                 pagination={{
                     clickable: true,
-                    enabled: false
+                    enabled: false,
+
                 }}
                 breakpoints={{
                     550: {
@@ -127,6 +144,7 @@ function FlashProducts({ swiper, setSwiper }) {
                         </SwiperSlide>);
                 })}
             </Swiper>
+            <RightArrow goNext={goNext} className={'md:hidden'} />
         </div>
     );
 }
