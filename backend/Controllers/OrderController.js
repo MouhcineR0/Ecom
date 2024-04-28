@@ -1,27 +1,26 @@
 const OrderSchema = require('../database/Schemas/OrderSchema');
 const axios = require('axios');
 
-async function checkQuantity(response, quantity) {
-    let totalPrice = [];
+async function CheckQuantité_calculPrice(response, quantite) {
+    let totalPrice = 0;
     for (let i = 0; i < response.length; i++) {
         let total = 0;
-        if (quantity[i] > response[i].quantite) {
+        if (quantite > response[i].quantite) {
             return false;
         }
         const discountedPrice = response[i].price - (response[i].price * (response[i].promo / 100));
-        total += discountedPrice * quantity[i];
-        totalPrice.push(total);
-        console.log(total);
+        total = discountedPrice * response[i].quantity;
+        totalPrice = total;
     }
     console.log(totalPrice);
     return totalPrice;
 }
 
-async function httpRequest(product, quantity) {
+async function httpRequest(items, quantity) {
     try {
         const URL = `http://localhost:3320/api/Products`;
-        const response = await axios.post(URL, { product: product });
-        return checkQuantity(response.data, quantity);
+        const response = await axios.post(URL, { product: items });
+        return CheckQuantité_calculPrice(response.data, quantity);
     } catch (error) {
         console.error(error);
         throw new Error('Erreur lors de la requête HTTP.');
@@ -29,32 +28,31 @@ async function httpRequest(product, quantity) {
 }
 
 async function registerOrders(req, res) {
-    const { products, quantities } = req.body;
+    const { items } = req.body;
 
     try {
-        const total = await httpRequest(products, quantities);
 
-        if (total === false) {
-            return res.status(400).json({ message: 'Quantité invalide pour un produit.' });
-        }
-
-        // Parcourir chaque produit pour l'enregistrer individuellement
-        for (let i = 0; i < products.length; i++) {
+        let ids_Orders = [];
+        for (i = 0; i < items.length; i++) {
+            const total = await httpRequest(items[i].id.toString(), items[i].quantity);
+            if (total === false) {
+                return res.status(400).json({ message: 'Quantité invalide pour un produit.' });
+            }
             const newOrder = new OrderSchema({
                 user: req.user,
                 date: new Date(),
                 status: 'Pending',
-                product: products[i],
-                quantity: quantities[i],
-                finalPrice: total[i]  // Utilisez le même prix total pour chaque produit
+                product: items[i].id,
+                quantity: items[i].quantity,
+                finalPrice: total
             });
 
-            // Enregistrez le nouvel ordre dans la base de données
             await newOrder.save();
+            let newOrderID = newOrder._id.toString();
+            ids_Orders.push(newOrderID);
         }
 
-        // Si tout s'est bien passé, retournez une réponse réussie
-        res.status(200).json('Produits ajoutés avec succès');
+        res.status(200).json(ids_Orders);
     } catch (err) {
         console.error(err);
         res.status(500).json(err.message);
