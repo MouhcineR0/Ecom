@@ -34,7 +34,12 @@ const UserSchema = new mongoose.Schema({
             },
             message: 'Not Valid Role'
         }
-    }
+    },
+    created_at: {
+        type: Date,
+        required: true,
+        default: Date.now()
+    },
 });
 
 module.exports = mongoose.model('Users', UserSchema);
