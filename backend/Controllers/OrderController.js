@@ -12,7 +12,6 @@ async function CheckQuantité_calculPrice(response, quantite) {
         total = discountedPrice * response[i].quantity;
         totalPrice = total;
     }
-    console.log(totalPrice);
     return totalPrice;
 }
 
@@ -31,8 +30,6 @@ async function registerOrders(req, res) {
     const { items } = req.body;
 
     try {
-
-        let ids_Orders = [];
         for (i = 0; i < items.length; i++) {
             const total = await httpRequest(items[i].id.toString(), items[i].quantity);
             if (total === false) {
@@ -40,7 +37,6 @@ async function registerOrders(req, res) {
             }
             const newOrder = new OrderSchema({
                 user: req.user,
-                date: new Date(),
                 status: 'Pending',
                 product: items[i].id,
                 quantity: items[i].quantity,
@@ -48,11 +44,9 @@ async function registerOrders(req, res) {
             });
 
             await newOrder.save();
-            let newOrderID = newOrder._id.toString();
-            ids_Orders.push(newOrderID);
         }
 
-        res.status(200).json(ids_Orders);
+        res.status(200).json("Orders Added");
     } catch (err) {
         console.error(err);
         res.status(500).json(err.message);
