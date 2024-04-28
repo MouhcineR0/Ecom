@@ -44,11 +44,12 @@
         }
     }
 
-    .swiper-1 .swiper-pagination-bullet {
-        background-color: white;
-    }
+}
 
-    .product-icon:hover {
-        transition: 0s;
-    }
+.swiper-1 .swiper-pagination-bullet {
+    background-color: white;
+}
+
+.product-icon:hover {
+    transition: color 0s;
 }
