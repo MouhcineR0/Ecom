@@ -11,13 +11,16 @@ import SwiperCore from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import testImg from '../../../assets/imgs/product.png';
+import testImg1 from '../../../assets/imgs/product1.png';
+import testImg2 from '../../../assets/imgs/product2.png';
+import testImg3 from '../../../assets/imgs/product3.png';
 
 SwiperCore.use([Navigation]);
 
 
 function FlashProducts({ swiper, setSwiper }) {
 
-    const SliderStyle = 'flex justify-center';
+    const SliderStyle = 'flex';
 
     const fakeData = [
         {
@@ -38,7 +41,7 @@ function FlashProducts({ swiper, setSwiper }) {
             oldPrice: 89.99,
             rating: 4.8,
             ratingCount: 200,
-            img: testImg,
+            img: testImg1,
             offerPercentage: 15,
             Loved: false
         },
@@ -49,7 +52,7 @@ function FlashProducts({ swiper, setSwiper }) {
             oldPrice: 69.99,
             rating: 4.7,
             ratingCount: 150,
-            img: testImg,
+            img: testImg2,
             offerPercentage: 10,
             Loved: true
         },
@@ -60,7 +63,7 @@ function FlashProducts({ swiper, setSwiper }) {
             oldPrice: 79.99,
             rating: 4.6,
             ratingCount: 180,
-            img: testImg,
+            img: testImg3,
             offerPercentage: 15,
             Loved: false
         },
@@ -118,9 +121,9 @@ function FlashProducts({ swiper, setSwiper }) {
                 {fakeData.map((ele, ind) => {
                     return (
                         <SwiperSlide className={SliderStyle}>
-                            <ProductDisplay id={ele.id} img={testImg} offerPercentage={ele.offerPercentage}
+                            <ProductDisplay id={ele.id} img={ele.img} offerPercentage={ele.offerPercentage}
                                 oldPrice={ele.oldPrice} price={ele.price} rating={ele.rating} ratingCount={ele.ratingCount}
-                                title={ele.title} key={ind} Loved={ele.Loved} />;
+                                title={ele.title} key={ind} Loved={ele.Loved} />
                         </SwiperSlide>);
                 })}
             </Swiper>
