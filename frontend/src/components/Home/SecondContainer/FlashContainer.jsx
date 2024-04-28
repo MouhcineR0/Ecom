@@ -3,10 +3,21 @@ import CountdownTimer from '../../../tools/Countdown';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import styled from 'styled-components';
 
-const FlashContainer = ({ targetDate }) => {
+const FlashContainer = ({ targetDate, swiper, setSwiper }) => {
 
-    const ArrowsStyle = 'md:size-[18px] text-[#00000084]';
+    const ArrowsStyle = `md:size-[18px] text-[#00000084]`;
 
+    const goNext = () => {
+        if (swiper !== null) {
+            swiper.slideNext();
+        }
+    };
+
+    const goPrev = () => {
+        if (swiper !== null) {
+            swiper.slidePrev();
+        }
+    };
     return (
         <div className='container mx-auto font-poppins font-semibold lg:mt-[100px] md:mt-[75px] mt-[50px]'>
             <h1 className='text-primary border-l-8 border-l-[#DB4444] px-3 py-1 select-none'>Today's</h1>
@@ -18,8 +29,8 @@ const FlashContainer = ({ targetDate }) => {
                     </h1>
                 </div>
                 <div className="Arrows hidden gap-2 md:flex">
-                    <ArrowsContainer><FaArrowLeft className={ArrowsStyle} /></ArrowsContainer>
-                    <ArrowsContainer><FaArrowRight className={ArrowsStyle} /></ArrowsContainer>
+                    <ArrowsContainer onClick={goPrev}><FaArrowLeft className={ArrowsStyle} /></ArrowsContainer>
+                    <ArrowsContainer onClick={goNext}><FaArrowRight className={ArrowsStyle} /></ArrowsContainer>
                 </div>
             </div>
         </div>
