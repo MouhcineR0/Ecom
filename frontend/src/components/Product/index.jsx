@@ -30,8 +30,8 @@ function index({ id, title, price, oldPrice, rating, ratingCount, img, offerPerc
         <>
             <div className='w-[250px] overflow-hidden' onMouseEnter={MouseEnter} onMouseLeave={MouseLeave} key={id}>
                 <div className='single-product flex flex-col gap-2 p-2'>
-                    <div className="image-container bg-[#F5F5F5] rounded relative">
-                        <img src={img} alt="product" className='p-7' />
+                    <div style={{ height: '220px' }} className="image-container bg-[#F5F5F5] rounded relative flex flex-col justify-center items-center overflow-hidden">
+                        <img src={img} alt="product" className='p-7 object-cover z-[-22]' />
                         {offerPercentage && <div className="offre bg-primary absolute top-1 left-1 px-3 py-1 rounded-md text-white text-[11px]">-{offerPercentage}%</div>}
                         <div className='flex flex-col absolute top-1 right-1 gap-1'>
                             <div>
@@ -41,7 +41,7 @@ function index({ id, title, price, oldPrice, rating, ratingCount, img, offerPerc
                                 <SlEye className={IconsStyle} />
                             </div>
                         </div>
-                        <Link className={`bg-black flex w-full font-poppins text-white justify-center py-2 rounded-b-md z-[-1] ${MouseOver || Width < 769 ? 'translate-y-[0]' : 'translate-y-[50px]'}`}>
+                        <Link className={`bg-black flex w-full font-poppins text-white justify-center py-2 rounded-b-md z-[-1] absolute bottom-0 ${MouseOver || Width < 769 ? 'translate-y-[0]' : 'translate-y-[50px]'}`}>
                             Add To Cart
                         </Link>
                     </div>
@@ -63,7 +63,7 @@ function index({ id, title, price, oldPrice, rating, ratingCount, img, offerPerc
                         </div>
                     </div>
                 </div >
-            </div>
+            </div >
         </>
     );
 }
