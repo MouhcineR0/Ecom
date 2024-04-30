@@ -24,9 +24,14 @@ const UserSchema = new mongoose.Schema({
     tel: {
         type: String,
         required: true,
-        lowercase: true,
         unique: true,
         trim: true,
+        validate: {
+            validator: function (value) {
+                return /^\+\d+$/.test(value);
+            },
+            message: props => `${props.value} n'est pas un numéro de téléphone valide. Le numéro doit commencer par '+' suivi uniquement de chiffres.`
+        }
     },
     password: {
         type: String,
