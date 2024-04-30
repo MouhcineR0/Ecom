@@ -1,13 +1,7 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-        lowercase: true,
-        unique: true,
-        trim: true,
-    },
+
     firstname: {
         type: String,
         required: true,
@@ -19,6 +13,25 @@ const UserSchema = new mongoose.Schema({
         required: true,
         trim: true,
         lowercase: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        lowercase: true,
+        unique: true,
+        trim: true,
+    },
+    tel: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        validate: {
+            validator: function (value) {
+                return /^\+\d+$/.test(value);
+            },
+            message: props => `${props.value} n'est pas un numéro de téléphone valide. Le numéro doit commencer par '+' suivi uniquement de chiffres.`
+        }
     },
     password: {
         type: String,
