@@ -23,16 +23,16 @@ async function Login(req, res, next) {
 }
 async function Signup(req, res, next) {
     try {
-        const { email, password, firstname, lastname, role } = req.body;
+        const { email, password, firstname, lastname, tel, role } = req.body;
         const Role = role || 'client';
-        if (email && password && firstname && lastname && Role) {
+        if (email && password && firstname && lastname && tel && Role) {
             const available = await UserSchema.find({ email });
             if (available.length) {
                 return res.json({ message: 'EMAIL_AVAILABLE' });
             }
             const HASHED_PW = HashPassword(password);
             const query = new UserSchema({
-                email, firstname, lastname, role: Role, password: HASHED_PW
+                firstname, lastname, email, tel, password: HASHED_PW, role: Role,
             });
             query.save()
                 .then(() => console.log('SUCCESS'))
