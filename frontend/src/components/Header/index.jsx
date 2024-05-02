@@ -1,8 +1,8 @@
 import React from 'react';
 import NewBar from './NewBar';
 import Header from './Header';
-import useWidth from '../../tools/useWidth';
 import RHeader from './RHeader';
+import useWidth from '../../hooks/useWidth';
 
 function index() {
 

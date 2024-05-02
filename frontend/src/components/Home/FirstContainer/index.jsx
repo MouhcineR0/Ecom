@@ -1,7 +1,7 @@
 import React from 'react';
 import SideBar from './SideBar';
 import Slider from './Slider';
-import useWidth from '../../../tools/useWidth';
+import useWidth from '../../../hooks/useWidth';
 
 function index() {
     const Width = useWidth();
