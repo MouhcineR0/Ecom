@@ -3,6 +3,7 @@ import CountdownTimer from '../../../tools/Countdown';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import styled from 'styled-components';
 import { LeftArrow, RightArrow } from '../../../tools/PaginationArrows';
+import Title from '../../utils/Title';
 
 const FlashContainer = ({ targetDate, swiper, setSwiper }) => {
 
@@ -19,7 +20,7 @@ const FlashContainer = ({ targetDate, swiper, setSwiper }) => {
     };
     return (
         <div className='container mx-auto font-poppins font-semibold lg:mt-[100px] md:mt-[75px] mt-[50px]'>
-            <h1 className='text-primary border-l-8 border-l-[#DB4444] px-3 py-1 select-none'>Today's</h1>
+            <Title title="Today's" />
             <div className='flex justify-between items-center'>
                 <div className='flex gap-7 items-center mt-5'>
                     <h1 className='text-[18px] lg:text-[24px] md:text-[21px]'>Flash Sales</h1>
