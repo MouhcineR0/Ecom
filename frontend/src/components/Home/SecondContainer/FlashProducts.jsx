@@ -108,7 +108,7 @@ function FlashProducts({ swiper, setSwiper }) {
     ];
 
     return (
-        <div className='container mx-auto flex justify-center items-center'>
+        <div className='container mx-auto flex justify-center items-center transition-[.3s]'>
             <LeftArrow goPrev={goPrev} className={'md:hidden'} />
             <Swiper
                 onSwiper={(swiper) => setSwiper(swiper)}

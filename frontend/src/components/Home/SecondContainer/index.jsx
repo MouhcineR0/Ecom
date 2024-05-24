@@ -8,7 +8,7 @@ function index() {
     // handling the second swiper #offers
     const [swiper, setSwiper] = useState(null);
 
-    const TargetDate = '2024-04-31T23:59:59';
+    const TargetDate = '2024-09-31T23:59:59';
 
     return (
         <>

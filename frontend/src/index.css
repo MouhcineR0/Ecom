@@ -12,13 +12,17 @@
         scroll-behavior: smooth;
     }
 
+    .jojo {
+        transition: .3s;
+    }
+
     body {
         /* overflow: hidden; */
         z-index: 2;
     }
 
     * {
-        transition: .3s;
+        transition: transform .3s;
         font-family: 'Inter', sans-serif;
     }
 

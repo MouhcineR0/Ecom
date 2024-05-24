@@ -21,7 +21,7 @@ const TwoPoints = () => {
 const CountdownTimer = ({ targetDate }) => {
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
         if (completed) {
-            return 0;
+            return null;
         } else {
             return (
                 <div className='flex gap-2 items-center'>

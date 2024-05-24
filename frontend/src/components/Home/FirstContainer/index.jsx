@@ -8,7 +8,7 @@ function index() {
 
     return (
         <>
-            <div className='container mx-auto flex w-full'>
+            <div className='container mx-auto flex w-full transition-[.3s]'>
                 {Width > 768 && <SideBar />}
                 <Slider />
             </div>

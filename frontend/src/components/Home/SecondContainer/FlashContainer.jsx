@@ -19,7 +19,7 @@ const FlashContainer = ({ targetDate, swiper, setSwiper }) => {
         }
     };
     return (
-        <div className='container mx-auto font-poppins font-semibold lg:mt-[100px] md:mt-[75px] mt-[50px]'>
+        <div className='container transition-[.3s] mx-auto font-poppins font-semibold lg:mt-[100px] md:mt-[75px] mt-[50px]'>
             <Title title="Today's" />
             <div className='flex justify-between items-center'>
                 <div className='flex gap-7 items-center mt-5'>
