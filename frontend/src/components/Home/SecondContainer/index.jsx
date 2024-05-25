@@ -15,7 +15,6 @@ function index() {
             <FlashContainer targetDate={TargetDate} setSwiper={setSwiper} swiper={swiper} />
             <FlashProducts setSwiper={setSwiper} swiper={swiper} />
             <ShowAllButton />
-            <hr className='w-[90%] mx-auto mt-[50px] border-[1px] border-[#e5e5e5]' />
         </>
     );
 }

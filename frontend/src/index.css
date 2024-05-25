@@ -12,10 +12,6 @@
         scroll-behavior: smooth;
     }
 
-    .jojo {
-        transition: .3s;
-    }
-
     body {
         /* overflow: hidden; */
         z-index: 2;

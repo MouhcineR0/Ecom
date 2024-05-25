@@ -5,11 +5,11 @@ import Title from '../../utils/Title';
 
 import List from './List';
 import home from '../../../assets/icons/home';
-// import media from '../../../assets/icons/media.svg';
-// import fashion from '../../../assets/icons/fashion.svg';
-// import sports from '../../../assets/icons/sports.svg';
-// import electronics from '../../../assets/icons/electronics.svg';
-// import health from '../../../assets/icons/health.svg';
+import media from '../../../assets/icons/media';
+import fashion from '../../../assets/icons/fashion';
+import sports from '../../../assets/icons/sports';
+import electronics from '../../../assets/icons/electronics';
+import health from '../../../assets/icons/health';
 
 
 
@@ -18,11 +18,11 @@ function index() {
     const Categories = [
         {
             name: 'Electronics',
-            picture: home
+            picture: electronics
         },
         {
             name: 'Fashion',
-            picture: home
+            picture: fashion
         },
         {
             name: 'Home',
@@ -30,24 +30,23 @@ function index() {
         },
         {
             name: 'Health',
-            picture: home
+            picture: health
         },
         {
             name: 'Sports',
-            picture: home
+            picture: sports
         },
         {
             name: 'Media',
-            picture: home
+            picture: media
         }
     ];
 
     return (
-        <div className="mx-auto container mt-[50px]">
+        <div className="mx-auto container">
             <Title title={'Categories'} />
             <h1 className='text-[18px] lg:text-[24px] md:text-[21px] font-poppins font-semibold mt-2'>Browse By Category</h1>
             <List data={Categories} />
-            {/* <Categorie /> */}
         </div>
     );
 }
