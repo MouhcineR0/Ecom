@@ -14,7 +14,6 @@ import testImg from '../../../assets/imgs/product.png';
 import testImg1 from '../../../assets/imgs/product1.png';
 import testImg2 from '../../../assets/imgs/product2.png';
 import testImg3 from '../../../assets/imgs/product3.png';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { LeftArrow, RightArrow } from '../../../tools/PaginationArrows';
 
 SwiperCore.use([Navigation]);
