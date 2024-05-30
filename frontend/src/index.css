@@ -18,7 +18,7 @@
     }
 
     * {
-        transition: .3s;
+        transition: transform .3s;
         font-family: 'Inter', sans-serif;
     }
 

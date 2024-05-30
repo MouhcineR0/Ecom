@@ -36,11 +36,13 @@ const UserRouter = require('./Routes/UsersRoute');
 const ProductRoute = require('./Routes/ProductRoute');
 const RatingRoute = require('./Routes/RatingRoute');
 const OrderRoute = require('./Routes/OrderRoute');
+const CategoryRoute = require('./Routes/CategoryRoute');
 
 app.use("/api", UserRouter);
 app.use("/api", ProductRoute);
 app.use("/api", RatingRoute);
 app.use("/api", OrderRoute);
+app.use("/api", CategoryRoute);
 
 
 

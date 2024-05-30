@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Button from '../../utils/Button';
 
 function ShowAllButton() {
     return (
         <div className='w-full mx-auto flex justify-center mt-[50px]'>
-            <Link className='bg-primary text-white px-[48px] py-[16px] md:text-[16px] text-[15px] rounded-[4px] font-poppins font-medium hover:text-primary hover:bg-white border hover:border-primary'>
-                View All Products
-            </Link>
+            <Button To={'AllProducts'} Name={'View All Products'} />
         </div>
     );
 }

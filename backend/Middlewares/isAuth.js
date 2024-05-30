@@ -1,7 +1,7 @@
 const { VerifyToken } = require('../utils/jwt');
 
 module.exports = (req, res, next) => {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers['token'];
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.json({ isAuth: false });
     }

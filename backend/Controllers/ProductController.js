@@ -74,4 +74,64 @@ async function ProductsApi(req, res) {
         .then(prdt => res.status(200).json(prdt))
         .catch(err => res.status(400).json({ err }));
 }
-module.exports = { AddProduct, GetProducts, GetProduct, ProductsApi };
+async function EditProduct(req, res) {
+    const { id } = req.params;
+    const { name, description, price, categorie, image, type, ratings, quantity, promo } = req.body;
+    
+    try {
+        const product = await ProductSchema.findById(id);
+        if (!product) {
+            return res.status(404).json('Produit non trouvé');
+        }
+
+        if (req.role !== "admin") {
+            return res.status(403).json('Accès refusé');
+        }
+
+        if (image) {
+            const result = await cloudinary.uploader.upload(image, {
+                folder: "products",
+            });
+            product.imagepath = {
+                public_id: result.public_id,
+                url: result.secure_url
+            };
+        }
+
+        product.name = name || product.name;
+        product.description = description || product.description;
+        product.price = price || product.price;
+        product.categorie = categorie || product.categorie;
+        product.type = type || product.type;
+        product.ratings = ratings || product.ratings;
+        product.quantity = quantity || product.quantity;
+        product.promo = promo || product.promo;
+
+        await product.save();
+        res.status(200).json('Produit mis à jour avec succès');
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+async function DeleteProduct(req, res) {
+    const { id } = req.params;
+
+    try {
+        const product = await ProductSchema.findById(id);
+        if (!product) {
+            return res.status(404).json('Produit non trouvé');
+        }
+
+        if (req.role !== "admin") {
+            return res.status(403).json('Accès refusé');
+        }
+
+        await cloudinary.uploader.destroy(product.imagepath.public_id);
+        await product.remove();
+        res.status(200).json('Produit supprimé avec succès');
+    } catch (err) {
+        res.status(500).json(err);
+    }
+}
+
+module.exports = { AddProduct, GetProducts, GetProduct, ProductsApi,EditProduct,DeleteProduct };
