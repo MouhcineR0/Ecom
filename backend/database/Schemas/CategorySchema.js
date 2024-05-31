@@ -7,9 +7,8 @@ const CategorySchema = mongoose.Schema({
         lowercase: true,
     },
     svg: {
-        type: String, 
+        type: String,
         required: true,
-        lowercase: true,
     }
 });
 
