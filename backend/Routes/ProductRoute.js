@@ -7,7 +7,7 @@ Router.route('/ajouterPro').post(Authenticated, AddProduct);
 Router.route('/GetPro').get(GetProducts);
 Router.route('/GetPro/:id').get(GetProduct);
 Router.route('/Products').post(ProductsApi);
-Router.route('/editProduct').put(Authenticated,EditProduct);
+Router.route('/editProduct/:id').put(Authenticated,EditProduct);
 Router.route('/delProduct/:id').delete(Authenticated,DeleteProduct);
 module.exports = Router;
 
