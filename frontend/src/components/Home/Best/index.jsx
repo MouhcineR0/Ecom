@@ -4,7 +4,7 @@ import testImg from '../../../assets/imgs/product.png';
 import testImg1 from '../../../assets/imgs/product1.png';
 import testImg2 from '../../../assets/imgs/product2.png';
 import UnderTitle from './UnderTitle';
-import BestSell from './BestSell';
+import MapProduct from '../../utils/MapProduct';
 
 function index() {
 
@@ -58,7 +58,7 @@ function index() {
         <div className='container mx-auto'>
             <Title title={'This Month'} />
             <UnderTitle />
-            <BestSell data={fakeData} />
+            <MapProduct data={fakeData} />
         </div>
     );
 }
