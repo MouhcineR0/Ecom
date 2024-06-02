@@ -16,8 +16,8 @@ const ProductSchema = mongoose.Schema({
         required: true
     },
     categorie: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Categories'
     },
     imagepath: {
         public_id: {
