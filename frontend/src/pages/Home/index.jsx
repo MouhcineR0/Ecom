@@ -7,6 +7,7 @@ import Categories from '../../components/Home/Categories';
 import BestSeeling from '../../components/Home/Best';
 import Hr from '../../components/utils/Hr';
 import Explore from '../../components/Home/Explore';
+import Service from '../../components/Home/Services/index';
 
 
 function Home() {
@@ -22,6 +23,7 @@ function Home() {
             <Hr />
             <Explore />
             <Hr />
+            <Service />
         </HomeContainer>
     );
 }
