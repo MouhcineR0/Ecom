@@ -23,7 +23,7 @@ export const Links = [
     },
     {
         link: 'Sign In',
-        url: '/signin',
+        url: '/login',
     },
 ];
 

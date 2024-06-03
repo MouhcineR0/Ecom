@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Dashboard from './pannelAdmin/Dashboard';
 import Layout from './Layout';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
         </Route>
         <Route path="/dashboard/*" element={<Dashboard />} />
       </Routes>

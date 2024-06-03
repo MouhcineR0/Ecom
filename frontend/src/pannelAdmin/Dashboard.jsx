@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import SideBar from './Sidebar';
-// import Accueil from './Dashboard/accueil/Accueil';
+import Accueil from './Dashboard/accueil/Accueil';
 
 const Dashboard = () => {
   return (

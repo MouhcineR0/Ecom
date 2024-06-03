@@ -119,7 +119,7 @@ function FlashProducts({ swiper, setSwiper }) {
 
                 }}
                 breakpoints={{
-                    550: {
+                    550: {  
                         slidesPerView: 2,
                         spaceBetween: 20,
                     },
