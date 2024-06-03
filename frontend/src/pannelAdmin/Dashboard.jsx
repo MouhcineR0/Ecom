@@ -2,19 +2,19 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import SideBar from './Sidebar';
-import Accueil from './Dashboard/Accueil';
+import Accueil from './Dashboard/accueil/Accueil';
 
 const Dashboard = () => {
   return (
-    <div className="flex">
+    <div className="flex ">
       <SideBar />
-      <main className="flex-1 bg-gray-100">
+      <main className="main-content flex-1 bg-gray-100">
         <Header />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 px-6">
-          <Routes>
-            <Route path="accueil" element={<Accueil />} />
-          </Routes>
-        </div>
+          <div className="mt-6 px-6 overflow-y-auto">
+            <Routes>
+              <Route path="accueil" element={<Accueil />} />
+            </Routes>
+          </div>
       </main>
     </div>
   );
