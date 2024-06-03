@@ -8,12 +8,12 @@ import BestSeeling from '../../components/Home/Best';
 import Hr from '../../components/utils/Hr';
 import Explore from '../../components/Home/Explore';
 import Service from '../../components/Home/Services/index';
+import Footer from '../../components/Footer';
 
 
 function Home() {
     return (
         <HomeContainer>
-            <Header />
             <FirstContainer />
             <SecondContainer />
             <Hr />

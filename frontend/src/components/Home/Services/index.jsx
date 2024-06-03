@@ -30,7 +30,7 @@ function index() {
                     return (
                         <div className="flex flex-col items-center justify-evenly select-none mb-5">
                             <div className="svg-container bg-gray-500 rounded-full p-2 mb-3 hover:scale-105">
-                                <div className="inside-svg-containe bg-black rounded-full flex items-center justify-center p-1">
+                                <div className="inside-svg-containe bg-black rounded-full flex items-center justify-center p-1 cursor-pointer">
                                     <img src={ele.img} alt="" width={30} />
                                 </div>
                             </div>
