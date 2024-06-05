@@ -46,8 +46,14 @@ const Sidebar = () => {
                     }`
                 }
             >
-                <span className="w-6 h-6"><Order /></span>
-                Commandes
+                {({ isActive }) => (
+                    <>
+                        <span className="w-6 h-6">
+                            <Order isActive={isActive} />
+                        </span>
+                        Commandes
+                    </>
+                )}
             </NavLink>
             <NavLink
                 to="/dashboard/utilisateurs"
