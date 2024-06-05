@@ -3,7 +3,7 @@ import Product from '../Product';
 
 function MapProduct({ data }) {
     return (
-        <div className='w-full best-seeling container mb-5 mx-auto grid grid-cols-1 md:grid-cols-3 md:gap-2 lg:grid-cols-4 mt-5 items-center'>
+        <div className='w-full best-seeling container mb-5 gap-3 mx-auto grid grid-cols-2 md:grid-cols-3 md:gap-2 lg:grid-cols-4 mt-5 items-start'>
             {
                 data.map((ele, ind) => {
                     return (

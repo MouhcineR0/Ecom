@@ -4,7 +4,7 @@ import Button from '../../utils/Button';
 
 function ShowAllButton() {
     return (
-        <div className='w-full mx-auto flex justify-center mt-[50px]'>
+        <div className='w-full mx-auto flex justify-center mt-[30px] md:mt-[50px]'>
             <Button To={'AllProducts'} Name={'View All Products'} />
         </div>
     );

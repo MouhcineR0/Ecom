@@ -5,6 +5,7 @@ import Dashboard from './pannelAdmin/Dashboard';
 import Layout from './Layout';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Cart from './pages/Cart';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
+          <Route path='/card' element={<Cart />} />
         </Route>
         <Route path="/dashboard/*" element={<Dashboard />} />
       </Routes>

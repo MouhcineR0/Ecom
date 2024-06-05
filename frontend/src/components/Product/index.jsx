@@ -25,12 +25,13 @@ function index({ id, title, price, oldPrice, rating, ratingCount, img, offerPerc
 
     const IconsStyle = 'bg-white hover:bg-red-500 hover:text-white text-[30px] rounded-full cursor-pointer p-1 product-icon';
     const LovedIconStyle = 'bg-red-500 text-white hover:bg-white hover:text-black text-[30px] rounded-full cursor-pointer p-1 product-icon';
+    // 200 : 180
 
     return (
         <>
-            <div className='w-[250px] overflow-hidden' onMouseEnter={MouseEnter} onMouseLeave={MouseLeave} key={id}>
+            <div className='md:w-[250px] w-[200px] overflow-hidden' onMouseEnter={MouseEnter} onMouseLeave={MouseLeave} key={id}>
                 <div className='single-product flex flex-col gap-2 p-2'>
-                    <div style={{ height: '220px' }} className="image-container bg-[#F5F5F5] rounded relative flex flex-col justify-center items-center overflow-hidden">
+                    <div className="image-container md:h-[220px] h-[180px] bg-[#F5F5F5] rounded relative flex flex-col justify-center items-center overflow-hidden">
                         <img src={img} alt="product" className='p-7 object-cover z-[-22]' />
                         {offerPercentage && <div className="offre bg-primary absolute top-1 left-1 px-3 py-1 rounded-md text-white text-[11px]">-{offerPercentage}%</div>}
                         <div className='flex flex-col absolute top-1 right-1 gap-1'>

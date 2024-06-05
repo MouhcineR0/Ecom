@@ -62,7 +62,7 @@ function Header() {
     return (
         <HeaderContainer className='mt-3 w-full border-b-2 py-4'>
             <div className="container flex justify-between mx-auto items-center ">
-                <h1 className='text-black text-3xl font-bold font-inter'>PrimeShop</h1>
+                <Link to={'/'} className='text-black text-3xl font-bold font-inter select-none'>PrimeShop</Link>
                 <nav className='flex font-poppins lg:text-[17px] md:text-[15px] items-center gap-4 tracking-wider'>
                     {Links.map((ele, ind) => {
                         return <NavLink link={ele.link} url={ele.url} key={ind} classes={'link-underline link-underline-black '} />;
@@ -72,13 +72,17 @@ function Header() {
                     <form action="">
                         <Input label='Search Products' icon={<CiSearch />} />
                     </form>
-                    <Badge size='small' count={0} showZero className='cursor-pointer'>
+                    <Badge size='small' count={0} className='cursor-pointer'>
                         <FaRegHeart style={IconStyle} size={20} />
                     </Badge>
-                    <FiShoppingCart style={IconStyle} size={20} />
+                    <Badge size='small' count={0} className='cursor-pointer'>
+                        <Link to={'/card'}>
+                            <FiShoppingCart style={IconStyle} size={20} />
+                        </Link>
+                    </Badge>
                     {
                         auth ? (
-                            <div className="user-container select-none">
+                            <div className="user-container select-none cursor-pointer">
                                 <Popover placement="bottom" content={content} color='#000000a2' arrow={mergedArrow}>
                                     <img src={UserIMG} alt="" draggable={false} />
                                 </Popover>
