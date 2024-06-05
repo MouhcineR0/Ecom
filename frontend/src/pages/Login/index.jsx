@@ -1,20 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoginImage from '../../assets/imgs/login/pic01.png';
 import Button from '../../components/utils/Button';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { message } from 'antd';
 
 function index() {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
+    // antd
+    const [messageApi, contextHolder] = message.useMessage();
+    const Error = (value) => {
+        messageApi.error(value);
+    };
+
+    useEffect(() => {
+        if (errors) {
+            for (const error in errors) {
+                Error(errors[error].message);
+            }
+        }
+    });
+
     const EmailPhoneValidate = (value) => {
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         const phonePattern = /^[0-9]{10}$/;
         if (!value) {
-            return "This field is required";
+            // Error('Email field is required');
+            return "Email field is required";
         }
         if (!emailPattern.test(value) && !phonePattern.test(value)) {
+            // Error('Please enter a valid email or phone number');
             return "Please enter a valid email or phone number";
         }
         return true;
@@ -22,19 +39,22 @@ function index() {
 
     const PasswordValidate = (value) => {
         if (value.trim().length < 8) {
-            return 'Password must be at least 8 characters long"';
+            // Error('Password must be at least 8 characters');
+            return 'Password must be at least 8 characters';
         }
         return true;
     };
-    console.log(errors);
-    const Submit = (data) => {
 
+    // handle submit function
+    const Submit = (data) => {
         console.log(data);
     };
 
+    // style Inputs
     const InputStyle = 'border-b-[1px] py-2 focus:outline-none';
     return (
         <form action="" onSubmit={handleSubmit(Submit)} className='w-full'>
+            {contextHolder}
             <div className='w-full flex flex-col justify-between items-center my-10 font-poppins md:flex-row gap-10 md:gap-0'>
                 <img src={LoginImage} alt="" className='login-image-container w-[90%] md:w-[50%] md:order-1 order-2' />
                 <div className="login-section flex flex-col gap-2 md:mx-auto self-center md:order-2 order-1">
@@ -46,7 +66,7 @@ function index() {
                     </div>
                     <div className="buttons-container flex items-center justify-between mt-6">
                         <Button Name={'Log in'} type={'submit'} />
-                        <Link className='underline'>Forgot Password?</Link>
+                        <Link className='underline' to={'/forgotpassword'}>Forgot Password?</Link>
                     </div>
                 </div>
             </div>
