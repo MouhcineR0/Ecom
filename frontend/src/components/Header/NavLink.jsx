@@ -11,7 +11,7 @@ function NavLink({ link, url, classes }) {
 export const Links = [
     {
         link: 'Home',
-        url: '/home',
+        url: '/',
     },
     {
         link: 'Contact',

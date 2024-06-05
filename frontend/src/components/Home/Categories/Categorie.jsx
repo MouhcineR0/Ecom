@@ -1,5 +1,4 @@
 import React from 'react';
-import { MdMediaBluetoothOn } from 'react-icons/md';
 import useWidth from '../../../hooks/useWidth';
 
 function Categorie({ Categorie }) {

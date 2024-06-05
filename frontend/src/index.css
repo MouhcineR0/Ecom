@@ -55,7 +55,13 @@
 .product-icon:hover {
     transition: color 0s;
 }
+
 .main-content {
-    margin-left: 16rem; /* Correspond à la largeur de la sidebar */
-   
+    margin-left: 16rem;
+    /* Correspond à la largeur de la sidebar */
+
+}
+
+.ant-popover {
+    padding: 0;
 }

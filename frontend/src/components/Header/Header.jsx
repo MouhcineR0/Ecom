@@ -1,21 +1,63 @@
 import { Input } from '@material-tailwind/react';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { CiSearch } from "react-icons/ci";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa";
 import NavLink, { Links } from './NavLink';
 import styled from 'styled-components';
+import { Badge, Button, Popover } from 'antd';
+import UserIMG from '../../assets/imgs/user/user.png';
+import { CiUser } from "react-icons/ci";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBagShopping, faBan, faRightFromBracket, faStar, faUser } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 
+const text = <span>Title</span>;
+
+const linksData = [
+    { icon: faUser, text: 'Manage My Account', to: '/account' },
+    { icon: faBagShopping, text: 'My Orders', to: '/orders' },
+    { icon: faBan, text: 'My Cancellations', to: '/cancellations' },
+    { icon: faStar, text: 'My Reviews', to: '/reviews' },
+    { icon: faRightFromBracket, text: 'Logout', to: '/logout' },
+];
+
+const content = (
+    <div className='flex flex-col p-0 text-white gap-2 items-start'>
+        {linksData.map((link, index) => (
+            <Link key={index} to={link.to} className='flex items-center gap-2'>
+                <FontAwesomeIcon size='xl' icon={link.icon} />
+                <h1>{link.text}</h1>
+            </Link>
+        ))}
+    </div>
+);
 
 
 function Header() {
+    const [arrow, setArrow] = useState('Show');
+
+    const mergedArrow = useMemo(() => {
+        if (arrow === 'Hide') {
+            return false;
+        }
+
+        if (arrow === 'Show') {
+            return true;
+        }
+
+        return {
+            pointAtCenter: true,
+        };
+    }, [arrow]);
 
     const IconStyle = {
         fontSize: 27,
         color: '#4f4b4b',
         cursor: 'pointer'
     };
+    const auth = true;
 
     return (
         <HeaderContainer className='mt-3 w-full border-b-2 py-4'>
@@ -26,12 +68,23 @@ function Header() {
                         return <NavLink link={ele.link} url={ele.url} key={ind} classes={'link-underline link-underline-black '} />;
                     })}
                 </nav>
-                <div className='flex gap-4 w-[270px] items-center'>
+                <div className='flex gap-4 items-center'>
                     <form action="">
                         <Input label='Search Products' icon={<CiSearch />} />
                     </form>
-                    <FaRegHeart style={IconStyle} />
-                    <FiShoppingCart style={IconStyle} />
+                    <Badge size='small' count={0} showZero className='cursor-pointer'>
+                        <FaRegHeart style={IconStyle} size={20} />
+                    </Badge>
+                    <FiShoppingCart style={IconStyle} size={20} />
+                    {
+                        auth ? (
+                            <div className="user-container select-none">
+                                <Popover placement="bottom" content={content} color='#000000a2' arrow={mergedArrow}>
+                                    <img src={UserIMG} alt="" draggable={false} />
+                                </Popover>
+                            </div>
+                        ) : null
+                    }
                 </div>
             </div>
         </HeaderContainer>
