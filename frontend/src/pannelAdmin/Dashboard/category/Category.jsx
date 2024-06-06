@@ -44,7 +44,7 @@ function Category() {
 
     return (
         <div className='w-full h-[100vh] bg-gray-100'>
-            <h1 className='text-primary font-poppins font-bold text-2xl mb-4'>Categories</h1>
+            <h1 className='text-primary font-poppins font-bold text-2xl mb-4'>Gestionne des categories :</h1>
             <span className='w-full flex justify-end'>
                 <Button
                     onClick={showModal}

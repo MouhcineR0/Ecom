@@ -7,42 +7,42 @@ import { Link } from 'react-router-dom';
 import UnderTable from '../../components/Cart/UnderTable';
 
 const fakeData = [
-    // {
-    //     id: 1,
-    //     title: "HAVIT HV-G92 Gamepad",
-    //     price: 49.99,
-    //     rating: 4.5,
-    //     ratingCount: 120,
-    //     img: testImg,
-    //     quantity: 1
-    // },
-    // {
-    //     id: 2,
-    //     title: "Logitech G502 Hero",
-    //     price: 79.99,
-    //     rating: 4.8,
-    //     ratingCount: 200,
-    //     img: testImg1,
-    //     quantity: 1
-    // },
-    // {
-    //     id: 2,
-    //     title: "Logitech G502 Hero",
-    //     price: 79.99,
-    //     rating: 4.8,
-    //     ratingCount: 200,
-    //     img: testImg1,
-    //     quantity: 1
-    // },
-    // {
-    //     id: 3,
-    //     title: "Razer DeathAdder Elite",
-    //     price: 59.99,
-    //     rating: 4.7,
-    //     ratingCount: 150,
-    //     img: testImg2,
-    //     quantity: 1
-    // }
+    {
+        id: 1,
+        title: "HAVIT HV-G92 Gamepad",
+        price: 49.99,
+        rating: 4.5,
+        ratingCount: 120,
+        img: testImg,
+        quantity: 1
+    },
+    {
+        id: 2,
+        title: "Logitech G502 Hero",
+        price: 79.99,
+        rating: 4.8,
+        ratingCount: 200,
+        img: testImg1,
+        quantity: 1
+    },
+    {
+        id: 2,
+        title: "Logitech G502 Hero",
+        price: 79.99,
+        rating: 4.8,
+        ratingCount: 200,
+        img: testImg1,
+        quantity: 1
+    },
+    {
+        id: 3,
+        title: "Razer DeathAdder Elite",
+        price: 59.99,
+        rating: 4.7,
+        ratingCount: 150,
+        img: testImg2,
+        quantity: 1
+    }
 ];
 
 function index() {

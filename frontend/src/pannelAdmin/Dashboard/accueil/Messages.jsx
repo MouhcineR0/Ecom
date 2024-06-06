@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Avatar, Card, Button } from 'antd';
+import Empty from '../Emptyy';
 const { Meta } = Card;
 
 function Messages() {
@@ -35,7 +36,7 @@ function Messages() {
             <h1 className='text-primary font-poppins font-bold text-2xl mb-4'>Messages :</h1>
             <div className='w-[700px] h-[500px] p-3 bg-white rounded-lg flex flex-wrap gap-2 justify-around overflow-y-scroll'>
                 {messages.length === 0 ? (
-                    <p>Votre boîte de messages est vide.</p>
+                    <Empty/>
                 ) : (
                     messages.map((message) => (
                         <Card

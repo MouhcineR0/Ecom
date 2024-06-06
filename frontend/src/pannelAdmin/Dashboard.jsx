@@ -5,6 +5,8 @@ import SideBar from './Sidebar';
 import Accueil from './Dashboard/accueil/Accueil';
 import Category from './Dashboard/category/Category';
 import Product from './Dashboard/product/Product';
+import Command from './Dashboard/command/Command';
+import Utilisateurs from './Dashboard/utilisateur/Utilisateurs';
 
 const Dashboard = () => {
   return (
@@ -17,6 +19,8 @@ const Dashboard = () => {
             <Route path="accueil" element={<Accueil />} />
             <Route path="categories" element={<Category />}/>
             <Route path="products" element={<Product/>  }/>
+            <Route path="commandes" element={<Command/>  }/>
+            <Route path="utilisateurs" element={<Utilisateurs/>  }/>
           </Routes>
         </div>
       </main>
