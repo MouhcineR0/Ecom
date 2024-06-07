@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { List, Button } from 'antd';
+import Emptyy from '../Emptyy';
 
 const initialData = [
     {
@@ -34,7 +35,9 @@ function Alerts() {
             <h1 className='text-primary font-poppins font-bold text-2xl mb-4'>Alerts :</h1>
             <div className='w-[400px]'>
                 <div className='h-[500px] p-3 bg-white rounded-lg overflow-y-scroll'>
-                    <List
+                    {
+                        initialData?
+                        <List
                         itemLayout="horizontal"
                         dataSource={data}
                         renderItem={(item, index) => (
@@ -52,7 +55,9 @@ function Alerts() {
                                 />
                             </List.Item>
                         )}
-                    />
+                    />:
+                    <Emptyy/>
+                    }
                 </div>
             </div>
         </div>
