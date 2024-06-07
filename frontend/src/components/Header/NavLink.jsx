@@ -22,8 +22,8 @@ export const Links = [
         url: '/about',
     },
     {
-        link: 'Sign In',
-        url: '/login',
+        link: 'Sign Up',
+        url: '/signup',
     },
 ];
 

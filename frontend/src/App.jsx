@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Cart from './pages/Cart';
 import Error404 from './pages/Error404';
+import Checkout from './pages/Checkout';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/card' element={<Cart />} />
           <Route path='*' element={<Error404 />} />
+          {/* <Route path='/checkout' element={<Checkout />} /> */}
         </Route>
         <Route path="/dashboard/*" element={<Dashboard />} />
       </Routes>
