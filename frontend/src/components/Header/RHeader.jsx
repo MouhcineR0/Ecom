@@ -4,10 +4,13 @@ import { IoIosMenu } from "react-icons/io";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoMdClose } from "react-icons/io";
+import { useSelector } from 'react-redux';
 
 
 
 function RHeader() {
+
+    const { isAuth, user: { firstname } } = useSelector((state) => state.user);
 
     const [Toggle, setToggle] = useState(false);
 
@@ -37,28 +40,32 @@ function RHeader() {
     return (
         <>
             <div className='flex p-3 container mx-auto justify-between mt-4 border-b-2 z-21'>
-                <Link to={'/'} className='text-black text-3xl font-bold font-inter select-none'>MultiShop</Link>
+                <Link to={'/'} className='text-black text-3xl font-bold font-inter select-none'>PrimeShop</Link>
                 <div className='flex gap-3'>
                     <CiSearch size={28} onClick={HandleSearch} className='cursor-pointer' />
                     <IoIosMenu size={28} onClick={HandleToggle} className='cursor-pointer' />
                 </div>
                 <Menu className={Toggle ? 'left-0' : 'left-[-150%]'}>
                     <div className='flex flex-col gap-3'>
-                        <h1 className='text-[22px] font-bold font-poppins tracking-wider'>WELCOME GUEST</h1><IoMdClose className='absolute top-4 right-4 x-icon cursor-pointer' onClick={HandleToggle} size={32} />
-                        <Link className='text-[#adaeb0] font-inter underline'>Login / Signup</Link>
+                        <h1 className='text-[22px] font-bold font-poppins tracking-wider uppercase'>welcome {isAuth ? firstname : 'Guest'}</h1><IoMdClose className='absolute top-4 right-4 x-icon cursor-pointer' onClick={HandleToggle} size={32} />
+                        {
+                            isAuth ?
+                                <Link onClick={HandleToggle} className='text-[#adaeb0] font-inter underline' to={'/card'}>Card / Panier</Link>
+                                :
+                                <Link onClick={HandleToggle} className='text-[#adaeb0] font-inter underline' to={'/login'}>Login / Signup</Link>}
                         <hr className='grey h-[2px]' />
                     </div>
                     <div className='flex flex-col gap-3 '>
                         <h1 className='text-[#adaeb0]'>SHOP IN</h1>
-                        <Link className=''>Men</Link>
-                        <Link className=''>Women</Link>
-                        <Link className=''>Mobile</Link>
-                        <Link className=''>Laptop</Link>
+                        <Link onClick={HandleToggle} to='/Men'>Men</Link>
+                        <Link onClick={HandleToggle} to='/Women'>Women</Link>
+                        <Link onClick={HandleToggle} to='/Mobile'>Mobile</Link>
+                        <Link onClick={HandleToggle} to='/Laptop'>Laptop</Link>
                     </div>
                     <div className='flex flex-col gap-3 '>
                         <h1 className='text-[#adaeb0]'>Services</h1>
-                        <Link className=''>Help & Support</Link>
-                        <Link className=''>Feedback & Suggestions</Link>
+                        <Link onClick={HandleToggle} className='' to={'/help'}>Help & Support</Link>
+                        <Link onClick={HandleToggle} className='' to={'/help'}>Feedback & Suggestions</Link>
                     </div>
                 </Menu>
             </div>

@@ -50,6 +50,7 @@ const fakeData = [
 function index() {
 
     const [TotalPrice, setTotalPrice] = useState(0);
+    const [Shipping, setShipping] = useState(0);
 
     const [showCheckout, setshowCheckout] = useState(false);
 
@@ -63,7 +64,7 @@ function index() {
     }, []);
 
     const handleCheckout = () => {
-        setshowCheckout(true);
+        setshowCheckout(!showCheckout);
     };
     return (
         <>
@@ -77,7 +78,7 @@ function index() {
                     :
                     <h1 className='text-center text-4xl text-black font-poppins my-28'>
                         Panier is Empty
-                    </h1>) : <Checkout />
+                    </h1>) : <Checkout Products={fakeData} TotalPrice={TotalPrice} Shipping={Shipping} handleCheckout={handleCheckout} />
             }
 
         </>

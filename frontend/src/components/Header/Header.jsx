@@ -11,6 +11,7 @@ import { CiUser } from "react-icons/ci";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBagShopping, faBan, faRightFromBracket, faStar, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 const text = <span>Title</span>;
@@ -36,6 +37,12 @@ const content = (
 
 
 function Header() {
+
+    // Redux
+    const user = useSelector(state => state.user);
+
+    console.log(user.isAuth);
+
     const [arrow, setArrow] = useState('Show');
 
     const mergedArrow = useMemo(() => {
@@ -64,9 +71,14 @@ function Header() {
             <div className="container flex justify-between mx-auto items-center ">
                 <Link to={'/'} className='text-black text-3xl font-bold font-inter select-none'>PrimeShop</Link>
                 <nav className='flex font-poppins lg:text-[17px] md:text-[15px] items-center gap-4 tracking-wider'>
-                    {Links.map((ele, ind) => {
-                        return <NavLink link={ele.link} url={ele.url} key={ind} classes={'link-underline link-underline-black '} />;
-                    })}
+                    {
+                        !user.isAuth ? Links.map((ele, ind) => {
+                            return <NavLink link={ele.link} url={ele.url} key={ind} classes={'link-underline link-underline-black '} />;
+                        })
+                            : Links.filter((ele) => ele.url !== '/signup').map((ele, ind) => {
+                                return <NavLink link={ele.link} url={ele.url} key={ind} classes={'link-underline link-underline-black '} />;
+                            })
+                    }
                 </nav>
                 <div className='flex gap-4 items-center'>
                     <form action="">
@@ -81,7 +93,7 @@ function Header() {
                         </Link>
                     </Badge>
                     {
-                        auth ? (
+                        user.isAuth ? (
                             <div className="user-container select-none cursor-pointer">
                                 <Popover placement="bottom" content={content} color='#000000a2' arrow={mergedArrow}>
                                     <img src={UserIMG} alt="" draggable={false} />

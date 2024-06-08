@@ -15,14 +15,6 @@ function index() {
         messageApi.error(value);
     };
 
-    // useEffect(() => {
-    //     if (errors) {
-    //         for (const error in errors) {
-    //             Error(errors[error].message);
-    //         }
-    //     }
-    // }, []);
-
     const onError = () => {
         if (errors) {
             for (const error in errors) {
