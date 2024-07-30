@@ -33,11 +33,11 @@ async function registerOrders(req, res) {
         for (i = 0; i < items.length; i++) {
             const total = await httpRequest(items[i].id.toString(), items[i].quantity);
             if (total === false) {
-                return res.status(400).json({ message: 'Quantité invalide pour un produit.' });
+                return res.status(400).json({ message: "Invalid Quantity" });
             }
             const newOrder = new OrderSchema({
                 user: req.user,
-                status: 'Pending',
+                status: "Pending",
                 product: items[i].id,
                 quantity: items[i].quantity,
                 finalPrice: total

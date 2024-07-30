@@ -77,7 +77,7 @@ async function ProductsApi(req, res) {
 async function EditProduct(req, res) {
     const { id } = req.params;
     const { name, description, price, categorie, image, type, ratings, quantity, promo } = req.body;
-    
+
     try {
         const product = await ProductSchema.findById(id);
         if (!product) {
@@ -134,4 +134,4 @@ async function DeleteProduct(req, res) {
     }
 }
 
-module.exports = { AddProduct, GetProducts, GetProduct, ProductsApi,EditProduct,DeleteProduct };
+module.exports = { AddProduct, GetProducts, GetProduct, ProductsApi, EditProduct, DeleteProduct };

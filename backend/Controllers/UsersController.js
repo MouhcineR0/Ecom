@@ -1,5 +1,7 @@
 const UserSchema = require('../database/Schemas/UserSchema');
 const { ComparePassword, HashPassword } = require('../utils/bcrypt');
+
+
 const { CreateToken } = require('../utils/jwt');
 async function Login(req, res, next) {
     const { email, password } = req.body;
@@ -18,7 +20,7 @@ async function Login(req, res, next) {
         return res.json({ message: 'FAILED' });
     }
     catch (e) {
-        next(e);
+        return res.json({ message: 'FAILED' });
     }
 }
 async function Signup(req, res, next) {
@@ -28,22 +30,19 @@ async function Signup(req, res, next) {
         if (email && password && firstname && lastname && tel && Role) {
             const available = await UserSchema.find({ email });
             if (available.length) {
-                return res.json({ message: 'EMAIL_AVAILABLE' });
+                return res.json({ message: 'FAILED' });
             }
             const HASHED_PW = HashPassword(password);
             const query = new UserSchema({
                 firstname, lastname, email, tel, password: HASHED_PW, role: Role,
             });
-            query.save()
-                .then(() => console.log('SUCCESS'))
-                .catch(() => console.log('FAILED'));
-            res.status(200).json('ajouté');
+            await query.save();
             return res.json({ message: 'SUCCESS' });
         }
         return res.json({ message: 'FAILED' });
     }
     catch (e) {
-        return next(e);
+        return res.json({ message: 'FAILED' });
     }
 }
 module.exports = { Login, Signup };

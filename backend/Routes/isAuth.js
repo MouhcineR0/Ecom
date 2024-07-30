@@ -1,6 +1,7 @@
+const Router = require('express').Router();
 const { VerifyToken } = require('../utils/jwt');
 
-module.exports = (req, res, next) => {
+const Auth = (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.json({ isAuth: false });
@@ -14,7 +15,9 @@ module.exports = (req, res, next) => {
         return res.json({ isAuth: false });
     }
     catch (e) {
-        next(e);
+        return res.json({ isAuth: false });
     }
-
 };
+
+Router.post('/isAuth', Auth);
+module.exports = Router;

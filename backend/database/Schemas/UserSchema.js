@@ -28,9 +28,9 @@ const UserSchema = new mongoose.Schema({
         trim: true,
         validate: {
             validator: function (value) {
-                return /^\+\d+$/.test(value);
+                return /^\d+$/.test(value);
             },
-            message: props => `${props.value} n'est pas un numéro de téléphone valide. Le numéro doit commencer par '+' suivi uniquement de chiffres.`
+            message: props => `${props.value} Error Number Phone Regexp`
         }
     },
     password: {
@@ -50,7 +50,6 @@ const UserSchema = new mongoose.Schema({
     },
     created_at: {
         type: Date,
-        required: true,
         default: Date.now()
     },
 });
