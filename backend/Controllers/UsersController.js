@@ -23,7 +23,7 @@ async function Login(req, res, next) {
         return res.json({ message: 'FAILED' });
     }
 }
-async function Signup(req, res, next) {
+async function Signup(req, res) {
     try {
         const { email, password, firstname, lastname, tel, role } = req.body;
         const Role = role || 'client';
