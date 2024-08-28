@@ -70,3 +70,4 @@ const productSlice = createSlice({
 });
 
 export default productSlice.reducer;
+export const { ResetParams, SingleProduct } = productSlice.actions;
