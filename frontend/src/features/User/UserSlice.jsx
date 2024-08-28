@@ -2,12 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     user: {
-        role: null,         // client or admin
-        firstname: null,    // ismail
+        role: "admin",         // client or admin
+        firstname: "ismail",    // ismail
         lastname: null,
     },
     token: null,         // token from backend
-    isAuth: false,      // true or false
+    isAuth: true,      // true or false
     loading: false,
     error: null
 };
