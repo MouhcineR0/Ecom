@@ -21,7 +21,6 @@ function index() {
                 Error(errors[error].message);
             }
         }
-
     };
 
     const EmailPhoneValidate = (value) => {

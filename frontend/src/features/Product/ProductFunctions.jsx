@@ -1,9 +1,29 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const GetProducts = createAsyncThunk('Product/GetProducts', async () => {
+const AxiosInst = axios.create({
+    baseURL: `${process.env.VITE_API_BASE_URL}`,
+    headers: {
+        'Content-Type': 'application/json',
+    }
+});
+
+// midlleware to pass token via request
+AxiosInst.interceptors.request.use((config) => {
+    const token = localStorage.getItem('tk');
+    if (token) config.headers.token = `Bearer ${token}`;
+    return config;
+},
+    (error) => {
+        console.log(error);
+    }
+);
+
+// Slice Api Functions
+
+const GetProducts = createAsyncThunk('Product/GetProducts', async (_) => {
     try {
-        const res = await axios.get(`${process.env.VITE_API_BASE_URL}/GetPro`);
+        const res = await AxiosInst.get('/GetPro');
         return res.data;
     }
     catch (err) {
@@ -13,7 +33,7 @@ const GetProducts = createAsyncThunk('Product/GetProducts', async () => {
 
 const SetProduct = createAsyncThunk('Product/SetProduct', async (data) => {
     try {
-        const res = await axios.post(`${process.env.VITE_API_BASE_URL}/AddProduct`, data);
+        const res = await AxiosInst.post('/AddProduct', data);
         return res.data;
     }
     catch (error) {
@@ -21,4 +41,24 @@ const SetProduct = createAsyncThunk('Product/SetProduct', async (data) => {
     }
 });
 
-export { GetProducts, SetProduct };
+const EditProduct = createAsyncThunk('Product/EditProduct', async (data) => {
+    try {
+        const res = await AxiosInst.post(`/AddProduct/${data?.id}`, data);
+        return res.data;
+    }
+    catch (error) {
+        return error.response;
+    }
+});
+
+const DelProduct = createAsyncThunk('Product/DelProduct', async ({ id }) => {
+    try {
+        const res = await AxiosInst.post(`/AddProduct/${data?.id}`);
+        return res.data;
+    }
+    catch (error) {
+        return error.response;
+    }
+});
+
+export { GetProducts, SetProduct, EditProduct, DelProduct };
