@@ -10,7 +10,7 @@ const productSlice = createSlice({
         SingleProduct: (state, { id }) => {
             return state.products?.find((ele, _) => ele.id == id);
         },
-        ResetParams: (state, _) => {
+        ResetProductParams: (state, _) => {
             state.ErrorType = "";
             state.SERVER_STATE = "";
             state.loading = false;
@@ -70,4 +70,4 @@ const productSlice = createSlice({
 });
 
 export default productSlice.reducer;
-export const { ResetParams, SingleProduct } = productSlice.actions;
+export const { ResetProductParams, SingleProduct } = productSlice.actions;

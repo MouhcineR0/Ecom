@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const AxiosInst = axios.create({
-    baseURL: `${process.env.VITE_API_BASE_URL}`,
+    baseURL: `${import.meta.env.VITE_API_BASE_URL}`,
     headers: {
         'Content-Type': 'application/json',
     }

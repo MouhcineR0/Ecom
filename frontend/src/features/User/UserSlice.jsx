@@ -19,11 +19,11 @@ const UserSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        ResetParams: (state) => {
-            state.user?.role = null;
-            state.user?.firstname = null;
-            state.user?.lastname = null;
-            state.user?.id = null;
+        ResetUserParams: (state) => {
+            state.user.role = null;
+            state.user.firstname = null;
+            state.user.lastname = null;
+            state.user.id = null;
             state.error = null;
             state.isAuth = false;
             state.loading = false;
@@ -59,4 +59,4 @@ const UserSlice = createSlice({
 });
 
 export default UserSlice.reducer;
-export const { ResetParams, Logout } = UserSlice.actions;
+export const { ResetUserParams, Logout } = UserSlice.actions;
