@@ -1,14 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import AxiosInstance from "../AxiosInstance";
 
-const AxiosUserInstance = axios.create({
-    baseURL: `${import.meta.env.VITE_API_BASE_URL}`,
-    headers: {
-        'Content-Type': 'application/json',
-    }
-});
-
-axios.interceptors.request.use((config) => {
+AxiosInstance.interceptors.request.use((config) => {
     const token = localStorage.getItem("tk");
     if (token) config.headers.token = `Bearer ${token}`;
     return config;
@@ -16,7 +9,7 @@ axios.interceptors.request.use((config) => {
 
 const Login = createAsyncThunk('User/Login', async (data) => {
     try {
-        const res = await AxiosUserInstance.post("/login", data);
+        const res = await AxiosInstance.post("/login", data);
         return res.data;
     }
     catch (error) {

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ResetParams } from "../Product/ProductSlice";
 import { Login } from "./UserFunctions";
 
 const initialState = {

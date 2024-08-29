@@ -1,15 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-const AxiosInst = axios.create({
-    baseURL: `${import.meta.env.VITE_API_BASE_URL}`,
-    headers: {
-        'Content-Type': 'application/json',
-    }
-});
+import AxiosInstance from "../AxiosInstance";
 
 // midlleware to pass token via request
-AxiosInst.interceptors.request.use((config) => {
+AxiosInstance.interceptors.request.use((config) => {
     const token = localStorage.getItem('tk');
     if (token) config.headers.token = `Bearer ${token}`;
     return config;
@@ -23,7 +16,7 @@ AxiosInst.interceptors.request.use((config) => {
 
 const GetProducts = createAsyncThunk('Product/GetProducts', async (_) => {
     try {
-        const res = await AxiosInst.get('/GetPro');
+        const res = await AxiosInstance.get('/GetPro');
         return res.data;
     }
     catch (err) {
@@ -33,7 +26,7 @@ const GetProducts = createAsyncThunk('Product/GetProducts', async (_) => {
 
 const SetProduct = createAsyncThunk('Product/SetProduct', async (data) => {
     try {
-        const res = await AxiosInst.post('/AddProduct', data);
+        const res = await AxiosInstance.post('/AddProduct', data);
         return res.data;
     }
     catch (error) {
@@ -43,7 +36,7 @@ const SetProduct = createAsyncThunk('Product/SetProduct', async (data) => {
 
 const EditProduct = createAsyncThunk('Product/EditProduct', async (data) => {
     try {
-        const res = await AxiosInst.post(`/AddProduct/${data?.id}`, data);
+        const res = await AxiosInstance.post(`/AddProduct/${data?.id}`, data);
         return res.data;
     }
     catch (error) {
@@ -53,7 +46,7 @@ const EditProduct = createAsyncThunk('Product/EditProduct', async (data) => {
 
 const DelProduct = createAsyncThunk('Product/DelProduct', async ({ id }) => {
     try {
-        const res = await AxiosInst.post(`/AddProduct/${data?.id}`);
+        const res = await AxiosInstance.post(`/AddProduct/${data?.id}`);
         return res.data;
     }
     catch (error) {
