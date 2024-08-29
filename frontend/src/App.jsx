@@ -17,6 +17,7 @@ function App() {
   const { isAuth } = useSelector(state => state.user);
 
   useEffect(() => {
+    // start from above probleme
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
