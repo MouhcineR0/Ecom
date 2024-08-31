@@ -3,7 +3,7 @@ const { ComparePassword, HashPassword } = require('../utils/bcrypt');
 
 
 const { CreateToken } = require('../utils/jwt');
-async function Login(req, res, next) {
+async function Login(req, res) {
     const { email, password } = req.body;
     try {
         if (email && password) {
@@ -11,16 +11,24 @@ async function Login(req, res, next) {
             if (Exist) {
                 if (ComparePassword(password, Exist.password)) {
                     const token = CreateToken(Exist.id, Exist.role);
-                    return res.status(200).json({ message: 'SUCCESS', token });
+                    return res.status(200).json({
+                        message: 'SUCCESS',
+                        email,
+                        id: Exist._id,
+                        firstname: Exist.firstname,
+                        lastname: Exist.lastname,
+                        role: Exist.role,
+                        token: `Bearer ${token}`
+                    });
                 }
-                return res.json({ message: 'FAILED' });
+                return res.status(401).json({ message: 'FAILED' });
             }
-            return res.json({ message: 'FAILED' });
+            return res.status(401).json({ message: 'FAILED' });
         }
-        return res.json({ message: 'FAILED' });
+        return res.status(401).json({ message: 'SERVER_ERROR' });
     }
     catch (e) {
-        return res.json({ message: 'FAILED' });
+        return res.status(401).json({ message: 'SERVER_ERROR' });
     }
 }
 async function Signup(req, res) {
