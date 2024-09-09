@@ -17,6 +17,7 @@ AxiosInstance.interceptors.request.use((config) => {
 const GetProducts = createAsyncThunk('Product/GetProducts', async (_) => {
     try {
         const res = await AxiosInstance.get('/GetPro');
+        console.log(res.data);
         return res.data;
     }
     catch (err) {
