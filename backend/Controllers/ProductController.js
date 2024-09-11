@@ -1,5 +1,7 @@
 const ProductSchema = require('../database/Schemas/ProductSchema');
+const RatingSchema = require('../database/Schemas/RatingSchema');
 const cloudinary = require('../utils/cloudinary');
+
 async function AddProduct(req, res) {
     const { name, description, price, categorie, image, type, ratings, quantity, promo } = req.body;
     try {
@@ -44,14 +46,14 @@ async function AddProduct(req, res) {
 }
 async function GetProducts(req, res) {
     try {
-        const products = await ProductSchema.find({});
-        if (products) {
-            return res.status(200).json(products);
-        } else {
-            return res.status(401).json('Erreur lors de la récupération de produit réssayez');
-        }
+        const products = await ProductSchema.find({}, { ratings: 0 });
+        const productsWithRatingCounts = await Promise.all(products.map(async (product) => {
+            const ratingCount = await RatingSchema.countDocuments({ product: product._id });
+            return { ...product.toObject(), ratingCount };
+        }));
+        return res.status(200).json(productsWithRatingCounts);
     } catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json({ err: 'Erreur lors de la récupération de produit réssayez' });
     }
 }
 async function GetProduct(req, res) {
