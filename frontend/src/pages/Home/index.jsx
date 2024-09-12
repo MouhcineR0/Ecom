@@ -12,6 +12,7 @@ import { GetProducts } from '../../features/Product/ProductFunctions';
 
 
 function Home() {
+    // need fix this
 
     const obj = useSelector(state => state.product);
     const dispatch = useDispatch();
