@@ -12,13 +12,22 @@ import { GetProducts } from '../../features/Product/ProductFunctions';
 
 
 function Home() {
-    // need fix this
 
-    const obj = useSelector(state => state.product);
+    // dispatching products and passing it in the states
+
+    // need fix : instead error raise something went wrong !
+
+    const { products, error, Loading } = useSelector(state => state.product);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(GetProducts());
     }, []);
+
+    // handle loading animations here while on
+
+    // add reducers to filter products by its type : (cover, product, categories)
+
+    // modify also db tests
 
     return (
         <HomeContainer>
