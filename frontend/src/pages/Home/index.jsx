@@ -18,11 +18,7 @@ function Home() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(GetProducts());
-    }, [dispatch]); // dispatch as a dependency
-
-    useEffect(() => {
-        console.log(obj); // This will log the updated state after every state change
-    }, [obj]); // obj as a dependency
+    }, []);
 
     return (
         <HomeContainer>
