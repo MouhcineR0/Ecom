@@ -7,13 +7,13 @@ AxiosInstance.interceptors.request.use((config) => {
     return config;
 });
 
-const Login = createAsyncThunk('User/Login', async (data) => {
+const Login = createAsyncThunk('User/Login', async (data, thunk) => {
     try {
         const res = await AxiosInstance.post("/login", data);
         return res.data;
     }
     catch (error) {
-        return error.response;
+        return thunk.rejectWithValue(error);
     }
 });
 

@@ -4,16 +4,28 @@ import Button from '../../components/utils/Button';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { message } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Login } from '../../features/User/UserFunctions';
 
 function index() {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
+
+    // redux
+    const dispatch = useDispatch();
+    const { loading, error } = useSelector((state) => state.user);
 
     // antd
     const [messageApi, contextHolder] = message.useMessage();
     const Error = (value) => {
         messageApi.error(value);
     };
+
+    // should verify internet connection also
+    useEffect(() => {
+        if (error)
+            messageApi.error("invalid email or password, try again!");
+    }, [error])
 
     useEffect(() => {
         if (errors) {
@@ -47,7 +59,7 @@ function index() {
 
     // handle submit function
     const Submit = (data) => {
-        console.log(data);
+        dispatch(Login(data));
     };
 
     // style Inputs
