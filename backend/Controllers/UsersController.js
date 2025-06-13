@@ -10,7 +10,10 @@ async function Login(req, res) {
             const Exist = await UserSchema.findOne({ email });
             if (Exist) {
                 if (ComparePassword(password, Exist.password)) {
-                    const token = CreateToken(Exist.id, Exist.role);
+                    const token = CreateToken({
+                        id: Exist.id, role: Exist.role, firstname: Exist.firstname,
+                        lastname: Exist.lastname, tel: Exist.tel
+                    });
                     return res.status(200).json({
                         message: 'SUCCESS',
                         email,
@@ -18,7 +21,7 @@ async function Login(req, res) {
                         firstname: Exist.firstname,
                         lastname: Exist.lastname,
                         role: Exist.role,
-                        token: `Bearer ${token}`
+                        token: `${token}`
                     });
                 }
                 return res.status(401).json({ message: 'FAILED' });
@@ -36,6 +39,7 @@ async function Signup(req, res) {
         const { email, password, firstname, lastname, tel, role } = req.body;
         const Role = role || 'client';
         if (email && password && firstname && lastname && tel && Role) {
+            // useless ghankhdem ghir b catch mn be3d w nfixih howa w phone number
             const available = await UserSchema.find({ email });
             if (available.length) {
                 return res.json({ message: 'FAILED' });

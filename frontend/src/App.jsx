@@ -9,12 +9,21 @@ import Cart from './pages/Cart';
 import Error404 from './pages/Error404';
 import UserProtectedRoute from './components/ProtectedRoutes/UserProtectedRoute';
 import AdminProtectedRoute from './components/ProtectedRoutes/AdminProtectedRoute';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import AxiosInstance from './features/AxiosInstance';
+import { message } from 'antd';
+import { Logout, ResetUserParams, SignData } from './features/User/UserSlice';
+import LogoutPage from './pages/Logout';
 
 
 function App() {
 
+  const dispatch = useDispatch();
   const { isAuth } = useSelector(state => state.user);
+
+  // antd
+  const [messageApi, contextHolder] = message.useMessage();
+
 
   useEffect(() => {
     // start from above probleme
@@ -24,13 +33,37 @@ function App() {
     window.scrollTo(0, 0);
   }, []);
 
+  const ff = async () => {
+    try {
+      const res = await AxiosInstance.post('/isAuth', {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('tk')}`
+        }
+      });
+      if (res.data?.isAuth) {
+        dispatch(SignData(res.data));
+      }
+    }
+    catch (err) {
+      messageApi.warning('something went wrong , please reload or try later !');
+      // console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    // auth
+    ff();
+  }, [])
+
   return (
     <BrowserRouter>
+      {contextHolder}
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
           <Route path='/login' element={isAuth ? <Navigate to={'/'} /> : <Login />} />
           <Route path='/signup' element={isAuth ? <Navigate to={'/'} /> : <Signup />} />
+          <Route path='/logout' element={<LogoutPage />} />
           <Route
             path='/card'
             element={

@@ -59,6 +59,7 @@ function index() {
 
     // handle submit function
     const Submit = (data) => {
+        console.log(data);
         dispatch(Login(data));
     };
 
@@ -73,7 +74,7 @@ function index() {
                     <h1 className='text-[36px] font-medium font-inter leading-[30px]'>Log in to PrimeShop</h1>
                     <p className='text-[16px] font-poppins'>Enter your details below</p>
                     <div className="inputs-container flex flex-col mt-4 gap-4">
-                        <input type='text' {...register('email_number', { validate: EmailPhoneValidate, })} placeholder='Email or Phone Number' className={`${InputStyle} ${errors.email_number ? ' border-b-red-500' : ' border-b-gray-500'}`} />
+                        <input type='text' {...register('email', { validate: EmailPhoneValidate, })} placeholder='Email' className={`${InputStyle} ${errors.email ? ' border-b-red-500' : ' border-b-gray-500'}`} />
                         <input type="password" {...register('password', { validate: PasswordValidate })} placeholder='Password' className={`${InputStyle} ${errors.password ? ' border-b-red-500' : ' border-b-gray-500'}`} />
                     </div>
                     <div className="buttons-container flex items-center justify-between mt-6">

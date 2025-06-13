@@ -3,6 +3,7 @@ const express = require('express');
 const BodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
+const nodemailer = require("nodemailer");
 
 // import Local Modules
 const ErrorHandler = require('./Controllers/ErrorHandler');
@@ -18,17 +19,38 @@ require('dotenv').config();
 DBConnection();
 
 // uses middlewares
-app.use(BodyParser.json());
-app.use(BodyParser.urlencoded({ extended: true }));
 app.use(cors({
     origin: '*',
-    // origin: ['http://localhost:3000'],       // deployment   
-    // methods: ['POST', 'DELETE'...etc]
-    credentials: true
+    // deployment
+    // origin: 'http://localhost:5173/',
+    // credentials: true
 }));
+app.use(BodyParser.json());
+app.use(BodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 
-
+// account
+app.get("/", async () => {
+    try {
+        const send = nodemailer.createTransport({
+            host: "sandbox.smtp.mailtrap.io",
+            port: 2525,
+            auth: {
+                user: "5491c4a5cf6759",
+                pass: "38dc3f1e5c5491"
+            }
+        });
+        await send.sendMail({
+            from: "testing@test.test",
+            to: 'rachidmouhcine00@gmail.com',
+            subject: "confirmation mail",
+            text: "code howa hadak"
+        })
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
 
 
 // Routes

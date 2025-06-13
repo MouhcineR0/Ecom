@@ -10,8 +10,10 @@ import UserIMG from '../../assets/imgs/user/user.png';
 import { CiUser } from "react-icons/ci";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBagShopping, faBan, faRightFromBracket, faStar, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import LogoutPage from '../../pages/Logout';
+import { Logout, ResetUserParams } from '../../features/User/UserSlice';
 
 
 const text = <span>Title</span>;
@@ -24,21 +26,12 @@ const linksData = [
     { icon: faRightFromBracket, text: 'Logout', to: '/logout' },
 ];
 
-const content = (
-    <div className='flex flex-col p-0 text-white gap-2 items-start'>
-        {linksData.map((link, index) => (
-            <Link key={index} to={link.to} className='flex items-center gap-2'>
-                <FontAwesomeIcon size='xl' icon={link.icon} />
-                <h1>{link.text}</h1>
-            </Link>
-        ))}
-    </div>
-);
 
 
 function Header() {
 
     // Redux
+    const dispatch = useDispatch();
     const user = useSelector(state => state.user);
 
     console.log(user.isAuth);
@@ -59,6 +52,32 @@ function Header() {
         };
     }, [arrow]);
 
+    // drop down
+
+    const HandleLogout = () => {
+        dispatch(Logout());
+        dispatch(ResetUserParams());
+        return (
+            <Navigate to={'/'} />
+        )
+    }
+
+    const content = (
+        <div className='flex flex-col p-0 text-white gap-2 items-start'>
+            {linksData.map((link, index) => (
+                link.to == '/logout' ?
+                    <div key={index} onClick={HandleLogout} className='flex items-center gap-2 hover:text-[#1677ff] cursor-pointer'>
+                        <FontAwesomeIcon size='xl' icon={link.icon} />
+                        <h1>{link.text}</h1>
+                    </div> :
+                    <Link key={index} to={link.to} className='flex items-center gap-2'>
+                        <FontAwesomeIcon size='xl' icon={link.icon} />
+                        <h1>{link.text}</h1>
+                    </Link>
+            ))}
+        </div>
+    );
+
     const IconStyle = {
         fontSize: 27,
         color: '#4f4b4b',
@@ -70,7 +89,7 @@ function Header() {
         <HeaderContainer className='mt-3 w-full border-b-2 py-4'>
             <div className="container flex justify-between mx-auto items-center ">
                 <Link to={'/'} className='text-black text-3xl font-bold font-inter select-none'>PrimeShop</Link>
-                <nav className='flex font-poppins lg:text-[17px] md:text-[15px] items-center gap-4 tracking-wider'>
+                <nav className='flex font-poppins lg:text-[15px] md:text-[14px] items-center gap-4 tracking-wider'>
                     {
                         !user.isAuth ? Links.map((ele, ind) => {
                             return <NavLink link={ele.link} url={ele.url} key={ind} classes={'link-underline link-underline-black '} />;

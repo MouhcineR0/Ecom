@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Login } from "./UserFunctions";
+import { Login, Signup } from "./UserFunctions";
 
 const initialState = {
     user: {
@@ -14,11 +14,26 @@ const initialState = {
     error: null
 };
 
+const setIsLoading = (state) => {
+    state.loading = true;
+    state.error = null;
+}
+
 const UserSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        setError: (state) => {
+            state.error = null;
+        },
+        SignData: (state, { payload }) => {
+            state.user.firstname = payload.data.firstname;
+            state.user.lastname = payload.data.lastname;
+            state.user.id = payload.data.id;
+            state.isAuth = true;
+        },
         ResetUserParams: (state) => {
+            console.log("reset");
             state.user.role = null;
             state.user.firstname = null;
             state.user.lastname = null;
@@ -30,18 +45,18 @@ const UserSlice = createSlice({
         },
         // end session
         Logout: () => {
+            console.log("here");
             localStorage.removeItem('tk');
-            ResetParams();
+            // ResetUserParams();
         }
     },
     extraReducers: (builder) => {
         builder
             // login cases
-            .addCase(Login.pending, (state) => {
-                state.loading = true;
-            })
+            .addCase(Login.pending, setIsLoading)
             .addCase(Login.rejected, (state, { payload }) => {
                 state.error = payload;
+                console.log(payload);
                 state.loading = false;
             })
             .addCase(Login.fulfilled, (state, { payload }) => {
@@ -53,9 +68,22 @@ const UserSlice = createSlice({
                 state.user.role = payload?.role;
                 state.isAuth = true;
                 state.error = null;
+                localStorage.setItem('tk', payload?.token);
+            })
+            .addCase(Signup.pending, setIsLoading)
+            .addCase(Signup.rejected, (state, { payload }) => {
+                state.error = payload;
+                state.loading = false;
+            })
+            .addCase(Signup.fulfilled, (state, { payload }) => {
+                console.log(payload);
+                state.loading = false;
+                state.error = payload;
             });
+        // signup cases
+
     }
 });
 
 export default UserSlice.reducer;
-export const { ResetUserParams, Logout } = UserSlice.actions;
+export const { ResetUserParams, Logout, setError, SignData } = UserSlice.actions;

@@ -19,9 +19,9 @@ function Home() {
 
     const { products, error, Loading } = useSelector(state => state.product);
     const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(GetProducts());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(GetProducts());
+    // }, []);
 
     // handle loading animations here while on
 

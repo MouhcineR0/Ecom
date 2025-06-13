@@ -18,7 +18,13 @@ const Login = createAsyncThunk('User/Login', async (data, thunk) => {
 });
 
 const Signup = createAsyncThunk('User/Signup', async (data) => {
-    // Signup to be continued
+    try {
+        const res = await AxiosInstance.post("/signup", data);
+        return res.data;
+    }
+    catch (error) {
+        return thunk.rejectWithValue(error);
+    }
 });
 
 export { Login, Signup };

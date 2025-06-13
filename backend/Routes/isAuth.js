@@ -2,15 +2,16 @@ const Router = require('express').Router();
 const { VerifyToken } = require('../utils/jwt');
 
 const Auth = (req, res) => {
-    const authHeader = req.headers.authorization;
+    const authHeader = req?.headers?.authorization;
+    console.log(authHeader);
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.json({ isAuth: false });
     }
     const token = authHeader.split(' ')[1];
     try {
-        const decoded = VerifyToken(token);
-        if (decoded) {
-            return res.json({ isAuth: true });
+        const data = VerifyToken(token);
+        if (data) {
+            return res.json({ isAuth: true, data });
         }
         return res.json({ isAuth: false });
     }
