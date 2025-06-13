@@ -12,7 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBagShopping, faBan, faRightFromBracket, faStar, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import LogoutPage from '../../pages/Logout';
 import { Logout, ResetUserParams } from '../../features/User/UserSlice';
 
 

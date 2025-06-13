@@ -12,7 +12,7 @@ async function Login(req, res) {
                 if (ComparePassword(password, Exist.password)) {
                     const token = CreateToken({
                         id: Exist.id, role: Exist.role, firstname: Exist.firstname,
-                        lastname: Exist.lastname, tel: Exist.tel
+                        lastname: Exist.lastname, tel: Exist.tel, email: Exist.email
                     });
                     return res.status(200).json({
                         message: 'SUCCESS',

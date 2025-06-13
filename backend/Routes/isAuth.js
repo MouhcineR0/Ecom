@@ -10,6 +10,7 @@ const Auth = (req, res) => {
     const token = authHeader.split(' ')[1];
     try {
         const data = VerifyToken(token);
+        console.log(data);
         if (data) {
             return res.json({ isAuth: true, data });
         }
