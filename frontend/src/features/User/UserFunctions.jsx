@@ -9,7 +9,7 @@ AxiosInstance.interceptors.request.use((config) => {
 
 const Login = createAsyncThunk('User/Login', async (data, thunk) => {
     try {
-        const res = await AxiosInstance.post("/login", data);
+        const res = await AxiosInstance.post("/user/login", data);
         return res.data;
     }
     catch (error) {
@@ -17,9 +17,9 @@ const Login = createAsyncThunk('User/Login', async (data, thunk) => {
     }
 });
 
-const Signup = createAsyncThunk('User/Signup', async (data) => {
+const Signup = createAsyncThunk('User/Signup', async (data, thunk) => {
     try {
-        const res = await AxiosInstance.post("/signup", data);
+        const res = await AxiosInstance.post("/user/signup", data);
         return res.data;
     }
     catch (error) {
@@ -27,4 +27,14 @@ const Signup = createAsyncThunk('User/Signup', async (data) => {
     }
 });
 
-export { Login, Signup };
+const UpdateUser = createAsyncThunk('User/UpdateUser', async (data, thunk) => {
+    try {
+        const res = await AxiosInstance.patch("/user/update", data);
+        return res.data;
+    }
+    catch (error) {
+        return thunk.rejectWithValue(error.response.data);
+    }
+})
+
+export { Login, Signup, UpdateUser };

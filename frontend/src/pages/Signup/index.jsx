@@ -69,13 +69,13 @@ function index() {
 	};
 	const FNameValidate = (value) => {
 		if (!value) return 'FirstName is empty';
-		if (value.trim().length < 2) {
+		if (value.trim().length <= 2) {
 			return 'FirstName is less than 2 characters ! ';
 		}
 	};
 	const LNameValidate = (value) => {
 		if (!value) return 'LastName is empty';
-		if (value.trim().length < 2) {
+		if (value.trim().length <= 2) {
 			return 'LastName is less than 2 characters ! ';
 		}
 	};

@@ -18,8 +18,8 @@ function index() {
 					Welcome! <span className='text-primary'>{user.firstname.charAt(0).toUpperCase() + user.firstname.slice(1)}</span>
 				</h1>
 			</div>
-			<div className="container-2 flex">
-				<div className="left-container w-[30%] flex flex-col gap-5">
+			<div className="container-2 flex md:flex-row flex-col">
+				<div className="left-container lg:w-[30%] md:flex-col md:w-[20%] w-full flex flex-row gap-5">
 					<div className='flex flex-col gap-[8px] text-base font-normal text-gray-600'>
 						<h1 className='font-medium text-base mb-[8px] text-black'>Manage My Account</h1>
 						<NavLink to={'/account/profile'} className={({ isActive }) => `ml-[35px] ${isActive && "text-primary"}`}>My Profile</NavLink>

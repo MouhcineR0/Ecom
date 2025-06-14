@@ -61,7 +61,7 @@ const OrderRoute = require('./Routes/OrderRoute');
 const CategoryRoute = require('./Routes/CategoryRoute');
 const AuthRoute = require('./Routes/isAuth');
 
-app.use("/api", UserRouter);
+app.use("/api/user", UserRouter);
 app.use("/api", ProductRoute);
 app.use("/api", RatingRoute);
 app.use("/api", OrderRoute);

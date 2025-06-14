@@ -7,18 +7,34 @@ const UserSchema = new mongoose.Schema({
         required: true,
         trim: true,
         lowercase: true,
+        validate: {
+            validator: (value) => {
+                return value.length > 2;
+            }
+        }
     },
     lastname: {
         type: String,
         required: true,
         trim: true,
         lowercase: true,
+        validate: {
+            validator: (value) => {
+                return value.length > 2;
+            }
+        }
     },
     email: {
         type: String,
         required: true,
         lowercase: true,
         unique: true,
+        trim: true,
+    },
+    address: {
+        type: String,
+        require: true,
+        lowercase: true,
         trim: true,
     },
     tel: {

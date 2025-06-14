@@ -10,7 +10,7 @@ import UserIMG from '../../assets/imgs/user/user.png';
 import { CiUser } from "react-icons/ci";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBagShopping, faBan, faRightFromBracket, faStar, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Logout, ResetUserParams } from '../../features/User/UserSlice';
 
@@ -32,6 +32,8 @@ function Header() {
     // Redux
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
+
+    const navigate = useNavigate();
 
     console.log(user.isAuth);
 
@@ -56,9 +58,7 @@ function Header() {
     const HandleLogout = () => {
         dispatch(Logout());
         dispatch(ResetUserParams());
-        return (
-            <Navigate to={'/'} />
-        )
+        navigate('/login');
     }
 
     const content = (

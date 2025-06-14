@@ -12,7 +12,7 @@ async function Login(req, res) {
                 if (ComparePassword(password, Exist.password)) {
                     const token = CreateToken({
                         id: Exist.id, role: Exist.role, firstname: Exist.firstname,
-                        lastname: Exist.lastname, tel: Exist.tel, email: Exist.email
+                        lastname: Exist.lastname, tel: Exist.tel, email: Exist.email, address: Exist.address
                     });
                     return res.status(200).json({
                         message: 'SUCCESS',
@@ -21,6 +21,7 @@ async function Login(req, res) {
                         firstname: Exist.firstname,
                         lastname: Exist.lastname,
                         role: Exist.role,
+                        address: Exist.address,
                         token: `${token}`
                     });
                 }
@@ -57,4 +58,27 @@ async function Signup(req, res) {
         return res.json({ message: 'FAILED' });
     }
 }
-module.exports = { Login, Signup };
+
+async function UpdateUser(req, res) {
+    const { firstname, lastname, email, address } = req.body;
+    console.log(req.body);
+    try {
+        const User = await UserSchema.findOne({ email });
+        if (!User.length)
+            return res.status(401);
+        await UserSchema.updateOne({ email }, {
+            $set: {
+                firstname: firstname || User.firstname,
+                lastname: lastname || User.lastname,
+                address: address || User.address,
+            },
+        }, { runValidators: true }
+        );
+        return res.json({ message: "User Edited !!", QueryDone: true });
+    }
+    catch (e) {
+        return res.status(400).json({ message: "Error Edtiting user", QueryDone: false });
+    }
+}
+
+module.exports = { Login, Signup, UpdateUser };
