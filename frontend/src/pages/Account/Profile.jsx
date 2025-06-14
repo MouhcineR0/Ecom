@@ -1,10 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../../components/utils/Button';
 import { useForm } from 'react-hook-form';
-import { message } from 'antd';
+import { message, Progress } from 'antd';
 import { UpdateUser } from '../../features/User/UserFunctions';
 import { ResetUserParams, setError } from '../../features/User/UserSlice';
+import zxcvbn from 'zxcvbn';
+
+const PasswordLevels = [
+	{ label: "Too Weak", color: "#f5222d", width: "20%" },
+	{ label: "Weak", color: "#ff4d4f", width: "40%" },
+	{ label: "Fair", color: "#faad14", width: "60%" },
+	{ label: "Good", color: "#1890ff", width: "80%" },
+	{ label: "Strong", color: "#52c41a", width: "100%" }
+];
 
 function Profile() {
 
@@ -15,7 +24,7 @@ function Profile() {
 	// antd
 	const [messageApi, contextHolder] = message.useMessage();
 
-	const { register, handleSubmit, formState: { errors } } = useForm({
+	const { register, handleSubmit, formState: { errors }, watch } = useForm({
 		defaultValues: {
 			firstname: user.firstname,
 			lastname: user.lastname,
@@ -23,6 +32,19 @@ function Profile() {
 			address: user.address
 		}
 	});
+	const password_watch = watch('newpass1');
+
+	const [LevelFeild, setLevelFeild] = useState(false);
+	const [level, setLevel] = useState(0);
+
+	useEffect(() => {
+		if (password_watch) {
+			const levelobj = zxcvbn(password_watch);
+			setLevel(levelobj.score);
+		}
+		else
+			setLevel(0);
+	}, [password_watch])
 
 	useEffect(() => {
 		if (loading) {
@@ -42,6 +64,19 @@ function Profile() {
 				content: "Log out and log back so you can see the changes"
 			})
 			dispatch(setError());
+			setTimeout(() => {
+				window.location.reload();
+			}, 3000);
+		}
+		else if (!loading && !error?.QueryDone && error?.message == 'WRONG_PASS') {
+			messageApi.destroy('loading_user_update');
+			messageApi.error("Current Password Feild is invalid !");
+			dispatch(setError());
+		}
+		else if (!loading && !error?.QueryDone && error?.message == 'UPDATED_AT_ERR') {
+			messageApi.destroy('loading_user_update');
+			messageApi.error("Updates are allowed only 48 hours after your last change !");
+			dispatch(setError());
 		}
 		else if (!loading && !error?.QueryDone && error?.message) {
 			messageApi.destroy('loading_user_update');
@@ -51,6 +86,17 @@ function Profile() {
 	}, [loading])
 
 	const Submit = (data) => {
+		if ((data.curr_password && (!data.newpass1 || !data.newpass2))
+			|| (data.newpass1 && (!data.curr_password || !data.newpass2))
+			|| (data.newpass2 && (!data.curr_password || !data.newpass1))
+		) {
+			messageApi.error("Complete all password feilds !");
+			return;
+		}
+		else if (data.newpass1 != data.newpass2) {
+			messageApi.error("different passwords !");
+			return;
+		}
 		dispatch(UpdateUser(data));
 	}
 
@@ -58,9 +104,11 @@ function Profile() {
 		console.log(errors);
 		if (errors) {
 			for (const err in errors) {
-				messageApi.error(errors[err].message);
-				messageApi.open()
-				return;
+				if (errors[err].message) {
+					messageApi.error(errors[err].message);
+				}
+				else
+					return;
 			}
 		}
 	}
@@ -70,6 +118,20 @@ function Profile() {
 			return "first and last name should be 3 or more letters !";
 		}
 	}
+
+	// const password_validator = (value) => {
+	// 	console.log(value);
+	// 	const levelobj = zxcvbn(value);
+	// 	setLevel(levelobj.score);
+	// 	return level == 4;
+	// }
+	// const originalpass_validator = (value) => {
+	// 	return value.length > 3;
+	// }
+	// const passwords_validator = (value) => {
+	// 	if (value != password_watch)
+	// 		return "different passwords !";
+	// }
 
 	return (
 		<>
@@ -98,9 +160,10 @@ function Profile() {
 				</div>
 				<div className="password-feild flex flex-col gap-4">
 					<h1 className='select-none'>Password Changes</h1>
-					<input type="password" id="curr_password" placeholder='Current Password' className='px-[16px] py-[13px] font-light text-gray-600 rounded-sm bg-[#F5F5F5] focus:outline-pink-100' />
-					<input type="password" id="newpass" placeholder='New Password' className='px-[16px] py-[13px] font-light text-gray-600 rounded-sm bg-[#F5F5F5] focus:outline-pink-100' />
-					<input type="password" id="newpass2" placeholder='Confirm New Password' className='px-[16px] py-[13px] font-light text-gray-600 rounded-sm bg-[#F5F5F5] focus:outline-pink-100' />
+					<input type="password" {...register('curr_password')} placeholder='Current Password' className='px-[16px] py-[13px] font-light text-gray-600 rounded-sm bg-[#F5F5F5] focus:outline-pink-100' />
+					<input type="password" {...register('newpass1', {})} onBlur={() => setLevelFeild(false)} onFocus={() => setLevelFeild(true)} placeholder='New Password' className='px-[16px] py-[13px] font-light text-gray-600 rounded-sm bg-[#F5F5F5] focus:outline-pink-100' />
+					{LevelFeild && <Progress percent={level * 25} />}
+					<input type="password" {...register('newpass2', {})} placeholder='Confirm New Password' className='px-[16px] py-[13px] font-light text-gray-600 rounded-sm bg-[#F5F5F5] focus:outline-pink-100' />
 				</div>
 				<div className='flex items-center justify-end gap-6'>
 					<h1>Cancel</h1>

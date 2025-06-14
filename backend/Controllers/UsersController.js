@@ -60,17 +60,29 @@ async function Signup(req, res) {
 }
 
 async function UpdateUser(req, res) {
-    const { firstname, lastname, email, address } = req.body;
-    console.log(req.body);
+    const { firstname, lastname, email, address, curr_password, newpass1 } = req.body;
     try {
         const User = await UserSchema.findOne({ email });
-        if (!User.length)
+        console.log(User);
+        if (!Object.keys(User).length)
             return res.status(401);
+        var datenow = new Date();
+        if (User.updated_at && (datenow - User.updated_at) / (1000 * 60 * 60 * 24) < 48) {
+            return res.json({ QueryDone: false, message: 'UPDATED_AT_ERR' })
+        }
+        if (curr_password && newpass1) {
+            if (!ComparePassword(curr_password, User.password)) {
+                return res.json({ QueryDone: false, message: 'WRONG_PASS' })
+            }
+            const newpass_hash = HashPassword(newpass1);
+            await UserSchema.updateOne({ email }, { $set: { password: newpass_hash } });
+        }
         await UserSchema.updateOne({ email }, {
             $set: {
                 firstname: firstname || User.firstname,
                 lastname: lastname || User.lastname,
                 address: address || User.address,
+                updated_at: new Date()
             },
         }, { runValidators: true }
         );
