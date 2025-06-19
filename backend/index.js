@@ -20,10 +20,10 @@ DBConnection();
 
 // uses middlewares
 app.use(cors({
-    origin: '*',
-    // deployment
-    // origin: 'http://localhost:5173/',
-    // credentials: true
+	origin: '*',
+	// deployment
+	// origin: 'http://localhost:5173/',
+	// credentials: true
 }));
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
@@ -31,25 +31,25 @@ app.use(helmet());
 
 // account
 app.get("/", async () => {
-    try {
-        const send = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
-            port: 2525,
-            auth: {
-                user: "5491c4a5cf6759",
-                pass: "38dc3f1e5c5491"
-            }
-        });
-        await send.sendMail({
-            from: "testing@test.test",
-            to: 'rachidmouhcine00@gmail.com',
-            subject: "confirmation mail",
-            text: "code howa hadak"
-        })
-    }
-    catch (err) {
-        console.log(err);
-    }
+	try {
+		const send = nodemailer.createTransport({
+			host: "sandbox.smtp.mailtrap.io",
+			port: 2525,
+			auth: {
+				user: "5491c4a5cf6759",
+				pass: "38dc3f1e5c5491"
+			}
+		});
+		await send.sendMail({
+			from: "testing@test.test",
+			to: 'rachidmouhcine00@gmail.com',
+			subject: "confirmation mail",
+			text: "code howa hadak"
+		})
+	}
+	catch (err) {
+		console.log(err);
+	}
 });
 
 

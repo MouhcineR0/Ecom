@@ -119,20 +119,6 @@ function Profile() {
 		}
 	}
 
-	// const password_validator = (value) => {
-	// 	console.log(value);
-	// 	const levelobj = zxcvbn(value);
-	// 	setLevel(levelobj.score);
-	// 	return level == 4;
-	// }
-	// const originalpass_validator = (value) => {
-	// 	return value.length > 3;
-	// }
-	// const passwords_validator = (value) => {
-	// 	if (value != password_watch)
-	// 		return "different passwords !";
-	// }
-
 	return (
 		<>
 			<form className='profile-container px-[80px] py-[40px] flex flex-col gap-6' onSubmit={handleSubmit(Submit, ErrorHandle)} >
