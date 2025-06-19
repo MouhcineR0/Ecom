@@ -59,7 +59,6 @@ function App() {
 		setAuth();
 	}, [])
 
-
 	console.log("isauth ", isAuth);
 	return (!loading &&
 		<BrowserRouter>
@@ -69,7 +68,11 @@ function App() {
 					<Route index element={<Home />} />
 					<Route path='/login' element={isAuth ? <Navigate to={'/'} /> : <Login />} />
 					<Route path='/signup' element={isAuth ? <Navigate to={'/'} /> : <Signup />} />
-					<Route path='/account' element={isAuth ? <Account /> : <Navigate to={'/'} />}>
+					<Route path='/account' element={
+						<UserProtectedRoute>
+							<Account />
+						</UserProtectedRoute>
+					}>
 						<Route index element={<Navigate to={'/account/profile'} />} />
 						<Route path='/account/profile' element={<Profile />} />
 						<Route path='/account/address' element={<h1>address</h1>} />
