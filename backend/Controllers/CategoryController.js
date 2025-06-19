@@ -17,10 +17,10 @@ async function AddCategory(req, res) {
 					.then(() => res.status(200).json({ QueryDone: true }))
 					.catch(() => res.status(401).json({ QueryDone: false }));
 			} else {
-				res.status(403).json({ QueryDone: false, message: 'admin privileges' });
+				return res.status(403);
 			}
 		} else {
-			return res.status(401).json({ QueryDone: false , message : "feilds not "});
+			return res.status(401).json({ QueryDone: false, message: "feilds empty" });
 		}
 	} catch (err) {
 		res.status(500).json(err);
@@ -30,14 +30,13 @@ async function EditCategory(req, res) {
 	const { id } = req.params;
 	const { name, svg } = req.body;
 
+	if (req.role !== "admin") {
+		return res.status(403);
+	}
 	try {
 		const category = await CategorySchema.findById(id);
 		if (!category) {
-			return res.status(404).json('Categorie non trouvée');
-		}
-
-		if (req.role !== "admin") {
-			return res.status(403).json('Accès refusé');
+			return res.status(404).json({ message: 'Categorie not found' });
 		}
 
 		category.name = name || category.name;
@@ -51,27 +50,27 @@ async function EditCategory(req, res) {
 }
 async function DeleteCategory(req, res) {
 	const { id } = req.params;
-
+	console.log(id);
 	try {
 		const category = await CategorySchema.findById(id);
 		if (!category) {
-			return res.status(404).json('Categorie non trouvée');
+			return res.status(404).json({ message: 'Categorie not found' });
 		}
 
 		if (req.role !== "admin") {
-			return res.status(403).json('Accès refusé');
+			return res.status(403);
 		}
-
-		await category.remove();
-		res.status(200).json('Categorie supprimée avec succès');
+		console.log("ff");
+		await category.deleteOne();
+		return res.status(200).json({ message: 'Categorie deleted' });
 	} catch (err) {
-		res.status(500).json(err);
+		return res.status(500).json(err);
 	}
 }
 async function GetAllCategories(req, res) {
 	try {
 		const categories = await CategorySchema.find();
-		res.status(200).json(categories);
+		res.status(200).json({ QueryDone: true, categories });
 	} catch (err) {
 		res.status(500).json(err);
 	}
