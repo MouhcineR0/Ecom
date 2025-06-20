@@ -1,22 +1,28 @@
+const path = require('path');
+const fs = require('fs');
 const CategorySchema = require('../database/Schemas/CategorySchema');
 const ProductSchema = require('../database/Schemas/ProductSchema');
 const RatingSchema = require('../database/Schemas/RatingSchema');
 const cloudinary = require('../utils/cloudinary');
+const DeleteImg = require("../utils/DeleteImg")
+
 
 async function AddProduct(req, res) {
-	console.log(req);
-	const { name, description, price, categorie, image, type, ratings, quantity, promo } = req.body;
+	// console.log(req);
+	const { name, description, price, categorie, type, ratings, quantity, promo } = req.body;
+	const image = "uploads/" + req.filename;
 	if (req.role != 'admin')
 		return res.status(401);
 	try {
-		if (name && description && price && categorie && image && type && quantity) {
+		if (name && description && price && categorie && type && quantity) {
 			const checkProduct = await ProductSchema.findOne({ name });
 			if (checkProduct) {
 				return res.status(400).json({ message: 'ALREADY_EXIST' });
 			}
-			const Category = await CategorySchema.findOne({ name: categorie });
-			if (!Category._id)
+			const Category = await CategorySchema.findOne({ name: categorie }) || {};
+			if (!Object.keys(Category).length) {
 				return res.status(400).json({ message: "INVALID_CATEGORY" });
+			}
 			const result = await cloudinary.uploader.upload(image, {
 				folder: "products",
 				// width: 300,
@@ -27,7 +33,7 @@ async function AddProduct(req, res) {
 				name,
 				description,
 				price,
-				categorie,
+				categorie: Category._id,
 				imagepath: {
 					public_id: result.public_id,
 					url: result.secure_url
@@ -40,14 +46,23 @@ async function AddProduct(req, res) {
 				newProduct.save()
 					.then(() =>
 						res.status(200).json({ message: "ADDED" }))
-					.catch(() => res.status(401).json('FAILED'));
+					.catch(() => {
+						cloudinary.uploader.destroy(result.public_id);
+						res.status(401).json({ message: "failed" });
+					})
 
 			}
 		} else {
 			return res.status(400).json({ message: "FEILDS_EMPTY" });
 		}
 	} catch (err) {
-		res.status(500).json(err);
+		return res.status(500).json({ message: "ERR" });
+	}
+	finally {
+		fs.unlink(path.join(process.cwd(), image), (err) => {
+			// if (err)
+			// 	console.log(err);
+		});
 	}
 }
 async function GetProducts(req, res) {
