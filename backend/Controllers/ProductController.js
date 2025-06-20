@@ -4,7 +4,8 @@ const CategorySchema = require('../database/Schemas/CategorySchema');
 const ProductSchema = require('../database/Schemas/ProductSchema');
 const RatingSchema = require('../database/Schemas/RatingSchema');
 const cloudinary = require('../utils/cloudinary');
-const DeleteImg = require("../utils/DeleteImg")
+const DeleteImg = require("../utils/DeleteImg");
+const { Query } = require('mongoose');
 
 
 async function AddProduct(req, res) {
@@ -74,17 +75,18 @@ async function GetProducts(req, res) {
 		}));
 		return res.status(200).json(productsWithRatingCounts);
 	} catch (err) {
-		return res.status(500).json({ err: 'Erreur lors de la récupération de produit réssayez' });
+		return res.status(500).json({ QueryDone: false, message: "ERR" });
 	}
 }
 async function GetProduct(req, res) {
 	const { id } = req.params;
 	try {
-		const products = await ProductSchema.findOne({ _id: id });
-		if (products) {
-			return res.status(200).json({ products });
+		const product = await ProductSchema.findOne({ _id: id }, { ratings: 0 });
+		if (product) {
+			const ratings = await RatingSchema.countDocuments({ product: product._id });
+			return res.status(200).json({ ...product.toObject(), ratings });
 		} else {
-			return res.status(401).json('Erreur lors de la récupération des Produits réssayez');
+			return res.status(401).json({ QueryDone: false, message: "ERR" });
 		}
 	} catch (err) {
 		res.status(500).json(err);
@@ -101,16 +103,13 @@ async function EditProduct(req, res) {
 	const { id } = req.params;
 	const { name, description, price, categorie, image, type, ratings, quantity, promo } = req.body;
 
+	if (req.role !== "admin") {
+		return res.status(403);
+	}
 	try {
 		const product = await ProductSchema.findById(id);
-		if (!product) {
-			return res.status(404).json('Produit non trouvé');
-		}
-
-		if (req.role !== "admin") {
-			return res.status(403).json('Accès refusé');
-		}
-
+		if (!product)
+			return res.status(404);
 		if (image) {
 			const result = await cloudinary.uploader.upload(image, {
 				folder: "products",
@@ -138,21 +137,20 @@ async function EditProduct(req, res) {
 }
 async function DeleteProduct(req, res) {
 	const { id } = req.params;
-
+	console.log(id);
+	if (req.role !== "admin") {
+		return res.status(403);
+	}
 	try {
 		const product = await ProductSchema.findById(id);
 		if (!product) {
-			return res.status(404).json('Produit non trouvé');
+			return res.status(404);
 		}
-
-		if (req.role !== "admin") {
-			return res.status(403).json('Accès refusé');
-		}
-
 		await cloudinary.uploader.destroy(product.imagepath.public_id);
-		await product.remove();
-		res.status(200).json('Produit supprimé avec succès');
+		await product.deleteOne();
+		res.status(200).json({ QueryDone: true });
 	} catch (err) {
+		console.log(err);
 		res.status(500).json(err);
 	}
 }
