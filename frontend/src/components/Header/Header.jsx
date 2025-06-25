@@ -30,37 +30,35 @@ const linksData = [
 
 function Header() {
 
-    // Redux
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.user);
+	// Redux
+	const dispatch = useDispatch();
+	const user = useSelector(state => state.user);
 
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
-    console.log(user.isAuth);
+	const [arrow, setArrow] = useState('Show');
 
-    const [arrow, setArrow] = useState('Show');
+	const mergedArrow = useMemo(() => {
+		if (arrow === 'Hide') {
+			return false;
+		}
 
-    const mergedArrow = useMemo(() => {
-        if (arrow === 'Hide') {
-            return false;
-        }
+		if (arrow === 'Show') {
+			return true;
+		}
 
-        if (arrow === 'Show') {
-            return true;
-        }
+		return {
+			pointAtCenter: true,
+		};
+	}, [arrow]);
 
-        return {
-            pointAtCenter: true,
-        };
-    }, [arrow]);
+	// drop down
 
-    // drop down
-
-    const HandleLogout = () => {
-        dispatch(Logout());
-        dispatch(ResetUserParams());
-        navigate('/login');
-    }
+	const HandleLogout = () => {
+		dispatch(Logout());
+		dispatch(ResetUserParams());
+		navigate('/login');
+	}
 
     const content = (
         <div className='flex flex-col p-0 text-white gap-2 items-start'>
@@ -85,52 +83,59 @@ function Header() {
         </div>
     );
 
-    const IconStyle = {
-        fontSize: 27,
-        color: '#4f4b4b',
-        cursor: 'pointer'
-    };
-    const auth = true;
+	const IconStyle = {
+		fontSize: 27,
+		color: '#4f4b4b',
+		cursor: 'pointer'
+	};
+	const auth = true;
 
-    return (
-        <HeaderContainer className='mt-3 w-full border-b-2 py-4'>
-            <div className="container flex justify-between mx-auto items-center ">
-                <Link to={'/'} className='text-black text-3xl font-bold font-inter select-none'>PrimeShop</Link>
-                <nav className='flex font-poppins lg:text-[15px] md:text-[14px] items-center gap-4 tracking-wider'>
-                    {
-                        !user.isAuth ? Links.map((ele, ind) => {
-                            return <NavLink link={ele.link} url={ele.url} key={ind} classes={'link-underline link-underline-black '} />;
-                        })
-                            : Links.filter((ele) => ele.url !== '/signup').map((ele, ind) => {
-                                return <NavLink link={ele.link} url={ele.url} key={ind} classes={'link-underline link-underline-black '} />;
-                            })
-                    }
-                </nav>
-                <div className='flex gap-4 items-center'>
-                    <form action="">
-                        <Input label='Search Products' icon={<CiSearch />} />
-                    </form>
-                    <Badge size='small' count={0} className='cursor-pointer'>
-                        <FaRegHeart style={IconStyle} size={20} />
-                    </Badge>
-                    <Badge size='small' count={0} className='cursor-pointer'>
-                        <Link to={'/card'}>
-                            <FiShoppingCart style={IconStyle} size={20} />
-                        </Link>
-                    </Badge>
-                    {
-                        user.isAuth ? (
-                            <div className="user-container select-none cursor-pointer">
-                                <Popover placement="bottom" content={content} color='#000000a2' arrow={mergedArrow}>
-                                    <img src={UserIMG} alt="" draggable={false} />
-                                </Popover>
-                            </div>
-                        ) : null
-                    }
-                </div>
-            </div>
-        </HeaderContainer>
-    );
+	return (
+		<HeaderContainer className='mt-3 w-full border-b-2 py-4'>
+			<div className="container flex justify-between mx-auto items-center ">
+				<Link to={'/'} className='text-black text-3xl font-bold font-inter select-none'>PrimeShop</Link>
+				<nav className='flex font-poppins lg:text-[15px] md:text-[14px] items-center gap-4 tracking-wider'>
+					{
+						!user.isAuth ? Links.map((ele, ind) => {
+							return <NavLink link={ele.link} url={ele.url} key={ind} classes={'link-underline link-underline-black '} />;
+						})
+							: Links.filter((ele) => ele.url !== '/signup').map((ele, ind) => {
+								return <NavLink link={ele.link} url={ele.url} key={ind} classes={'link-underline link-underline-black '} />;
+							})
+					}
+				</nav>
+				<div className='flex gap-4 items-center'>
+					<form action="">
+						<Input label='Search Products' icon={<CiSearch />} />
+					</form>
+					<Badge size='small' count={0} className='cursor-pointer'>
+						<FaRegHeart style={IconStyle} size={20} />
+					</Badge>
+					<Badge size='small' count={0} className='cursor-pointer'>
+						<Link to={'/card'}>
+							<FiShoppingCart style={IconStyle} size={20} />
+							{
+								user.isAuth && (
+									<div className="absolute">
+										<span className='rounded-full bg-primary px-[4px] py-[1px] relative text-white bottom-[31px] left-[15px] text-[10px]'>4</span>
+									</div>
+								)
+							}
+						</Link>
+					</Badge>
+					{
+						user.isAuth ? (
+							<div className="user-container select-none cursor-pointer">
+								<Popover placement="bottom" content={content} color='#000000a2' arrow={mergedArrow}>
+									<img src={UserIMG} alt="" draggable={false} />
+								</Popover>
+							</div>
+						) : null
+					}
+				</div>
+			</div>
+		</HeaderContainer>
+	);
 }
 const HeaderContainer = styled.div`
     margin-top: 12px;

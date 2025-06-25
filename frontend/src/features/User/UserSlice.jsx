@@ -29,7 +29,7 @@ const UserSlice = createSlice({
 			state.error = null;
 		},
 		SignData: (state, { payload }) => {
-			console.log(payload);
+			console.log("payload => ", payload);
 			state.user.firstname = payload.data.firstname;
 			state.user.lastname = payload.data.lastname;
 			state.user.id = payload.data.id;

@@ -19,100 +19,84 @@ import Profile from './pages/Account/Profile';
 
 function App() {
 
-  const dispatch = useDispatch();
-  const { isAuth } = useSelector(state => state.user);
+	const dispatch = useDispatch();
+	const { isAuth } = useSelector(state => state.user);
 
-  const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(true);
 
-  // antd
-  const [messageApi, contextHolder] = message.useMessage();
-
-
-  useEffect(() => {
-    // start from above probleme
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-    window.scrollTo(0, 0);
-  }, []);
-
-  // const ff = async () => {
-  //   try {
-  //     console.log("check");
-  //     const res = await AxiosInstance.post('/isAuth', {}, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem('tk')}`
-  //       }
-  //     });
-  //     if (res.data?.isAuth) {
-  //       dispatch(SignData(res.data));
-  //     }
-  //   }
-  //   catch (err) {
-  //     messageApi.warning('something went wrong , please reload or try later !');
-  //     // console.log(err);
-  //   }
-  // }
-
-  useEffect(() => {
-    const setAuth = async () => {
-      try {
-        console.log("check");
-        const res = await AxiosInstance.post('/isAuth', {}, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('tk')}`
-          }
-        });
-        if (res.data?.isAuth) {
-          dispatch(SignData(res.data));
-        }
-      }
-      catch (err) {
-        messageApi.warning('something went wrong , please reload or try later !');
-        // console.log(err);
-      }
-      finally {
-        setLoading(false);
-      }
-    }
-    setAuth();
-  }, [])
+	// antd
+	const [messageApi, contextHolder] = message.useMessage();
 
 
-  console.log("isauth ", isAuth);
-  return (!loading &&
-    <BrowserRouter>
-      {contextHolder}
-      <Routes>
-        <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path='/login' element={isAuth ? <Navigate to={'/'} /> : <Login />} />
-          <Route path='/signup' element={isAuth ? <Navigate to={'/'} /> : <Signup />} />
-          <Route path='/account' element={isAuth ? <Account /> : <Navigate to={'/'} />}>
-            <Route index element={<Profile />} />
-            <Route path='/account/profile' element={<Profile />} />
-            <Route path='/account/address' element={<h1>address</h1>} />
-          </Route>
-          <Route
-            path='/card'
-            element={
-              <UserProtectedRoute>
-                <Cart />
-              </UserProtectedRoute>
-            } />
-          <Route path='*' element={<Error404 />} />
-          {/* <Route path='/checkout' element={<Checkout />} /> */}
-        </Route>
-        <Route
-          path="/dashboard/*"
-          element={
-            <AdminProtectedRoute>
-              <Dashboard />
-            </AdminProtectedRoute>
-          } />
-      </Routes>
-    </BrowserRouter>
-  );
+	useEffect(() => {
+		// start from above probleme
+		if ('scrollRestoration' in window.history) {
+			window.history.scrollRestoration = 'manual';
+		}
+		window.scrollTo(0, 0);
+	}, []);
+
+	useEffect(() => {
+		const setAuth = async () => {
+			try {
+				const res = await AxiosInstance.post('/isAuth', {}, {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('tk')}`
+					}
+				});
+				if (res.data?.isAuth) {
+					dispatch(SignData(res.data));
+				}
+			}
+			catch (err) {
+				messageApi.warning('something went wrong , please reload or try later !');
+				// console.log(err);
+			}
+			finally {
+				setLoading(false);
+			}
+		}
+		setAuth();
+	}, [])
+
+	console.log("isauth ", isAuth);
+	return (!loading &&
+		<BrowserRouter>
+			{contextHolder}
+			<Routes>
+				<Route path='/' element={<Layout />}>
+					<Route index element={<Home />} />
+					<Route path='/login' element={isAuth ? <Navigate to={'/'} /> : <Login />} />
+					<Route path='/signup' element={isAuth ? <Navigate to={'/'} /> : <Signup />} />
+					<Route path='/account' element={
+						<UserProtectedRoute>
+							<Account />
+						</UserProtectedRoute>
+					}>
+						<Route index element={<Navigate to={'/account/profile'} />} />
+						<Route path='/account/profile' element={<Profile />} />
+						<Route path='/account/address' element={<h1>address</h1>} />
+					</Route>
+					<Route
+						path='/card'
+						element={
+							<UserProtectedRoute>
+								<Cart />
+							</UserProtectedRoute>
+						} />
+					<Route path='*' element={<Error404 />} />
+					{/* <Route path='/checkout' element={<Checkout />} /> */}
+				</Route>
+				<Route
+					path="/dashboard/*"
+					element={
+						<AdminProtectedRoute>
+							<Dashboard />
+						</AdminProtectedRoute>
+					} />
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;
