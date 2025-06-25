@@ -9,7 +9,7 @@ import { Badge, Button, Popover } from 'antd';
 import UserIMG from '../../assets/imgs/user/user.png';
 import { CiUser } from "react-icons/ci";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBagShopping, faBan, faRightFromBracket, faStar, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBagShopping, faBan, faRightFromBracket, faStar, faUser, faChartSimple } from '@fortawesome/free-solid-svg-icons';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Logout, ResetUserParams } from '../../features/User/UserSlice';
@@ -18,6 +18,7 @@ import { Logout, ResetUserParams } from '../../features/User/UserSlice';
 const text = <span>Title</span>;
 
 const linksData = [
+    { icon: faChartSimple, text: 'Dashboard', to: '/dashboard' },
     { icon: faUser, text: 'Manage My Account', to: '/account' },
     { icon: faBagShopping, text: 'My Orders', to: '/orders' },
     { icon: faBan, text: 'My Cancellations', to: '/cancellations' },
@@ -69,10 +70,17 @@ function Header() {
                         <FontAwesomeIcon size='xl' icon={link.icon} />
                         <h1>{link.text}</h1>
                     </div> :
-                    <Link key={index} to={link.to} className='flex items-center gap-2'>
-                        <FontAwesomeIcon size='xl' icon={link.icon} />
-                        <h1>{link.text}</h1>
-                    </Link>
+                    link.to == '/dashboard' && user.user.role == 'admin' ?
+                        <Link key={index} to={link.to} className='flex items-center gap-2'>
+                            <FontAwesomeIcon size='xl' icon={link.icon} />
+                            <h1>{link.text}</h1>
+                        </Link> :
+                        link.to == '/dashboard' && user.user.role != 'admin' ?
+                            (null) :
+                            <Link key={index} to={link.to} className='flex items-center gap-2'>
+                                <FontAwesomeIcon size='xl' icon={link.icon} />
+                                <h1>{link.text}</h1>
+                            </Link>
             ))}
         </div>
     );

@@ -3,6 +3,7 @@ import userReducer from '../features/User/UserSlice';
 import productReducer from '../features/Product/ProductSlice';
 import AxiosInstance from "../features/AxiosInstance";
 import { FileFilled } from "@ant-design/icons";
+import CategoryReducer from "../features/Category/CategorySlice";
 
 
 const AuthMiddleWare = store => next => action => {
@@ -26,7 +27,8 @@ const AuthMiddleWare = store => next => action => {
 const store = configureStore({
     reducer: {
         user: userReducer,
-        product: productReducer
+        product: productReducer,
+        category: CategoryReducer
     },
     // middleware: (DefaultMiddlewares) => DefaultMiddlewares().concat(AuthMiddleWare),
     devTools: import.meta.env.VITE_APP_DESC == "development",
