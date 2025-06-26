@@ -95,4 +95,12 @@ async function UpdateUser(req, res) {
 	}
 }
 
-module.exports = { Login, Signup, UpdateUser };
+async function GetUsers(req, res) {
+	if (req.role == 'admin') {
+		const Users = await UserSchema.find({}, { password: false, updated_at: false });
+		return res.json({ Users });
+	}
+	return res.status(401)
+}
+
+module.exports = { Login, Signup, UpdateUser, GetUsers };

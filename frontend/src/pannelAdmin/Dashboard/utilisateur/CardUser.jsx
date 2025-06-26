@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Avatar, Card, Empty } from 'antd';
 import EditUser from './EditUser';
@@ -48,6 +48,10 @@ const CardUser = () => {
             membreDepuis: '2018-09-10'
         }
     ]);
+
+    useEffect(() => {
+        // dispatch()
+    }, [])
 
     const handleDelete = (index) => {
         setMembres(membres.filter((_, ind) => ind !== index));

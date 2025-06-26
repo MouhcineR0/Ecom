@@ -37,4 +37,17 @@ const UpdateUser = createAsyncThunk('User/UpdateUser', async (data, thunk) => {
     }
 })
 
+
+// const GetUsers = createAsyncThunk('User/GetUsers', async (data, thunk) => {
+//     try {
+//         const res = await AxiosInstance.patch("/", data);
+//         return res.data;
+//     }
+//     catch (error) {
+//         return thunk.rejectWithValue(error.response.data);
+//     }
+// })
+
+
+
 export { Login, Signup, UpdateUser };
