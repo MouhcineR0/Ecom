@@ -50,7 +50,6 @@ async function EditCategory(req, res) {
 }
 async function DeleteCategory(req, res) {
 	const { id } = req.params;
-	console.log(id);
 	try {
 		const category = await CategorySchema.findById(id);
 		if (!category) {
@@ -60,7 +59,6 @@ async function DeleteCategory(req, res) {
 		if (req.role !== "admin") {
 			return res.status(403);
 		}
-		console.log("ff");
 		await category.deleteOne();
 		return res.status(200).json({ message: 'Categorie deleted' });
 	} catch (err) {

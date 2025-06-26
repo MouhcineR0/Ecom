@@ -1,8 +1,10 @@
-import path from "path";
+const path = require('path');
 
-export default (image) => {
+const del = (image) => {
 	fs.unlink(path.join(process.cwd(), image), (err) => {
 		if (err)
 			console.log(err);
 	})
 };
+
+module.exports = del;
