@@ -1,7 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from 'antd';
 import Ajouter from './Ajouter';
 import CardCat from './CardCat';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetCategories } from '../../../features/Category/CategoryFunctions';
 
 function Category() {
     const [open, setOpen] = useState(false);
@@ -12,6 +14,7 @@ function Category() {
         bottom: 0,
         right: 0,
     });
+
     const draggleRef = useRef(null);
 
     const showModal = () => {
@@ -27,6 +30,7 @@ function Category() {
         console.log(e);
         setOpen(false);
     };
+
 
     const onStart = (_event, uiData) => {
         const { clientWidth, clientHeight } = window.document.documentElement;
@@ -44,17 +48,18 @@ function Category() {
 
     return (
         <div className='w-full h-[100vh] bg-gray-100'>
-            <h1 className='text-primary font-poppins font-bold text-2xl mb-4'>Gestionne des categories :</h1>
+            <h1 className='text-primary font-poppins font-bold text-2xl mb-4'>Manage Categories :</h1>
             <span className='w-full flex justify-end'>
                 <Button
                     onClick={showModal}
                     className='bg-blue-500 text-white hover:bg-blue-700'
                 >
-                    Ajouter une nouvelle categorie
+                    Add new Category
                 </Button>
             </span>
             <Ajouter
                 open={open}
+                setOpen={setOpen}
                 handleOk={handleOk}
                 handleCancel={handleCancel}
                 disabled={disabled}
@@ -63,7 +68,7 @@ function Category() {
                 onStart={onStart}
                 draggleRef={draggleRef}
             />
-            <CardCat/>
+            <CardCat />
         </div>
     );
 }

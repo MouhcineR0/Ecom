@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { GetCategories } from "./CategoryFunctions";
+import { AddCategorie, DelCategorie, GetCategories } from "./CategoryFunctions";
 
 const initialState = {
 	data: [],
@@ -14,12 +14,17 @@ const CategorySlice = createSlice({
 		ResetState: (state) => {
 			state.error = false;
 			state.loading = false;
-			data = []
+			state.data = []
+		},
+		setError: (state, { payload }) => {
+			console.log(payload);
+			state.error = payload;
 		}
 	},
 	extraReducers: (builder) => {
 		builder.addCase(GetCategories.fulfilled, (state, { payload }) => {
-			state = payload.data;
+			console.log(payload);
+			state.data = payload.categories;
 			state.loading = false;
 		})
 		builder.addCase(GetCategories.rejected, (state, { _ }) => {
@@ -29,7 +34,30 @@ const CategorySlice = createSlice({
 		builder.addCase(GetCategories.pending, (state, { _ }) => {
 			state.loading = true;
 		})
+		builder.addCase(AddCategorie.fulfilled, (state, { payload }) => {
+			console.log(payload);
+			// state.data = payload.categories;
+			state.loading = false;
+		})
+		builder.addCase(AddCategorie.rejected, (state, { _ }) => {
+			state.error = true;
+			state.loading = false;
+		})
+		builder.addCase(AddCategorie.pending, (state, { _ }) => {
+			state.loading = true;
+		})
+		builder.addCase(DelCategorie.fulfilled, (state, { payload }) => {
+			state.loading = false;
+		})
+		builder.addCase(DelCategorie.rejected, (state, { _ }) => {
+			state.error = true;
+			state.loading = false;
+		})
+		builder.addCase(DelCategorie.pending, (state, { _ }) => {
+			state.loading = true;
+		})
 	}
 })
 
 export default CategorySlice.reducer;
+export const { ResetState, setError } = CategorySlice.actions;
