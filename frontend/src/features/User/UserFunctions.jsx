@@ -38,16 +38,33 @@ const UpdateUser = createAsyncThunk('User/UpdateUser', async (data, thunk) => {
 })
 
 
-// const GetUsers = createAsyncThunk('User/GetUsers', async (data, thunk) => {
-//     try {
-//         const res = await AxiosInstance.patch("/", data);
-//         return res.data;
-//     }
-//     catch (error) {
-//         return thunk.rejectWithValue(error.response.data);
-//     }
-// })
+const GetUsers = createAsyncThunk('User/GetUsers', async (data, thunk) => {
+    try {
+        const res = await AxiosInstance.get("/user/GetUsers");
+        return res.data;
+    }
+    catch (error) {
+        return thunk.rejectWithValue(error.response.data);
+    }
+})
 
+const AddSingleUser = createAsyncThunk('User/AddUser', async (data, thunk) => {
+    try {
+        const res = await AxiosInstance.post("/user/CreateAccount", data);
+        return res.data;
+    } catch (err) {
+        return thunk.rejectWithValue(err);
+    }
+})
 
+const DeleteSingleUser = createAsyncThunk('User/DeleteSingleUser', async (data, thunk) => {
+    try {
+        console.log("user functions ", data);
+        const res = await AxiosInstance.delete("/user/DeleteUser", data);
+        return res.data;
+    } catch (err) {
+        return thunk.rejectWithValue(err);
+    }
+})
 
-export { Login, Signup, UpdateUser };
+export { Login, Signup, UpdateUser, GetUsers, AddSingleUser, DeleteSingleUser };

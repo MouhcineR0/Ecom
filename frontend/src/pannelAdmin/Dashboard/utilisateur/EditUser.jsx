@@ -43,7 +43,7 @@ const EditUser = ({ user }) => {
                 >
                     <Form.Item
                         label="Prénom"
-                        name="prenom"
+                        name="firstname"
                         rules={[{ required: true, message: 'Veuillez saisir le prénom!' }]}
                     >
                         <Input />
@@ -51,7 +51,7 @@ const EditUser = ({ user }) => {
 
                     <Form.Item
                         label="Nom"
-                        name="nom"
+                        name="lastname"
                         rules={[{ required: true, message: 'Veuillez saisir le nom!' }]}
                     >
                         <Input />

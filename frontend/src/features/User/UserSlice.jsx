@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Login, Signup, UpdateUser } from "./UserFunctions";
+import { AddSingleUser, DeleteSingleUser, GetUsers, Login, Signup, UpdateUser } from "./UserFunctions";
 
 const initialState = {
 	user: {
@@ -13,7 +13,8 @@ const initialState = {
 	token: null,         // token from backend
 	isAuth: false,      // true or false
 	loading: false,
-	error: null
+	error: null,
+	Users: []
 };
 
 const setIsLoading = (state) => {
@@ -99,9 +100,34 @@ const UserSlice = createSlice({
 				console.log("rejected ", payload)
 				state.error = payload;
 				state.loading = false;
+			})
+			.addCase(GetUsers.pending, setIsLoading)
+			.addCase(GetUsers.fulfilled, (state, { payload }) => {
+				console.log(payload);
+				state.Users = payload.Users;
+				state.loading = false;
+			})
+			.addCase(GetUsers.rejected, (state, { payload }) => {
+				state.error = true;
+				state.loading = false;
+			})
+			.addCase(AddSingleUser.pending, setIsLoading)
+			.addCase(AddSingleUser.fulfilled, (state, { payload }) => {
+				console.log(payload);
+				state.loading = false;
+			})
+			.addCase(AddSingleUser.rejected, (state, { payload }) => {
+				state.error = true;
+				state.loading = false;
+			})
+			.addCase(DeleteSingleUser.pending, setIsLoading)
+			.addCase(DeleteSingleUser.fulfilled, (state, { payload }) => {
+				state.loading = false;
+			})
+			.addCase(DeleteSingleUser.rejected, (state, { payload }) => {
+				state.error = true;
+				state.loading = false;
 			});
-
-
 		// signup cases
 
 	}

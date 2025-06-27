@@ -5,11 +5,11 @@ const { VerifyToken } = require('../utils/jwt');
 module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.json({ isAuth: false });
+        return res.status(401).json({ isAuth: false });
     }
     const token = authHeader.split(' ')[1];
     if (!token) {
-        return res.status(403).json({ isAuth: false, msg: "Authorization denied" });
+        return res.status(401).json({ isAuth: false, msg: "Authorization denied" });
     }
 
     try {

@@ -38,7 +38,8 @@ async function Login(req, res) {
 async function Signup(req, res) {
 	try {
 		const { email, password, firstname, lastname, tel, role } = req.body;
-		const Role = role || 'client';
+		if (role)
+			return res.json({ message: "Failed" });
 		if (email && password && firstname && lastname && tel && Role) {
 			// useless ghankhdem ghir b catch mn be3d w nfixih howa w phone number
 			const available = await UserSchema.find({ email });
@@ -58,6 +59,7 @@ async function Signup(req, res) {
 		return res.json({ message: 'FAILED' });
 	}
 }
+
 
 async function UpdateUser(req, res) {
 	const { firstname, lastname, email, address, curr_password, newpass1 } = req.body;
@@ -100,7 +102,44 @@ async function GetUsers(req, res) {
 		const Users = await UserSchema.find({}, { password: false, updated_at: false });
 		return res.json({ Users });
 	}
-	return res.status(401)
+	return res.status(401).json({ QueryDone: false })
 }
 
-module.exports = { Login, Signup, UpdateUser, GetUsers };
+// the only diff between this and signup is role spicification and verify admin role also
+async function CreateAccount(req, res) {
+	try {
+		if (req.role != 'admin')
+			return res.status(401).json({ message: "Failed" });
+		const { email, password, firstname, lastname, tel, role } = req.body;
+		if (email && password && firstname && lastname && tel && role) {
+			// useless ghankhdem ghir b catch mn be3d w nfixih howa w phone number
+			const available = await UserSchema.find({ email });
+			if (available.length) {
+				return res.status(400).json({ message: 'FAILED' });
+			}
+			const HASHED_PW = HashPassword(password);
+			const query = new UserSchema({
+				firstname, lastname, email, tel, password: HASHED_PW, role: role,
+			});
+			await query.save();
+			return res.json({ message: 'SUCCESS' });
+		}
+		return res.status(400).json({ message: 'FAILED' });
+	}
+	catch (e) {
+		return res.status(400).json({ message: 'FAILED' });
+	}
+}
+
+async function DeleteUser(req, res) {
+	// try {
+	if (req.role != 'admin')
+		return res.status(401);
+	const { _id } = req.body;
+	console.log("hna");
+	console.log(req.body);
+	// await UserSchema.deleteOne({ _id })
+
+}
+
+module.exports = { Login, Signup, UpdateUser, GetUsers, CreateAccount, DeleteUser };
