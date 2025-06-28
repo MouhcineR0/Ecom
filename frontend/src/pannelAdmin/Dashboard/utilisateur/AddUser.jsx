@@ -26,7 +26,6 @@ const AddUser = () => {
     };
 
     const onFinish = async (values) => {
-        console.log(Users);
         dispatch(setError(false));
         messageApi.open({
             type: 'loading',
@@ -44,6 +43,7 @@ const AddUser = () => {
             else {
                 messageApi.success("Adding user success");
                 setIsModalOpen(false);
+                form.resetFields();
             }
         }
         catch {
@@ -79,7 +79,7 @@ const AddUser = () => {
                     <Form.Item
                         label="First Name"
                         name="firstname"
-                        rules={[{ required: true, message: 'Veuillez saisir le prénom!' }]}
+                        rules={[{ required: true, message: 'Enter first name!' }]}
                     >
                         <Input />
                     </Form.Item>
@@ -87,7 +87,7 @@ const AddUser = () => {
                     <Form.Item
                         label="Last Name"
                         name="lastname"
-                        rules={[{ required: true, message: 'Veuillez saisir le nom!' }]}
+                        rules={[{ required: true, message: 'Enter last name!' }]}
                     >
                         <Input />
                     </Form.Item>
@@ -95,7 +95,7 @@ const AddUser = () => {
                     <Form.Item
                         label="Email"
                         name="email"
-                        rules={[{ required: true, message: 'Veuillez saisir l\'email!' }]}
+                        rules={[{ required: true, message: 'Enter Email!' }]}
                     >
                         <Input type="email" />
                     </Form.Item>
@@ -103,14 +103,14 @@ const AddUser = () => {
                     <Form.Item
                         label="Number Phone"
                         name="tel"
-                        rules={[{ required: true, message: 'Veuillez saisir le numéro de téléphone!' }]}
+                        rules={[{ required: true, message: 'Enter phone number!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Password"
                         name="password"
-                        rules={[{ required: true, message: 'Veuillez saisir le numéro de téléphone!' }]}
+                        rules={[{ required: true, message: 'Enter password!' }]}
                     >
                         <Input type='password' />
                     </Form.Item>
@@ -118,7 +118,7 @@ const AddUser = () => {
                     <Form.Item
                         label="Role"
                         name="role"
-                        rules={[{ required: true, message: 'Veuillez sélectionner le rôle!' }]}
+                        rules={[{ required: true, message: 'chose a role!' }]}
                     >
                         <Select>
                             <Option value="admin">Admin</Option>

@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { AddSingleUser, DeleteSingleUser, GetUsers, Login, Signup, UpdateUser } from "./UserFunctions";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { AddSingleUser, DeleteSingleUser, GetUsers, Login, Signup, UpdateSingleUser, UpdateUser } from "./UserFunctions";
 
 const initialState = {
 	user: {
@@ -120,15 +120,44 @@ const UserSlice = createSlice({
 				state.error = true;
 				state.loading = false;
 			})
-			.addCase(DeleteSingleUser.pending, setIsLoading)
-			.addCase(DeleteSingleUser.fulfilled, (state, { payload }) => {
-				state.loading = false;
-			})
-			.addCase(DeleteSingleUser.rejected, (state, { payload }) => {
-				state.error = true;
-				state.loading = false;
-			});
-		// signup cases
+			// .addCase(DeleteSingleUser.pending, setIsLoading)
+			// .addCase(DeleteSingleUser.fulfilled, (state, { payload }) => {
+			// 	state.loading = false;
+			// })
+			// .addCase(DeleteSingleUser.rejected, (state, { payload }) => {
+			// 	state.error = true;
+			// 	state.loading = false;
+			// })
+			// .addCase(UpdateSingleUser.pending, setIsLoading)
+			// .addCase(UpdateSingleUser.fulfilled, (state, { payload }) => {
+			// 	state.loading = false;
+			// })
+			// .addCase(UpdateSingleUser.rejected, (state, { payload }) => {
+			// 	state.error = true;
+			// 	state.loading = false;
+			// })
+			.addMatcher(
+				isAnyOf(DeleteSingleUser.pending, UpdateSingleUser.pending),
+				(state) => {
+					state.loading = true;
+				}
+			)
+			.addMatcher(
+				isAnyOf(DeleteSingleUser.rejected, UpdateSingleUser.rejected),
+				(state) => {
+					state.loading = false;
+					state.error = true;
+				}
+			)
+			.addMatcher(
+				isAnyOf(DeleteSingleUser.pending, UpdateSingleUser.pending),
+				(state) => {
+					state.loading = true;
+				}
+			)
+
+
+			;
 
 	}
 });

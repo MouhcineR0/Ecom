@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Avatar, Card, Empty, message } from 'antd';
+import { Avatar, Card, Empty, message, Popconfirm } from 'antd';
 import EditUser from './EditUser';
 import { DeleteSingleUser, GetUsers } from '../../../features/User/UserFunctions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,7 +39,7 @@ const CardUser = () => {
             message.error("deleting user failed");
         }
         finally {
-            // dispatch(GetUsers());
+            dispatch(GetUsers());
         }
 
     };
@@ -62,8 +62,12 @@ const CardUser = () => {
                                 outline: '2px dashed gray'
                             }}
                             actions={[
-                                <EditUser user={ele} />,
-                                <DeleteOutlined key="ellipsis" onClick={() => handleDelete(ele._id)} />,
+                                <div className='flex justify-center gap-6'>
+                                    <EditUser user={ele} />
+                                    <Popconfirm title={'Delete user'} description={'Are you sure you want to delete this user'} onConfirm={() => handleDelete(ele._id)}>
+                                        <DeleteOutlined key="ellipsis" />
+                                    </Popconfirm>
+                                </div>
                             ]}
                         >
                             <Meta

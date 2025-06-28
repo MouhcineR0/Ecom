@@ -60,11 +60,20 @@ const AddSingleUser = createAsyncThunk('User/AddUser', async (data, thunk) => {
 const DeleteSingleUser = createAsyncThunk('User/DeleteSingleUser', async (data, thunk) => {
     try {
         console.log("user functions ", data);
-        const res = await AxiosInstance.delete("/user/DeleteUser", data);
+        const res = await AxiosInstance.delete("/user/DeleteUser", { data });
         return res.data;
     } catch (err) {
         return thunk.rejectWithValue(err);
     }
 })
 
-export { Login, Signup, UpdateUser, GetUsers, AddSingleUser, DeleteSingleUser };
+const UpdateSingleUser = createAsyncThunk('User/UpdateSingleUser', async (data, thunk) => {
+    try {
+        const res = await AxiosInstance.delete("/user/UpdateUser", { data });
+        return res.data;
+    } catch (err) {
+        return thunk.rejectWithValue(err);
+    }
+})
+
+export { Login, Signup, UpdateUser, GetUsers, AddSingleUser, DeleteSingleUser, UpdateSingleUser };

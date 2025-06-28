@@ -20,7 +20,8 @@ module.exports = withMT({
       },
       fontFamily: {
         'poppins': ["Poppins", 'sans-serif'],
-        'inter': ['Inter', 'sans-serif']
+        'inter': ['Inter', 'sans-serif'],
+        'Play': ['Play', 'sans-serif']
       },
       fontSize: {
 

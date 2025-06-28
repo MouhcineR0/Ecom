@@ -65,12 +65,9 @@ async function UpdateUser(req, res) {
 	const { firstname, lastname, email, address, curr_password, newpass1 } = req.body;
 	try {
 		const User = await UserSchema.findOne({ email });
-		console.log(User);
 		if (!Object.keys(User).length)
 			return res.status(401);
 		var datenow = new Date();
-		console.log(User.updated_at);
-		console.log((datenow - User.updated_at) / (1000 * 60 * 60 * 24));
 		if (User.updated_at && (datenow - User.updated_at) / (1000 * 60 * 60 * 24) < 2) {
 			return res.json({ QueryDone: false, message: 'UPDATED_AT_ERR' })
 		}
@@ -132,14 +129,36 @@ async function CreateAccount(req, res) {
 }
 
 async function DeleteUser(req, res) {
-	// try {
-	if (req.role != 'admin')
-		return res.status(401);
-	const { _id } = req.body;
-	console.log("hna");
-	console.log(req.body);
-	// await UserSchema.deleteOne({ _id })
-
+	try {
+		if (req.role != 'admin')
+			return res.status(401);
+		const { _id } = req.body;
+		console.log(_id);
+		await UserSchema.deleteOne({ _id });
+		return res.status(200).json({ QueryDone: true });
+	}
+	catch (err) {
+		return res.status(400).json({ message: "FAILED" });
+	}
 }
 
-module.exports = { Login, Signup, UpdateUser, GetUsers, CreateAccount, DeleteUser };
+async function UpdateUserAdmin(req, res) {
+	try {
+		const { firstname, lastname, email, tel, role } = req.body;
+		const User = await UserSchema.findOne({ email });
+		if (!Object.keys(User).length)
+			return res.status(404).json({ message: "USER_NOTFOUND" });
+		await User.updateOne({
+			firstname,
+			lastname,
+			tel,
+			role
+		}, { runValidators: true })
+		return res.json({ Queryone: true });
+	}
+	catch {
+		return res.status(400).json({ QueryDone: false });
+	}
+}
+
+module.exports = { Login, Signup, UpdateUser, GetUsers, CreateAccount, DeleteUser, UpdateUserAdmin };
