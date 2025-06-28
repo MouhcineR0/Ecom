@@ -155,8 +155,6 @@ const UserSlice = createSlice({
 					state.loading = true;
 				}
 			)
-
-
 			;
 
 	}

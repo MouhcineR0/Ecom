@@ -6,28 +6,37 @@ import { Icon, InlineIcon } from '@iconify/react';
 
 const Sidebar = () => {
     return (
-        <aside className="sidebar_dashboard fixed bg-[#262D34] font-Play text-[#707793] w-64 h-screen py-4 flex flex-col justify-center gap-4">
+        <aside className="sidebar_dashboard fixed bg-[#262D34] font-Play text-[#707793] w-64 h-screen py-4 flex flex-col justify-center">
+            <h1 className='mb-7 p-4'> GENERAL</h1>
             <NavLink
                 to="/dashboard/accueil"
-                className={({ isActive }) =>
-                    `mb-4 p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'bg-[#F5F5F5] text-[#DB4444] rounded-l-full' : 'hover:text-white hover:rounded-l-full'
-                    }`
-                }
             >
-                <span className="w-6 h-6">
-                    <InlineIcon icon={"solar:widget-5-bold-duotone"} fontSize={24} />
-                </span>
-                <span>
-                    Dashboard
-                </span>
+                {
+                    ({ isActive }) => (
+                        <>
+                            <div className={
+                                `p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'border-l-[1px] border-[#FF6C2F]' : 'hover:text-white hover:rounded-l-full'
+                                }`
+                            }>
+
+                                <span className="w-6 h-6">
+                                    <InlineIcon icon={"solar:widget-5-bold-duotone"} fontSize={24} color={isActive ? "#FF6C2F" : ""} />
+                                </span>
+                                <span>
+                                    Dashboard
+                                </span>
+                            </div>
+                        </>
+                    )
+                }
             </NavLink>
-            <NavLink
-                to="/dashboard/categories"
-                className={({ isActive }) =>
-                    `mb-4 p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'bg-[#F5F5F5] text-[#DB4444] rounded-l-full' : 'hover:text-white hover:rounded-l-full'
-                    }`
-                }
-            >
+
+            <NavLink to="/dashboard/categories">
+                <div className={
+                    `p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'border-l-[1px] border-[#FF6C2F]' : 'hover:text-white hover:rounded-l-full'
+                    }`}>
+
+                </div>
                 <span className="w-6 h-6">
                     <InlineIcon icon={"solar:clipboard-list-bold-duotone"} fontSize={24} />
                 </span>
@@ -36,7 +45,7 @@ const Sidebar = () => {
             <NavLink
                 to="/dashboard/products"
                 className={({ isActive }) =>
-                    `mb-4 p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'bg-[#F5F5F5] text-[#DB4444] rounded-l-full' : 'hover:text-white hover:rounded-l-full'
+                    `p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'border-l-[1px] border-[#FF6C2F]' : 'hover:text-white hover:rounded-l-full'
                     }`
                 }
             >
@@ -48,7 +57,7 @@ const Sidebar = () => {
             <NavLink
                 to="/dashboard/commandes"
                 className={({ isActive }) =>
-                    `mb-4 p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'bg-[#F5F5F5] text-[#DB4444] rounded-l-full' : 'hover:text-white hover:rounded-l-full'
+                    `p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'border-l-[1px] border-[#FF6C2F]' : 'hover:text-white hover:rounded-l-full'
                     }`
                 }
             >
@@ -64,7 +73,7 @@ const Sidebar = () => {
             <NavLink
                 to="/dashboard/utilisateurs"
                 className={({ isActive }) =>
-                    `mb-4 p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'bg-[#F5F5F5] text-[#DB4444] rounded-l-full' : 'hover:text-white hover:rounded-l-full'
+                    `p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'border-l-[1px] border-[#FF6C2F]' : 'hover:text-white hover:rounded-l-full'
                     }`
                 }
             >
@@ -82,14 +91,14 @@ const Sidebar = () => {
             <NavLink
                 to="/"
                 className={({ isActive }) =>
-                    `mb-4 p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'bg-[#F5F5F5] text-[#DB4444] rounded-l-full' : 'hover:text-white hover:rounded-l-full'
+                    `p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'border-l-[1px] border-[#FF6C2F]' : 'hover:text-white hover:rounded-l-full'
                     }`
                 }
             >
                 <span><RollbackOutlined /></span>
                 Back Home
             </NavLink>
-        </aside>
+        </aside >
     );
 };
 
