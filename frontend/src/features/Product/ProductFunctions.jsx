@@ -28,9 +28,11 @@ const GetProducts = createAsyncThunk('Product/GetProducts', async (_) => {
 const SetProduct = createAsyncThunk('Product/SetProduct', async (data) => {
     try {
         const res = await AxiosInstance.post('/AddProduct', data);
+        console.log(res);
         return res.data;
     }
     catch (error) {
+        console.log(error);
         return error.response;
     }
 });

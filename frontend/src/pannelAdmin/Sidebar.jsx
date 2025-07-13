@@ -32,15 +32,21 @@ const Sidebar = () => {
             </NavLink>
 
             <NavLink to="/dashboard/categories">
-                <div className={
-                    `p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'border-l-[1px] border-[#FF6C2F]' : 'hover:text-white hover:rounded-l-full'
-                    }`}>
+                {
+                    ({ isActive }) => (
+                        <>
+                            <div className={
+                                `p-4 cursor-pointer flex items-center gap-3 ${isActive ? 'border-l-[1px] border-[#FF6C2F]' : 'hover:text-white hover:rounded-l-full'
+                                }`}>
 
-                </div>
-                <span className="w-6 h-6">
-                    <InlineIcon icon={"solar:clipboard-list-bold-duotone"} fontSize={24} />
-                </span>
-                Category
+                                <span className="w-6 h-6">
+                                    <InlineIcon icon={"solar:clipboard-list-bold-duotone"} fontSize={24} color={isActive ? "#FF6C2F" : ""} />
+                                </span>
+                                Category
+                            </div>
+                        </>
+                    )
+                }
             </NavLink>
             <NavLink
                 to="/dashboard/products"
@@ -49,10 +55,16 @@ const Sidebar = () => {
                     }`
                 }
             >
-                <span className="w-6 h-6">
-                    <InlineIcon icon={"solar:t-shirt-bold-duotone"} fontSize={24} />
-                </span>
-                Products
+                {
+                    ({ isActive }) => (
+                        <>
+                            <span className="w-6 h-6">
+                                <InlineIcon icon={"solar:t-shirt-bold-duotone"} fontSize={24} color={isActive ? "#FF6C2F" : ""} />
+                            </span>
+                            Products
+                        </>
+                    )
+                }
             </NavLink>
             <NavLink
                 to="/dashboard/commandes"
@@ -64,7 +76,7 @@ const Sidebar = () => {
                 {({ isActive }) => (
                     <>
                         <span className="w-6 h-6">
-                            <InlineIcon icon={"solar:bag-smile-bold-duotone"} fontSize={24} />
+                            <InlineIcon icon={"solar:bag-smile-bold-duotone"} fontSize={24} color={isActive ? "#FF6C2F" : ""} />
                         </span>
                         Orders
                     </>
@@ -80,7 +92,7 @@ const Sidebar = () => {
                 {({ isActive }) => (
                     <>
                         <span className="w-6 h-6">
-                            <InlineIcon icon={"solar:user-speak-rounded-bold-duotone"} fontSize={24} />
+                            <InlineIcon icon={"solar:user-speak-rounded-bold-duotone"} fontSize={24} color={isActive ? "#FF6C2F" : ""} />
                         </span>
                         Roles
                     </>

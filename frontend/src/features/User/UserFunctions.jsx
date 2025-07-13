@@ -9,7 +9,7 @@ AxiosInstance.interceptors.request.use((config) => {
 
 const Login = createAsyncThunk('User/Login', async (data, thunk) => {
     try {
-        const res = await AxiosInstance.post("/user/login", data);
+        const res = (await AxiosInstance.post("/user/login", data));
         return res.data;
     }
     catch (error) {
@@ -69,7 +69,7 @@ const DeleteSingleUser = createAsyncThunk('User/DeleteSingleUser', async (data, 
 
 const UpdateSingleUser = createAsyncThunk('User/UpdateSingleUser', async (data, thunk) => {
     try {
-        const res = await AxiosInstance.delete("/user/UpdateUser", { data });
+        const res = await AxiosInstance.patch("/user/UpdateUser", data);
         return res.data;
     } catch (err) {
         return thunk.rejectWithValue(err);

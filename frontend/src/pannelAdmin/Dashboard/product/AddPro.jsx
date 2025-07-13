@@ -1,13 +1,19 @@
-import React, { useState, useRef } from 'react';
-import { Modal, Button, Form, Input, Select, InputNumber, Upload } from 'antd';
+import React, { useState, useRef, useEffect } from 'react';
+import { Modal, Button, Form, Input, Select, InputNumber, Upload, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Draggable from 'react-draggable';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetCategories } from '../../../features/Category/CategoryFunctions';
+import { SetProduct } from '../../../features/Product/ProductFunctions';
 
 const { TextArea } = Input;
 
 function AddPro() {
     const [open, setOpen] = useState(false);
     const [disabled, setDisabled] = useState(true);
+
+    const [messageApi, contextHolder] = message.useMessage();
+
     const [bounds, setBounds] = useState({
         left: 0,
         top: 0,
@@ -15,6 +21,22 @@ function AddPro() {
         right: 0,
     });
     const draggleRef = useRef(null);
+
+    const dispatch = useDispatch();
+    const Category = useSelector(state => state.category);
+
+    useEffect(() => {
+        const getcate = async () => {
+            try {
+                await dispatch(GetCategories()).unwrap();
+                console.log(Category);
+            }
+            catch {
+                messageApi.error("Failing getting Categories");
+            }
+        }
+        getcate();
+    }, [])
 
     const showModal = () => {
         setOpen(true);
@@ -65,14 +87,24 @@ function AddPro() {
     };
 
     const handleOk = () => {
-        form.validateFields().then((values) => {
-            console.log('Form Data:', values); // Log les données du formulaire
-            form.resetFields();
-            setOpen(false); // Fermer le modal
+        form.validateFields().then(async (values) => {
+            try {
+                dispatch(SetProduct(values)).unwrap();
+                console.log('Form Data:', values);
+                form.resetFields();
+                setOpen(false);
+            }
+            catch (err) {
+
+            }
         }).catch((info) => {
             console.log('Validate Failed:', info);
         });
     };
+
+    // redux functions
+
+
 
     return (
         <>
@@ -136,9 +168,16 @@ function AddPro() {
                     <Form.Item name="type" label="Type :" rules={[{ required: true, message: 'Veuillez saisir le type!' }]}>
                         <Input placeholder="Saisir le type" />
                     </Form.Item>
-                    <Form.Item name="select" label="Sélectionner :" rules={[{ required: true, message: 'Veuillez sélectionner une option!' }]}>
+                    <Form.Item name="categorie" label="Sélectionner :" rules={[{ required: true, message: 'Veuillez sélectionner une option!' }]}>
                         <Select>
-                            <Select.Option value="electronics">Électronique</Select.Option>
+                            {
+                                Category.data.length ?
+                                    Category?.data.map((ele, index) => (
+                                        <Select.Option key={index} value={ele.name}>{ele.name}</Select.Option>
+                                    ))
+                                    :
+                                    null
+                            }
                         </Select>
                     </Form.Item>
                     <Form.Item name="price" label="Prix :" rules={[{ required: true, message: 'Veuillez saisir le prix!' }]}>

@@ -58,9 +58,15 @@ function index() {
     };
 
     // handle submit function
-    const Submit = (data) => {
-        console.log(data);
-        dispatch(Login(data));
+    const Submit = async (data) => {
+        try {
+            await dispatch(Login(data)).unwrap();
+            console.log(error);
+        }
+        catch (err) {
+            if (err?.code == "ERR_NETWORK")
+                messageApi.warning("something went wrong , please reload or try later !")
+        }
     };
 
     // style Inputs

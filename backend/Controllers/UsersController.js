@@ -65,7 +65,7 @@ async function UpdateUser(req, res) {
 	const { firstname, lastname, email, address, curr_password, newpass1 } = req.body;
 	try {
 		const User = await UserSchema.findOne({ email });
-		if (!Object.keys(User).length)
+		if (!User || !Object.keys(User).length)
 			return res.status(401);
 		var datenow = new Date();
 		if (User.updated_at && (datenow - User.updated_at) / (1000 * 60 * 60 * 24) < 2) {
@@ -145,8 +145,9 @@ async function DeleteUser(req, res) {
 async function UpdateUserAdmin(req, res) {
 	try {
 		const { firstname, lastname, email, tel, role } = req.body;
+		console.log(req.body);
 		const User = await UserSchema.findOne({ email });
-		if (!Object.keys(User).length)
+		if (!User || !Object.keys(User).length)
 			return res.status(404).json({ message: "USER_NOTFOUND" });
 		await User.updateOne({
 			firstname,
@@ -156,7 +157,8 @@ async function UpdateUserAdmin(req, res) {
 		}, { runValidators: true })
 		return res.json({ Queryone: true });
 	}
-	catch {
+	catch (err) {
+		console.log(err);
 		return res.status(400).json({ QueryDone: false });
 	}
 }

@@ -62,8 +62,8 @@ const UserSlice = createSlice({
 			// login cases
 			.addCase(Login.pending, setIsLoading)
 			.addCase(Login.rejected, (state, { payload }) => {
-				state.error = payload;
-				console.log(payload);
+				if (payload?.code != "ERR_NETWORK")
+					state.error = payload;
 				state.loading = false;
 			})
 			.addCase(Login.fulfilled, (state, { payload }) => {

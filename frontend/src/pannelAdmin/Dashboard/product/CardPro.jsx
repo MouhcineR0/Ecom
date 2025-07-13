@@ -2,29 +2,49 @@ import React, { useState } from 'react';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Card, Empty } from 'antd';
 import EditPro from './EditPro';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { GetProducts } from '../../../features/Product/ProductFunctions';
 
 const { Meta } = Card;
 
+const initialData = [
+    { name: "ak-900 wired keyboard", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130076/products/liodquuyu5cfsykpoxvd.png' },
+    { name: "ips lcd gaming monitor", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130365/products/pqutvfxms5jiyyvh6mdp.png' },
+    { name: "ips lcd gaming monitor", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130365/products/pqutvfxms5jiyyvh6mdp.png' },
+    { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
+    { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
+    { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
+    { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
+    { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
+    { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
+    { name: "gucci duffle bag", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130743/products/nilhneqxqsmqurs3shmq.png' }
+];
 function CardPro() {
-    const initialData = [
-        { name: "ak-900 wired keyboard", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130076/products/liodquuyu5cfsykpoxvd.png' },
-        { name: "ips lcd gaming monitor", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130365/products/pqutvfxms5jiyyvh6mdp.png' },
-        { name: "ips lcd gaming monitor", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130365/products/pqutvfxms5jiyyvh6mdp.png' },
-        { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
-        { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
-        { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
-        { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
-        { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
-        { name: "s-series comfort chair", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130550/products/m9yndyohzh5dxrhol6qr.png' },
-        { name: "gucci duffle bag", image: 'https://res.cloudinary.com/dcsntez6c/image/upload/v1714130743/products/nilhneqxqsmqurs3shmq.png' }
-    ];
 
     const [data, setData] = useState(initialData);
+
+    const Products = useSelector((state) => state.product);
+    const dispatch = useDispatch();
 
     const handleDelete = (index) => {
         const newData = data.filter((_, i) => i !== index);
         setData(newData);
     };
+
+    useEffect(() => {
+        const getPro = async () => {
+            try {
+                await dispatch(GetProducts()).unwrap();
+                console.log(Products);
+            }
+            catch (err) {
+                // handle err
+                console.log(err);
+            }
+        }
+        getPro();
+    }, [])
 
     return (
         <div className='flex gap-5 flex-wrap p-5 rounded-md mt-4 bg-white'>

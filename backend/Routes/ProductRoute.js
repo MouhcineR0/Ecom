@@ -5,11 +5,7 @@ const { upload } = require('../Middlewares/Cloudinary');
 const UploadMiddleware = require('../Middlewares/Cloudinary');
 const Router = express.Router();
 
-// function middle(req, res, next) {
-// 	console.log("ff");
-// 	upload.single('file')
-// 	next();
-// }
+
 
 Router.route('/AddProduct').post(Authenticated, UploadMiddleware, AddProduct);
 Router.route('/GetPro').get(GetProducts);

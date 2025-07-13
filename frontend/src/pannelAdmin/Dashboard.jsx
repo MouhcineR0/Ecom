@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './Header';
 import SideBar from './Sidebar';
 import Accueil from './Dashboard/accueil/Accueil';
@@ -18,7 +18,7 @@ const Dashboard = () => {
         <Header />
         <div className="mt-6 px-6 overflow-y-auto bg-gray-100 ">
           <Routes>
-            <Route index element={<Accueil />} />
+            <Route index element={<Navigate to={"/dashboard/accueil"} />} />
             <Route path="accueil" element={<Accueil />} />
             <Route path="categories" element={<Category />} />
             <Route path="products" element={<Product />} />
