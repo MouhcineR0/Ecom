@@ -82,7 +82,7 @@ app.use("/api", AuthRoute);
 
 
 // Error handler Middleware
-app.use(ErrorHandler);
+// app.use(ErrorHandler);
 
 const PORT = process.env.PORT || 3321;
 

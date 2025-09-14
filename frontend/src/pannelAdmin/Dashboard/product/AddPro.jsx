@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import Draggable from 'react-draggable';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCategories } from '../../../features/Category/CategoryFunctions';
-import { SetProduct } from '../../../features/Product/ProductFunctions';
+import { GetProducts, SetProduct } from '../../../features/Product/ProductFunctions';
 
 const { TextArea } = Input;
 
@@ -24,19 +24,6 @@ function AddPro() {
 
     const dispatch = useDispatch();
     const Category = useSelector(state => state.category);
-
-    useEffect(() => {
-        const getcate = async () => {
-            try {
-                await dispatch(GetCategories()).unwrap();
-                console.log(Category);
-            }
-            catch {
-                messageApi.error("Failing getting Categories");
-            }
-        }
-        getcate();
-    }, [])
 
     const showModal = () => {
         setOpen(true);
@@ -89,16 +76,28 @@ function AddPro() {
     const handleOk = () => {
         form.validateFields().then(async (values) => {
             try {
-                dispatch(SetProduct(values)).unwrap();
-                console.log('Form Data:', values);
+                values.image = values.image[0].originFileObj;
+                const newFormdata = new FormData();
+                Object.keys(values).forEach((ele) => {
+                    newFormdata.append(ele, values[ele]);
+                })
+                message.open({
+                    type: "loading",
+                    key: 'loading01',
+                    content: "Adding an Item"
+                })
+                await dispatch(SetProduct(newFormdata)).unwrap();
+                await dispatch(GetProducts()).unwrap();
+                message.destroy("loading01");
                 form.resetFields();
                 setOpen(false);
+
             }
             catch (err) {
 
             }
         }).catch((info) => {
-            console.log('Validate Failed:', info);
+            // console.log('Validate Failed:', info);
         });
     };
 
@@ -112,7 +111,7 @@ function AddPro() {
                 onClick={showModal}
                 className='bg-blue-500 text-white hover:bg-blue-700'
             >
-                Ajouter un nouveau Produit
+                Add new Product
             </Button>
             <Modal
                 title={
@@ -165,7 +164,7 @@ function AddPro() {
                     <Form.Item name="name" label="Nom :" rules={[{ required: true, message: 'Veuillez saisir le nom!' }]}>
                         <Input placeholder="Saisir le Nom de Produit" />
                     </Form.Item>
-                    <Form.Item name="type" label="Type :" rules={[{ required: true, message: 'Veuillez saisir le type!' }]}>
+                    <Form.Item name="type" label="Type :" rules={[{ required: false, message: 'Veuillez saisir le type!' }]}>
                         <Input placeholder="Saisir le type" />
                     </Form.Item>
                     <Form.Item name="categorie" label="Sélectionner :" rules={[{ required: true, message: 'Veuillez sélectionner une option!' }]}>
@@ -186,11 +185,11 @@ function AddPro() {
                     <Form.Item name="quantity" label="Quantité :" rules={[{ required: true, message: 'Veuillez saisir la quantité!' }]}>
                         <InputNumber min={0} />
                     </Form.Item>
-                    <Form.Item name="promotion" label="Promotion :" rules={[{ required: true, message: 'Veuillez saisir la promotion!' }]}>
+                    <Form.Item name="promo" label="Promotion :" rules={[{ required: true, message: 'Veuillez saisir la promotion!' }]}>
                         <InputNumber min={0} />
                     </Form.Item>
                     <Form.Item name="image" label="Image" valuePropName="fileList" getValueFromEvent={normFile}>
-                        <Upload action="/upload.do" listType="picture-card">
+                        <Upload beforeUpload={() => false} name='image' action="/upload.do" listType="picture-card" maxCount={1}>
                             <div>
                                 <PlusOutlined />
                                 <div style={{ marginTop: 8 }}>Upload</div>

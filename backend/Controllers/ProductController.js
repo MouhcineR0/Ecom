@@ -5,17 +5,17 @@ const ProductSchema = require('../database/Schemas/ProductSchema');
 const RatingSchema = require('../database/Schemas/RatingSchema');
 const cloudinary = require('../utils/cloudinary');
 const DeleteImg = require("../utils/DeleteImg");
-const { Query } = require('mongoose');
+
 
 
 async function AddProduct(req, res) {
-	// console.log(req);
+	// console.log(req.body);
 	const { name, description, price, categorie, type, ratings, quantity, promo } = req.body;
 	const image = "uploads/" + req.filename;
 	if (req.role != 'admin')
 		return res.status(401);
 	try {
-		if (name && description && price && categorie && type && quantity) {
+		if (name && description && price && categorie && quantity) {
 			const checkProduct = await ProductSchema.findOne({ name });
 			if (checkProduct) {
 				return res.status(400).json({ message: 'ALREADY_EXIST' });
@@ -39,7 +39,6 @@ async function AddProduct(req, res) {
 					public_id: result.public_id,
 					url: result.secure_url
 				},
-				type,
 				quantity: quantity || 0,
 				promo: promo || 0
 			});
@@ -71,10 +70,12 @@ async function GetProducts(req, res) {
 		const products = await ProductSchema.find({}, { ratings: 0 });
 		const productsWithRatingCounts = await Promise.all(products.map(async (product) => {
 			const ratingCount = await RatingSchema.countDocuments({ product: product._id });
-			return { ...product.toObject(), ratingCount };
+			const Category = await CategorySchema.find({ _id: product.categorie })
+			return { ...product.toObject(), ratingCount, categorie: Category[0]?.name };
 		}));
 		return res.status(200).json(productsWithRatingCounts);
 	} catch (err) {
+		console.log(err)
 		return res.status(500).json({ QueryDone: false, message: "ERR" });
 	}
 }
@@ -92,6 +93,7 @@ async function GetProduct(req, res) {
 		res.status(500).json(err);
 	}
 }
+
 async function ProductsApi(req, res) {
 	const { product } = req.body;
 
@@ -101,7 +103,7 @@ async function ProductsApi(req, res) {
 }
 async function EditProduct(req, res) {
 	const { id } = req.params;
-	const { name, description, price, categorie, image, type, ratings, quantity, promo } = req.body;
+	var { name, description, price, categorie, type, ratings, quantity, promo } = req.body;
 
 	if (req.role !== "admin") {
 		return res.status(403);
@@ -110,27 +112,29 @@ async function EditProduct(req, res) {
 		const product = await ProductSchema.findById(id);
 		if (!product)
 			return res.status(404);
-		if (image) {
-			const result = await cloudinary.uploader.upload(image, {
-				folder: "products",
-			});
-			product.imagepath = {
-				public_id: result.public_id,
-				url: result.secure_url
-			};
-		}
+		// if (image) {
+		// 	const result = await cloudinary.uploader.upload(image, {
+		// 		folder: "products",
+		// 	});
+		// 	product.imagepath = {
+		// 		public_id: result.public_id,
+		// 		url: result.secure_url
+		// 	};
+		// }
+
+		categorie = await CategorySchema.findOne({ name: categorie });
 
 		product.name = name || product.name;
 		product.description = description || product.description;
 		product.price = price || product.price;
-		product.categorie = categorie || product.categorie;
+		product.categorie = categorie._id || product.categorie;
 		product.type = type || product.type;
 		product.ratings = ratings || product.ratings;
 		product.quantity = quantity || product.quantity;
 		product.promo = promo || product.promo;
 
 		await product.save();
-		res.status(200).json('Produit mis à jour avec succès');
+		res.status(200).json('Product Updated');
 	} catch (err) {
 		res.status(500).json(err);
 	}

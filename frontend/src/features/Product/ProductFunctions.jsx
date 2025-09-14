@@ -27,7 +27,7 @@ const GetProducts = createAsyncThunk('Product/GetProducts', async (_) => {
 
 const SetProduct = createAsyncThunk('Product/SetProduct', async (data) => {
     try {
-        const res = await AxiosInstance.post('/AddProduct', data);
+        const res = await AxiosInstance.post('/AddProduct', data, { headers: { "Content-Type": "multipart/form-data" } });
         console.log(res);
         return res.data;
     }
@@ -38,18 +38,21 @@ const SetProduct = createAsyncThunk('Product/SetProduct', async (data) => {
 });
 
 const EditProduct = createAsyncThunk('Product/EditProduct', async (data) => {
+    console.log(data);
     try {
-        const res = await AxiosInstance.post(`/AddProduct/${data?.id}`, data);
+        const res = await AxiosInstance.put(`/editProduct/${data._id}`, data);
+        console.log(res.data);
         return res.data;
     }
     catch (error) {
+        console.log(error)
         return error.response;
     }
 });
 
-const DelProduct = createAsyncThunk('Product/DelProduct', async ({ id }) => {
+const DelProduct = createAsyncThunk('Product/DelProduct', async (id) => {
     try {
-        const res = await AxiosInstance.post(`/AddProduct/${data?.id}`);
+        const res = await AxiosInstance.delete(`/delProduct/${id}`);
         return res.data;
     }
     catch (error) {

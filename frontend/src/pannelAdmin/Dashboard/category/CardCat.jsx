@@ -49,7 +49,7 @@ const CardCat = () => {
   );
 
   return (
-    <div className='flex gap-5 flex-wrap p-5 rounded-md mt-4 bg-white items-center'>
+    <div className='single-categorie grid grid-cols-3 md:grid-cols-6 gap-8'>
       {CategoryObj.data.length > 0 ? (
         CategoryObj.data.map((ele) => (
           <Card
@@ -61,18 +61,21 @@ const CardCat = () => {
               </Dropdown>
             }
             style={{
-              width: 240,
-              marginBottom: '20px',
-              outline: '2px dashed gray',
+              // width: 240,
+              // marginBottom: '20px',
+              // outline: '2px dashed gray',
             }}
           >
-            <div className="flex justify-around items-center ">
-              <p>{ele.name}</p>
-              <div
-                dangerouslySetInnerHTML={{ __html: ModifySVG(ele.svg, Width) }}
-                className=''
-              />
+            <div className="rounded-md border border-gray-400 py-5 flex items-center justify-center  hover:border-primary hover:bg-primary hover:text-white transition-all duration-300 cursor-pointer">
+              <div className='flex flex-col gap-4 items-center'>
+                <div
+                  dangerouslySetInnerHTML={{ __html: ModifySVG(ele.svg, Width) }}
+                  className=''
+                />
+                <h1 className='md:text-sm text-[12px]'>{ele.name}</h1>
+              </div>
             </div>
+
           </Card>
         ))
       ) : (

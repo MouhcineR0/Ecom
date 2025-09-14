@@ -17,7 +17,6 @@ const CategorySlice = createSlice({
 			state.data = []
 		},
 		setError: (state, { payload }) => {
-			console.log(payload);
 			state.error = payload;
 		}
 	},

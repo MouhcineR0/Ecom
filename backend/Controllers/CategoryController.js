@@ -70,6 +70,7 @@ async function GetAllCategories(req, res) {
 		const categories = await CategorySchema.find();
 		res.status(200).json({ QueryDone: true, categories });
 	} catch (err) {
+		console.log(err);
 		res.status(500).json(err);
 	}
 }

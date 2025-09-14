@@ -4,7 +4,6 @@ import AxiosInstance from "../AxiosInstance";
 export const GetCategories = createAsyncThunk('GetCategories', async (data, thunk) => {
 	try {
 		const res = await AxiosInstance.get('/GetCat');
-		console.log("first")
 		return res.data;
 	}
 	catch (error) {

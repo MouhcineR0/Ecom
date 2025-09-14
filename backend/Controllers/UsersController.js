@@ -40,7 +40,7 @@ async function Signup(req, res) {
 		const { email, password, firstname, lastname, tel, role } = req.body;
 		if (role)
 			return res.json({ message: "Failed" });
-		if (email && password && firstname && lastname && tel && Role) {
+		if (email && password && firstname && lastname && tel) {
 			// useless ghankhdem ghir b catch mn be3d w nfixih howa w phone number
 			const available = await UserSchema.find({ email });
 			if (available.length) {
@@ -48,7 +48,7 @@ async function Signup(req, res) {
 			}
 			const HASHED_PW = HashPassword(password);
 			const query = new UserSchema({
-				firstname, lastname, email, tel, password: HASHED_PW, role: Role,
+				firstname, lastname, email, tel, password: HASHED_PW, role: 'client',
 			});
 			await query.save();
 			return res.json({ message: 'SUCCESS' });
@@ -56,6 +56,7 @@ async function Signup(req, res) {
 		return res.json({ message: 'FAILED' });
 	}
 	catch (e) {
+		console.log(e);
 		return res.json({ message: 'FAILED' });
 	}
 }
