@@ -14,13 +14,16 @@ AxiosInstance.interceptors.request.use((config) => {
 
 // Slice Api Functions
 
-const GetProducts = createAsyncThunk('Product/GetProducts', async (_) => {
+const GetProducts = createAsyncThunk('Product/GetProducts', async (data) => {
     try {
-        const res = await AxiosInstance.get('/GetPro');
-        console.log(res.data);
+        const res = await AxiosInstance.get(`/GetPro`, { params: data });
+        if (data?.flashsales)
+            return { products: res.data, flashsales: true }
+        // res.data.flashsales = true;
         return res.data;
     }
     catch (err) {
+        console.log(err)
         return;
     }
 });

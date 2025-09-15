@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { DelProduct, EditProduct, GetProducts, SetProduct } from "./ProductFunctions";
 
-const initialState = { products: [], error: false, loading: false, ErrorType: "", SERVER_STATE: "" };
+const initialState = { products: [], flashsales: [], error: false, loading: false, ErrorType: "", SERVER_STATE: "" };
 
 const productSlice = createSlice({
     name: 'product',
@@ -21,7 +21,10 @@ const productSlice = createSlice({
         builder
             // Get Products Cases
             .addCase(GetProducts.fulfilled, (state, action) => {
-                state.products = action.payload;
+                if (action.payload?.flashsales)
+                    state.flashsales = action.payload.products;
+                else
+                    state.products = action.payload;
                 state.error = false;
                 state.loading = false;
             })

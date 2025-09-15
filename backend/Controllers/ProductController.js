@@ -66,13 +66,15 @@ async function AddProduct(req, res) {
 	}
 }
 async function GetProducts(req, res) {
+	var { flashsales } = req.query;
 	try {
-		const products = await ProductSchema.find({}, { ratings: 0 });
+		const products = await ProductSchema.find({ ...(flashsales && { promo: { $gt: 10 } }) }, { ratings: 0 });
 		const productsWithRatingCounts = await Promise.all(products.map(async (product) => {
 			const ratingCount = await RatingSchema.countDocuments({ product: product._id });
 			const Category = await CategorySchema.find({ _id: product.categorie })
 			return { ...product.toObject(), ratingCount, categorie: Category[0]?.name };
 		}));
+		console.log(productsWithRatingCounts);
 		return res.status(200).json(productsWithRatingCounts);
 	} catch (err) {
 		console.log(err)

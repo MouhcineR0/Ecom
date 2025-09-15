@@ -6,6 +6,7 @@ import Layout from './Layout';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Cart from './pages/Cart';
+import About from './pages/About';
 import Error404 from './pages/Error404';
 import UserProtectedRoute from './components/ProtectedRoutes/UserProtectedRoute';
 import AdminProtectedRoute from './components/ProtectedRoutes/AdminProtectedRoute';
@@ -79,7 +80,6 @@ function App() {
   }, [])
 
 
-  console.log("isauth ", isAuth);
   return (!loading &&
     <BrowserRouter>
       {contextHolder}
@@ -101,6 +101,7 @@ function App() {
               </UserProtectedRoute>
             } />
           <Route path='*' element={<Error404 />} />
+          <Route path='/about' element={<About />} />
           {/* <Route path='/checkout' element={<Checkout />} /> */}
         </Route>
         <Route
