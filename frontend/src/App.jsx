@@ -16,6 +16,8 @@ import { message } from 'antd';
 import { Logout, ResetUserParams, SignData } from './features/User/UserSlice';
 import Account from './pages/Account'
 import Profile from './pages/Account/Profile';
+import Chat from './pages/chat';
+
 
 
 function App() {
@@ -83,6 +85,7 @@ function App() {
   return (!loading &&
     <BrowserRouter>
       {contextHolder}
+      <Chat />
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />

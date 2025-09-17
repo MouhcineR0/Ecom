@@ -39,6 +39,8 @@ function FlashProducts({ swiper, setSwiper }) {
         }
     };
 
+    var LovedItems = localStorage.getItem("LovedItems")?.split(';');
+
     return (
         <>
             {!loading &&
@@ -76,7 +78,7 @@ function FlashProducts({ swiper, setSwiper }) {
                                     <SwiperSlide className={SliderStyle} key={ele._id}>
                                         <ProductDisplay id={ele._id} img={ele?.imagepath?.url} offerPercentage={ele.promo}
                                             oldPrice={150} price={ele.price} rating={ele.ratingCount} ratingCount={ele.ratingCount}
-                                            title={ele.name} key={ind} Loved={true} />
+                                            title={ele.name} key={ind} Loved={(LovedItems && LovedItems?.indexOf(ele._id) != -1) ? true : false} />
                                     </SwiperSlide>
                                 </>
                             );

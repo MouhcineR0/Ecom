@@ -74,7 +74,6 @@ async function GetProducts(req, res) {
 			const Category = await CategorySchema.find({ _id: product.categorie })
 			return { ...product.toObject(), ratingCount, categorie: Category[0]?.name };
 		}));
-		console.log(productsWithRatingCounts);
 		return res.status(200).json(productsWithRatingCounts);
 	} catch (err) {
 		console.log(err)

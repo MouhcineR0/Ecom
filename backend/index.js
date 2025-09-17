@@ -56,13 +56,45 @@ const upload = multer({
         fileSize: 12 * 1024 * 1024
     }
 });
-// /---------------
 
-app.post('/', upload.single('file'), (req, res) => {
-    console.log(req.file);
-    res.json({ QueryDone: true });
+// GPT API
 
+const OpenAI = require("openai");
+
+const token = process.env.GITHUB_GPT;
+const endpoint = "https://models.github.ai/inference";
+const modelName = "openai/gpt-4o";
+
+app.post("/gpt", async (req, res) => {
+    const { message } = req.body;
+    const { role } = req;
+    if (role != 'admin' || role != 'client')
+        return res.status(401).json({ QueryDone: false });
+    if (!message.length)
+        return res.json({ QueryDone: false });
+    try {
+        const client = new OpenAI({ baseURL: endpoint, apiKey: token });
+        const Products = await ProductSchema.find();
+        const response = await client.chat.completions.create({
+            messages: [
+                { role: "system", content: `You are an AI assistant for an e-commerce store. Only answer about available products, else say something like 'i only give infos about products, try again !!' , and this is products that we have ${Products}` },
+                { role: "user", content: message }
+            ],
+            temperature: 1.0,
+            top_p: 1.0,
+            max_tokens: 1000,
+            model: modelName
+        });
+        return res.json({ data: (response.choices[0].message.content) });
+    }
+    catch {
+        return res.status(500).json({ QueryDone: false });
+    }
 })
+
+
+
+
 
 // Routes
 const UserRouter = require('./Routes/UsersRoute');
@@ -70,13 +102,16 @@ const ProductRoute = require('./Routes/ProductRoute');
 const RatingRoute = require('./Routes/RatingRoute');
 const OrderRoute = require('./Routes/OrderRoute');
 const CategoryRoute = require('./Routes/CategoryRoute');
+const CardRoute = require('./Routes/CardRoute');
 const AuthRoute = require('./Routes/isAuth');
+const ProductSchema = require('./database/Schemas/ProductSchema');
 
 app.use("/api/user", UserRouter);
 app.use("/api", ProductRoute);
 app.use("/api", RatingRoute);
 app.use("/api", OrderRoute);
 app.use("/api", CategoryRoute);
+app.use("/api", CardRoute);
 app.use("/api", AuthRoute);
 
 

@@ -4,16 +4,31 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { SlEye } from "react-icons/sl";
 import Rating from "@mui/material/Rating";
 import Stack from '@mui/material/Stack';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import useWidth from '../../hooks/useWidth';
+import Lightbox from 'yet-another-react-lightbox';
+import "yet-another-react-lightbox/styles.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { AddCard } from '../../features/Product/ProductFunctions';
+import { message } from 'antd';
 
 
 
 
 function index({ id, title, price, oldPrice, rating, ratingCount, img, offerPercentage, Loved }) {
+
+
+    const dispatch = useDispatch();
+    const { user } = useSelector(state => state.user);
+
     const [MouseOver, setMouseOver] = useState(false);
 
+    // for image popup
+    const [open, setopen] = useState(false);
+
     const Width = useWidth();
+
+    const [isLoved, setisLoved] = useState(Loved);
 
     const MouseEnter = () => {
         setMouseOver(true);
@@ -26,6 +41,44 @@ function index({ id, title, price, oldPrice, rating, ratingCount, img, offerPerc
     const IconsStyle = 'bg-white hover:bg-red-500 hover:text-white text-[30px] rounded-full cursor-pointer p-1 product-icon';
     const LovedIconStyle = 'bg-red-500 text-white hover:bg-white hover:text-black text-[30px] rounded-full cursor-pointer p-1 product-icon';
     // 200 : 180
+    // const Loved = false;
+
+    const LoveClick = (id) => {
+        let LovedItems = localStorage.getItem("LovedItems");
+        if (LovedItems && LovedItems.length)
+            LovedItems += ';' + id;
+        else
+            LovedItems = id;
+        localStorage.setItem("LovedItems", LovedItems);
+        setisLoved(true);
+    }
+
+    const LoveCancled = (id) => {
+        let LovedItems = localStorage.getItem("LovedItems")?.split(';');
+        LovedItems = LovedItems.filter((ele) => (ele != id && ele.length));
+        console.log(LovedItems);
+        let LovedItemsString = "";
+        LovedItems.map((ele) => LovedItemsString += ele + ';');
+        localStorage.setItem("LovedItems", LovedItemsString);
+        setisLoved(false);
+    }
+
+    // user
+    const { isAuth } = useSelector(state => state.user);
+    const navigate = useNavigate();
+    const handleAddCard = async () => {
+        if (!isAuth) {
+            window.location.href = '/login';
+            return;
+        }
+        try {
+            await dispatch(AddCard({ Prod_id: id, User_id: user?.id })).unwrap();
+            window.location.href = '/card';
+        }
+        catch (e) {
+            message.error("Failing Adding to Card");
+        }
+    }
 
     return (
         <>
@@ -36,13 +89,23 @@ function index({ id, title, price, oldPrice, rating, ratingCount, img, offerPerc
                         {offerPercentage && <div className="offre bg-primary absolute top-1 left-1 px-3 py-1 rounded-md text-white text-[11px]">-{offerPercentage}%</div>}
                         <div className='flex flex-col absolute top-1 right-1 gap-1'>
                             <div>
-                                {Loved ? <IoIosHeartEmpty className={LovedIconStyle} /> : <IoIosHeartEmpty className={IconsStyle} />}
+                                {isLoved ? <IoIosHeartEmpty className={LovedIconStyle} onClick={() => LoveCancled(id)} /> : <IoIosHeartEmpty className={IconsStyle} onClick={() => LoveClick(id)} />}
                             </div>
                             <div>
-                                <SlEye className={IconsStyle} />
+                                <SlEye className={IconsStyle} onClick={() => setopen(true)} />
+                                <Lightbox
+                                    open={open}
+                                    close={() => setopen(false)}
+                                    slides={[{ src: img }]}
+                                    carousel={{ finite: true }}
+                                    render={{ buttonNext: () => null, buttonPrev: () => null }}
+                                />
                             </div>
                         </div>
-                        <Link className={`bg-black flex w-full font-poppins text-white justify-center py-2 rounded-b-md z-[-1] absolute bottom-0 ${MouseOver || Width < 769 ? 'translate-y-[0]' : 'translate-y-[50px]'}`}>
+                        <Link
+                            onClick={handleAddCard}
+                            className={`bg-black flex w-full font-poppins text-white justify-center py-2 rounded-b-md z-[-1] absolute bottom-0 ${MouseOver || Width < 769 ? 'translate-y-[0]' : 'translate-y-[50px]'}`}>
+
                             Add To Cart
                         </Link>
                     </div>

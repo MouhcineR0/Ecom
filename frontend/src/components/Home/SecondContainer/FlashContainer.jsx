@@ -7,6 +7,7 @@ import Title from '../../utils/Title';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetProducts } from '../../../features/Product/ProductFunctions';
+import { message } from 'antd';
 
 const FlashContainer = ({ targetDate, swiper, setSwiper }) => {
 
@@ -30,14 +31,16 @@ const FlashContainer = ({ targetDate, swiper, setSwiper }) => {
             try {
                 await dispatch(GetProducts({ flashsales: true })).unwrap();
             }
-            catch { }
+            catch {
+                message.error("Failing Getting Flash Products !");
+            }
         }
         flashpro();
     }, [])
 
     return (
         <>
-            {flashsales?.length &&
+            {flashsales?.length ?
                 <div className='container mx-auto font-poppins font-semibold lg:mt-[100px] md:mt-[75px] mt-[50px]'>
                     <Title title="Today's" />
                     <div className='flex justify-between items-center'>
@@ -53,6 +56,7 @@ const FlashContainer = ({ targetDate, swiper, setSwiper }) => {
                         </div>
                     </div>
                 </div>
+                : null
             }
         </>
     );

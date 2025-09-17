@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { DelProduct, EditProduct, GetProducts, SetProduct } from "./ProductFunctions";
+import { AddCard, DelProduct, EditProduct, GetCard, GetProducts, SetProduct } from "./ProductFunctions";
 
-const initialState = { products: [], flashsales: [], error: false, loading: false, ErrorType: "", SERVER_STATE: "" };
+// addcard handled here
+
+const initialState = { products: [], flashsales: [], Card: [], error: false, loading: false, ErrorType: "", SERVER_STATE: "" };
 
 const productSlice = createSlice({
     name: 'product',
@@ -68,7 +70,31 @@ const productSlice = createSlice({
             })
             .addCase(DelProduct.rejected, (state, { payload }) => {
                 state.ErrorType = payload;
-            });
+            })
+            .addCase(AddCard.fulfilled, (state, { payload }) => {
+                console.log(payload)
+                state.loading = false;
+                state.SERVER_STATE = payload;
+            })
+            .addCase(AddCard.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(AddCard.rejected, (state, { payload }) => {
+                state.ErrorType = payload;
+            })
+            .addCase(GetCard.fulfilled, (state, { payload }) => {
+                state.Card = payload.data;
+                state.loading = false;
+                state.SERVER_STATE = payload;
+            })
+            .addCase(GetCard.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(GetCard.rejected, (state, { payload }) => {
+                state.ErrorType = payload;
+            })
+
+            ;
     }
 });
 

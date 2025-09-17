@@ -59,8 +59,42 @@ const DelProduct = createAsyncThunk('Product/DelProduct', async (id) => {
         return res.data;
     }
     catch (error) {
-        return error.response;
+        return error?.response;
     }
 });
 
-export { GetProducts, SetProduct, EditProduct, DelProduct };
+const AddCard = createAsyncThunk('Product/AddCard', async (data) => {
+    try {
+        const res = await AxiosInstance.post('/AddCard', data);
+        return res.data;
+    }
+    catch (error) {
+        console.log(error);
+        return error?.response;
+    }
+})
+
+const GetCard = createAsyncThunk('Product/GetCard', async (data) => {
+    try {
+        const res = await AxiosInstance.get(`/GetCard/${data}`);
+        return res.data;
+    }
+    catch (error) {
+        console.log(error);
+        return error?.response;
+    }
+})
+
+const DeleteCard = createAsyncThunk('Product/DeleteCard', async (data) => {
+    try {
+        const res = await AxiosInstance.delete(`/DeleteCard/${data}`);
+        console.log(res.data);
+        return res.data;
+    }
+    catch (error) {
+        console.log(error);
+        return error?.response;
+    }
+})
+
+export { GetProducts, SetProduct, EditProduct, DelProduct, AddCard, GetCard, DeleteCard };

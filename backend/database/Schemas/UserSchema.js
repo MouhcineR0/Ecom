@@ -13,6 +13,9 @@ const UserSchema = new mongoose.Schema({
             }
         }
     },
+    card: {
+        
+    },
     lastname: {
         type: String,
         required: true,
