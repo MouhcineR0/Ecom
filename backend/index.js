@@ -65,19 +65,21 @@ const token = process.env.GITHUB_GPT;
 const endpoint = "https://models.github.ai/inference";
 const modelName = "openai/gpt-4o";
 
-app.post("/gpt", async (req, res) => {
+const Authenticated = require('./Middlewares/isAuth');
+
+app.post("/api/gpt", Authenticated, async (req, res) => {
     const { message } = req.body;
     const { role } = req;
-    if (role != 'admin' || role != 'client')
+    if (role != 'admin' && role != 'client')
         return res.status(401).json({ QueryDone: false });
-    if (!message.length)
+    if (!message?.length)
         return res.json({ QueryDone: false });
     try {
         const client = new OpenAI({ baseURL: endpoint, apiKey: token });
         const Products = await ProductSchema.find();
         const response = await client.chat.completions.create({
             messages: [
-                { role: "system", content: `You are an AI assistant for an e-commerce store. Only answer about available products, else say something like 'i only give infos about products, try again !!' , and this is products that we have ${Products}` },
+                { role: "system", content: `You are an AI assistant for an e-commerce store. Only answer about available products, else say something like 'i only give infos about products, try again !!', and you can also say hi if the user said it, and if he asks you about your self just say im PrimeShop AI assistant, do not montion products image url , and this is products that we have ${Products}` },
                 { role: "user", content: message }
             ],
             temperature: 1.0,
@@ -87,7 +89,8 @@ app.post("/gpt", async (req, res) => {
         });
         return res.json({ data: (response.choices[0].message.content) });
     }
-    catch {
+    catch (e) {
+        console.log(e);
         return res.status(500).json({ QueryDone: false });
     }
 })

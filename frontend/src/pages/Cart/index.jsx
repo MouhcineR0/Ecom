@@ -63,7 +63,7 @@ function index() {
     const [messageApi, contextHolder] = message.useMessage();
 
     useEffect(() => {
-        const Total = Card.reduce((sum, ele) => sum + (ele?.Quantity * ele.product.price), 0);
+        const Total = Card?.reduce((sum, ele) => sum + (ele?.Quantity * ele.product.price), 0);
         setTotalPrice(Total);
     }, [Card]);
 
