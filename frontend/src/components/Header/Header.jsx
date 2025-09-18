@@ -18,12 +18,12 @@ import { Logout, ResetUserParams } from '../../features/User/UserSlice';
 const text = <span>Title</span>;
 
 const linksData = [
-    { icon: faChartSimple, text: 'Dashboard', to: '/dashboard' },
-    { icon: faUser, text: 'Manage My Account', to: '/account' },
-    { icon: faBagShopping, text: 'My Orders', to: '/orders' },
-    { icon: faBan, text: 'My Cancellations', to: '/cancellations' },
-    { icon: faStar, text: 'My Reviews', to: '/reviews' },
-    { icon: faRightFromBracket, text: 'Logout', to: '/logout' },
+	{ icon: faChartSimple, text: 'Dashboard', to: '/dashboard' },
+	{ icon: faUser, text: 'Manage My Account', to: '/account' },
+	{ icon: faBagShopping, text: 'My Orders', to: '/orders' },
+	{ icon: faBan, text: 'My Cancellations', to: '/cancellations' },
+	{ icon: faStar, text: 'My Reviews', to: '/reviews' },
+	{ icon: faRightFromBracket, text: 'Logout', to: '/logout' },
 ];
 
 
@@ -60,28 +60,28 @@ function Header() {
 		navigate('/login');
 	}
 
-    const content = (
-        <div className='flex flex-col p-0 text-white gap-2 items-start'>
-            {linksData.map((link, index) => (
-                link.to == '/logout' ?
-                    <div key={index} onClick={HandleLogout} className='flex items-center gap-2 hover:text-[#1677ff] cursor-pointer'>
-                        <FontAwesomeIcon size='xl' icon={link.icon} />
-                        <h1>{link.text}</h1>
-                    </div> :
-                    link.to == '/dashboard' && user.user.role == 'admin' ?
-                        <Link key={index} to={link.to} className='flex items-center gap-2'>
-                            <FontAwesomeIcon size='xl' icon={link.icon} />
-                            <h1>{link.text}</h1>
-                        </Link> :
-                        link.to == '/dashboard' && user.user.role != 'admin' ?
-                            (null) :
-                            <Link key={index} to={link.to} className='flex items-center gap-2'>
-                                <FontAwesomeIcon size='xl' icon={link.icon} />
-                                <h1>{link.text}</h1>
-                            </Link>
-            ))}
-        </div>
-    );
+	const content = (
+		<div className='flex flex-col p-0 text-white gap-2 items-start'>
+			{linksData.map((link, index) => (
+				link.to == '/logout' ?
+					<div key={index} onClick={HandleLogout} className='flex items-center gap-2 hover:text-[#1677ff] cursor-pointer'>
+						<FontAwesomeIcon size='xl' icon={link.icon} />
+						<h1>{link.text}</h1>
+					</div> :
+					link.to == '/dashboard' && user.user.role == 'admin' ?
+						<Link key={index} to={link.to} className='flex items-center gap-2'>
+							<FontAwesomeIcon size='xl' icon={link.icon} />
+							<h1>{link.text}</h1>
+						</Link> :
+						link.to == '/dashboard' && user.user.role != 'admin' ?
+							(null) :
+							<Link key={index} to={link.to} className='flex items-center gap-2'>
+								<FontAwesomeIcon size='xl' icon={link.icon} />
+								<h1>{link.text}</h1>
+							</Link>
+			))}
+		</div>
+	);
 
 	const IconStyle = {
 		fontSize: 27,
@@ -109,7 +109,9 @@ function Header() {
 						<Input label='Search Products' icon={<CiSearch />} />
 					</form>
 					<Badge size='small' count={0} className='cursor-pointer'>
-						<FaRegHeart style={IconStyle} size={20} />
+						<Link to={'/love'}>
+							<FaRegHeart style={IconStyle} size={20} />
+						</Link>
 					</Badge>
 					<Badge size='small' count={0} className='cursor-pointer'>
 						<Link to={'/card'}>

@@ -15,6 +15,7 @@ import AxiosInstance from './features/AxiosInstance';
 import { message } from 'antd';
 import { Logout, ResetUserParams, SignData } from './features/User/UserSlice';
 import Account from './pages/Account'
+import Love from './pages/Love'
 import Profile from './pages/Account/Profile';
 import Chat from './pages/chat';
 
@@ -105,6 +106,7 @@ function App() {
             } />
           <Route path='*' element={<Error404 />} />
           <Route path='/about' element={<About />} />
+          <Route path='/love' element={<Love />} />
           {/* <Route path='/checkout' element={<Checkout />} /> */}
         </Route>
         <Route
