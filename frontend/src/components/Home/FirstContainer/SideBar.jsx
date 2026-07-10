@@ -6,9 +6,9 @@ function SideBar() {
 
 
     return (
-        <div className='flex flex-col gap-1 pt-5 p-2 border-r-2 w-[20%] border-[#e5e5e5] lg:text-[17px] md:text-[15px] font-poppins'>
-            <Link className='flex items-center gap-1 hover:underline'>Woman's Fashion<IoIosArrowForward /></Link>
-            <Link className='flex items-center gap-1 hover:underline'>Men's Fashion<IoIosArrowForward /></Link>
+        <div className='flex flex-col gap-[13px] pt-5 p-2 border-r-2 w-[20%] border-[#e5e5e5] lg:text-[16px] md:text-[15px] font-poppins'>
+            <Link className='flex items-center justify-between hover:underline pr-5'>Woman's Fashion<IoIosArrowForward /></Link>
+            <Link className='flex items-center justify-between hover:underline pr-5'>Men's Fashion<IoIosArrowForward /></Link>
             <Link className='hover:underline'>Electronics</Link>
             <Link className='hover:underline'>Home & Lifestyle</Link>
             <Link className='hover:underline'>Medicine</Link>

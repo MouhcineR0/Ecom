@@ -1,11 +1,21 @@
 import React, { useState, useRef } from 'react';
-import { Modal, Button, Form, Input, Select, InputNumber, Upload } from 'antd';
+import { Modal, Button, Form, Input, Select, InputNumber, Upload, message } from 'antd';
 import { PlusOutlined, EditOutlined } from '@ant-design/icons';
 import Draggable from 'react-draggable';
+import { useDispatch, useSelector } from 'react-redux';
+import { EditProduct, GetProducts } from '../../../features/Product/ProductFunctions';
 
 const { TextArea } = Input;
 
 function EditPro({ product }) {
+
+
+    const Category = useSelector(state => state.category);
+
+    const dispatch = useDispatch();
+
+    const [messageApi, contextHolder] = message.useMessage();
+
     const [open, setOpen] = useState(false);
     const [disabled, setDisabled] = useState(true);
     const [bounds, setBounds] = useState({
@@ -24,15 +34,16 @@ function EditPro({ product }) {
             select: product.select,
             price: product.price,
             quantity: product.quantity,
-            promotion: product.promotion,
+            promo: product.promo,
             description: product.description,
-            image: [
-                {
-                    url: product.image,
-                    name: 'image.png',
-                    uid: '-1',
-                },
-            ],
+            categorie: product.categorie
+            // image: [
+            //     {
+            //         url: product.image,
+            //         name: 'image.png',
+            //         uid: '-1',
+            //     },
+            // ],
         });
     };
 
@@ -81,15 +92,25 @@ function EditPro({ product }) {
     };
 
     const handleOk = () => {
-        form.validateFields().then((values) => {
-            console.log('Form Data:', values); // Log les données du formulaire
+        form.validateFields().then(async (values) => {
+            message.open({
+                type: "loading",
+                key: 'loading01',
+                content: "Adding an Item"
+            })
+            values._id = product._id;
+            // console.log('Form Data:', values); // Log les données du formulaire
+            await dispatch(EditProduct(values)).unwrap();
+            await dispatch(GetProducts()).unwrap();
+            message.destroy("loading01");
+            setOpen(false);
             form.resetFields();
-            setOpen(false); // Fermer le modal
         }).catch((info) => {
-            console.log('Validate Failed:', info);
+            message.error("Failing Updating an item")
+            // console.log('Validate Failed:', info);
         });
     };
-
+    console.log(product)
     return (
         <>
             <EditOutlined onClick={showModal} />
@@ -115,8 +136,8 @@ function EditPro({ product }) {
                 open={open}
                 onOk={handleOk}
                 onCancel={handleClose}
-                okText="Mise à jour"
-                cancelText="Annuler"
+                okText="Update"
+                cancelText="Undo"
                 modalRender={(modal) => (
                     <Draggable
                         disabled={disabled}
@@ -142,9 +163,15 @@ function EditPro({ product }) {
                     <Form.Item name="type" label="Type :" rules={[{ required: true, message: 'Veuillez saisir le type!' }]}>
                         <Input placeholder="Saisir le type" />
                     </Form.Item>
-                    <Form.Item name="select" label="Sélectionner :" rules={[{ required: true, message: 'Veuillez sélectionner une option!' }]}>
+                    <Form.Item name="categorie" initialValue={product.categorie} label="Sélectionner :" rules={[{ required: true, message: 'Veuillez sélectionner une option!' }]}>
                         <Select>
-                            <Select.Option value="electronics">Électronique</Select.Option>
+                            {
+                                Category?.data?.map((ele, ind) => {
+                                    return (
+                                        <Select.Option value={ele.name}>{ele.name}</Select.Option>
+                                    )
+                                })
+                            }
                         </Select>
                     </Form.Item>
                     <Form.Item name="price" label="Prix :" rules={[{ required: true, message: 'Veuillez saisir le prix!' }]}>
@@ -153,10 +180,10 @@ function EditPro({ product }) {
                     <Form.Item name="quantity" label="Quantité :" rules={[{ required: true, message: 'Veuillez saisir la quantité!' }]}>
                         <InputNumber min={0} />
                     </Form.Item>
-                    <Form.Item name="promotion" label="Promotion :" rules={[{ required: true, message: 'Veuillez saisir la promotion!' }]}>
+                    <Form.Item name="promo" label="Promotion :" rules={[{ required: true, message: 'Veuillez saisir la promotion!' }]}>
                         <InputNumber min={0} />
                     </Form.Item>
-                    <Form.Item name="image" label="Image" valuePropName="fileList" getValueFromEvent={normFile}>
+                    {/* <Form.Item name="image" label="Image" valuePropName="fileList" getValueFromEvent={normFile}>
                         <Upload
                             action="/upload.do"
                             listType="picture-card"
@@ -174,11 +201,11 @@ function EditPro({ product }) {
                                 <div style={{ marginTop: 8 }}>Upload</div>
                             </div>
                         </Upload>
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item name="description" label="Description :">
-                        <TextArea rows={4} placeholder="Ajouter une description" />
+                        <TextArea rows={4} placeholder="Add Description" />
                     </Form.Item>
-                    
+
                 </Form>
             </Modal>
         </>

@@ -1,49 +1,167 @@
 const UserSchema = require('../database/Schemas/UserSchema');
 const { ComparePassword, HashPassword } = require('../utils/bcrypt');
+
+
 const { CreateToken } = require('../utils/jwt');
-async function Login(req, res, next) {
-    const { email, password } = req.body;
-    try {
-        if (email && password) {
-            const Exist = await UserSchema.findOne({ email });
-            if (Exist) {
-                if (ComparePassword(password, Exist.password)) {
-                    const token = CreateToken(Exist.id, Exist.role);
-                    return res.status(200).json({ message: 'SUCCESS', token });
-                }
-                return res.json({ message: 'FAILED' });
-            }
-            return res.json({ message: 'FAILED' });
-        }
-        return res.json({ message: 'FAILED' });
-    }
-    catch (e) {
-        next(e);
-    }
+async function Login(req, res) {
+	const { email, password } = req.body;
+	try {
+		if (email && password) {
+			const Exist = await UserSchema.findOne({ email });
+			if (Exist) {
+				if (ComparePassword(password, Exist.password)) {
+					const token = CreateToken({
+						id: Exist.id, role: Exist.role, firstname: Exist.firstname,
+						lastname: Exist.lastname, tel: Exist.tel, email: Exist.email, address: Exist.address
+					});
+					return res.status(200).json({
+						message: 'SUCCESS',
+						email,
+						id: Exist._id,
+						firstname: Exist.firstname,
+						lastname: Exist.lastname,
+						role: Exist.role,
+						address: Exist.address,
+						token: `${token}`
+					});
+				}
+				return res.status(401).json({ message: 'FAILED' });
+			}
+			return res.status(401).json({ message: 'FAILED' });
+		}
+		return res.status(401).json({ message: 'SERVER_ERROR' });
+	}
+	catch (e) {
+		return res.status(401).json({ message: 'SERVER_ERROR' });
+	}
 }
-async function Signup(req, res, next) {
-    try {
-        const { email, password, firstname, lastname, tel, role } = req.body;
-        const Role = role || 'client';
-        if (email && password && firstname && lastname && tel && Role) {
-            const available = await UserSchema.find({ email });
-            if (available.length) {
-                return res.json({ message: 'EMAIL_AVAILABLE' });
-            }
-            const HASHED_PW = HashPassword(password);
-            const query = new UserSchema({
-                firstname, lastname, email, tel, password: HASHED_PW, role: Role,
-            });
-            query.save()
-                .then(() => console.log('SUCCESS'))
-                .catch(() => console.log('FAILED'));
-            res.status(200).json('ajouté');
-            return res.json({ message: 'SUCCESS' });
-        }
-        return res.json({ message: 'FAILED' });
-    }
-    catch (e) {
-        return next(e);
-    }
+async function Signup(req, res) {
+	try {
+		const { email, password, firstname, lastname, tel, role } = req.body;
+		if (role)
+			return res.json({ message: "Failed" });
+		if (email && password && firstname && lastname && tel) {
+			// useless ghankhdem ghir b catch mn be3d w nfixih howa w phone number
+			const available = await UserSchema.find({ email });
+			if (available.length) {
+				return res.json({ message: 'FAILED' });
+			}
+			const HASHED_PW = HashPassword(password);
+			const query = new UserSchema({
+				firstname, lastname, email, tel, password: HASHED_PW, role: 'client',
+			});
+			await query.save();
+			return res.json({ message: 'SUCCESS' });
+		}
+		return res.json({ message: 'FAILED' });
+	}
+	catch (e) {
+		console.log(e);
+		return res.json({ message: 'FAILED' });
+	}
 }
-module.exports = { Login, Signup };
+
+
+async function UpdateUser(req, res) {
+	const { firstname, lastname, email, address, curr_password, newpass1 } = req.body;
+	try {
+		const User = await UserSchema.findOne({ email });
+		if (!User || !Object.keys(User).length)
+			return res.status(401);
+		var datenow = new Date();
+		if (User.updated_at && (datenow - User.updated_at) / (1000 * 60 * 60 * 24) < 2) {
+			return res.json({ QueryDone: false, message: 'UPDATED_AT_ERR' })
+		}
+		if (curr_password && newpass1) {
+			if (!ComparePassword(curr_password, User.password)) {
+				return res.json({ QueryDone: false, message: 'WRONG_PASS' })
+			}
+			const newpass_hash = HashPassword(newpass1);
+			await UserSchema.updateOne({ email }, { $set: { password: newpass_hash } });
+		}
+		await UserSchema.updateOne({ email }, {
+			$set: {
+				firstname: firstname || User.firstname,
+				lastname: lastname || User.lastname,
+				address: address || User.address,
+				updated_at: new Date()
+			},
+		}, { runValidators: true }
+		);
+		return res.json({ message: "User Edited !!", QueryDone: true });
+	}
+	catch (e) {
+		return res.status(400).json({ message: "Error Edtiting user", QueryDone: false });
+	}
+}
+
+async function GetUsers(req, res) {
+	if (req.role == 'admin') {
+		const Users = await UserSchema.find({}, { password: false, updated_at: false });
+		return res.json({ Users });
+	}
+	return res.status(401).json({ QueryDone: false })
+}
+
+// the only diff between this and signup is role spicification and verify admin role also
+async function CreateAccount(req, res) {
+	try {
+		if (req.role != 'admin')
+			return res.status(401).json({ message: "Failed" });
+		const { email, password, firstname, lastname, tel, role } = req.body;
+		if (email && password && firstname && lastname && tel && role) {
+			// useless ghankhdem ghir b catch mn be3d w nfixih howa w phone number
+			const available = await UserSchema.find({ email });
+			if (available.length) {
+				return res.status(400).json({ message: 'FAILED' });
+			}
+			const HASHED_PW = HashPassword(password);
+			const query = new UserSchema({
+				firstname, lastname, email, tel, password: HASHED_PW, role: role,
+			});
+			await query.save();
+			return res.json({ message: 'SUCCESS' });
+		}
+		return res.status(400).json({ message: 'FAILED' });
+	}
+	catch (e) {
+		return res.status(400).json({ message: 'FAILED' });
+	}
+}
+
+async function DeleteUser(req, res) {
+	try {
+		if (req.role != 'admin')
+			return res.status(401);
+		const { _id } = req.body;
+		console.log(_id);
+		await UserSchema.deleteOne({ _id });
+		return res.status(200).json({ QueryDone: true });
+	}
+	catch (err) {
+		return res.status(400).json({ message: "FAILED" });
+	}
+}
+
+async function UpdateUserAdmin(req, res) {
+	try {
+		const { firstname, lastname, email, tel, role } = req.body;
+		console.log(req.body);
+		const User = await UserSchema.findOne({ email });
+		if (!User || !Object.keys(User).length)
+			return res.status(404).json({ message: "USER_NOTFOUND" });
+		await User.updateOne({
+			firstname,
+			lastname,
+			tel,
+			role
+		}, { runValidators: true })
+		return res.json({ Queryone: true });
+	}
+	catch (err) {
+		console.log(err);
+		return res.status(400).json({ QueryDone: false });
+	}
+}
+
+module.exports = { Login, Signup, UpdateUser, GetUsers, CreateAccount, DeleteUser, UpdateUserAdmin };

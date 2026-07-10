@@ -1,13 +1,15 @@
 const { VerifyToken } = require('../utils/jwt');
 
+// i need to fix this also  | Authorization
+
 module.exports = (req, res, next) => {
-    const authHeader = req.headers['token'];
+    const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.json({ isAuth: false });
+        return res.status(401).json({ isAuth: false });
     }
     const token = authHeader.split(' ')[1];
     if (!token) {
-        return res.status(403).json({ msg: "Authorization denied" });
+        return res.status(401).json({ isAuth: false, msg: "Authorization denied" });
     }
 
     try {
@@ -16,7 +18,7 @@ module.exports = (req, res, next) => {
         req.role = verify.role;
         next();
     } catch (err) {
-        res.status(401).json({ msg: "Token is not valid" });
+        res.status(401).json({ isAuth: false, msg: "Token is not valid" });
     }
 };
 
